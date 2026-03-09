@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COT Report — Executive Briefing | March 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800;900&family=DM+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg-primary: #0a0e1a;
+    --bg-card: #111827;
+    --bg-card-alt: #151d30;
+    --accent-gold: #d4a853;
+    --accent-emerald: #10b981;
+    --accent-red: #ef4444;
+    --accent-blue: #3b82f6;
+    --accent-purple: #8b5cf6;
+    --accent-amber: #f59e0b;
+    --text-primary: #f1f5f9;
+    --text-secondary: #94a3b8;
+    --text-muted: #64748b;
+    --border: rgba(255,255,255,0.06);
+    --glow-gold: rgba(212,168,83,0.15);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* HERO HEADER */
+  .hero {
+    position: relative;
+    padding: 60px 40px 50px;
+    overflow: hidden;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -20%;
+    width: 140%;
+    height: 200%;
+    background: radial-gradient(ellipse at 30% 20%, rgba(212,168,83,0.08) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(59,130,246,0.05) 0%, transparent 50%);
+    pointer-events: none;
+  }
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(212,168,83,0.1);
+    border: 1px solid rgba(212,168,83,0.25);
+    padding: 6px 16px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent-gold);
+    margin-bottom: 20px;
+    animation: fadeSlideDown 0.6s ease;
+  }
+  .hero-badge .dot { width:6px; height:6px; border-radius:50%; background:var(--accent-gold); animation: pulse 2s infinite; }
+
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(36px, 5vw, 64px);
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    margin-bottom: 12px;
+    animation: fadeSlideDown 0.8s ease 0.1s both;
+  }
+  .hero h1 .gold { color: var(--accent-gold); }
+  .hero .subtitle {
+    font-size: 17px;
+    color: var(--text-secondary);
+    font-weight: 400;
+    max-width: 700px;
+    animation: fadeSlideDown 0.8s ease 0.2s both;
+  }
+  .hero-meta {
+    display: flex;
+    gap: 30px;
+    margin-top: 24px;
+    animation: fadeSlideDown 0.8s ease 0.3s both;
+  }
+  .hero-meta-item {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .hero-meta-item .label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-muted); font-weight: 600; }
+  .hero-meta-item .value { font-size: 14px; color: var(--text-secondary); font-weight: 500; }
+  .hero-meta-item .value strong { color: var(--accent-gold); }
+
+  /* MAIN LAYOUT */
+  .container { max-width: 1400px; margin: 0 auto; padding: 0 30px; }
+
+  /* SECTION TITLES */
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 50px 0 28px;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+  .section-header .icon {
+    width: 40px; height: 40px;
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+  }
+  .section-header .line {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(to right, var(--border), transparent);
+  }
+
+  /* KPI CARDS TOP ROW */
+  .kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .kpi-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 20px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeScale 0.5s ease both;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  .kpi-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.3); }
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 3px;
+  }
+  .kpi-card.gold::before { background: linear-gradient(90deg, var(--accent-gold), transparent); }
+  .kpi-card.blue::before { background: linear-gradient(90deg, var(--accent-blue), transparent); }
+  .kpi-card.emerald::before { background: linear-gradient(90deg, var(--accent-emerald), transparent); }
+  .kpi-card.red::before { background: linear-gradient(90deg, var(--accent-red), transparent); }
+  .kpi-card.purple::before { background: linear-gradient(90deg, var(--accent-purple), transparent); }
+  .kpi-card.amber::before { background: linear-gradient(90deg, var(--accent-amber), transparent); }
+
+  .kpi-label {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+  .kpi-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    line-height: 1.2;
+  }
+  .kpi-sub {
+    font-size: 12px;
+    margin-top: 6px;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .kpi-sub .change { font-weight: 600; }
+  .kpi-sub .change.up { color: var(--accent-emerald); }
+  .kpi-sub .change.down { color: var(--accent-red); }
+
+  /* COT DATA TABLE */
+  .cot-table-wrap {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 40px;
+    animation: fadeSlideUp 0.6s ease 0.2s both;
+  }
+  .cot-table-title {
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border);
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .cot-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  .cot-table thead th {
+    padding: 14px 16px;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-align: right;
+    border-bottom: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .cot-table thead th:first-child { text-align: left; padding-left: 24px; }
+  .cot-table tbody tr { border-bottom: 1px solid var(--border); transition: background 0.2s; }
+  .cot-table tbody tr:last-child { border-bottom: none; }
+  .cot-table tbody tr:hover { background: rgba(255,255,255,0.02); }
+  .cot-table tbody td {
+    padding: 16px;
+    font-size: 14px;
+    text-align: right;
+    color: var(--text-secondary);
+  }
+  .cot-table tbody td:first-child {
+    text-align: left;
+    padding-left: 24px;
+    font-weight: 600;
+    color: var(--text-primary);
+  }
+  .cot-table .asset-cell {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .asset-icon {
+    width: 32px; height: 32px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+  .asset-name { font-weight: 600; }
+  .asset-exchange { font-size: 11px; color: var(--text-muted); font-weight: 400; }
+
+  .badge-sentiment {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+  .badge-sentiment.bullish { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+  .badge-sentiment.bearish { background: rgba(239,68,68,0.12); color: var(--accent-red); }
+  .badge-sentiment.neutral { background: rgba(245,158,11,0.12); color: var(--accent-amber); }
+
+  .mono { font-family: 'JetBrains Mono', monospace; font-size: 13px; }
+
+  /* POSITIONING BARS */
+  .position-bar-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .pos-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px 24px;
+    animation: fadeSlideUp 0.5s ease both;
+  }
+  .pos-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+  }
+  .pos-card-title {
+    font-weight: 700;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .pos-card-oi { font-size: 12px; color: var(--text-muted); }
+  .pos-bar-row {
+    margin-bottom: 14px;
+  }
+  .pos-bar-label {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6px;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--text-muted);
+    font-weight: 600;
+  }
+  .pos-bar-track {
+    height: 8px;
+    border-radius: 8px;
+    background: rgba(255,255,255,0.06);
+    overflow: hidden;
+    display: flex;
+  }
+  .pos-bar-long {
+    height: 100%;
+    border-radius: 8px 0 0 8px;
+    background: linear-gradient(90deg, var(--accent-emerald), #34d399);
+    transition: width 1s ease;
+  }
+  .pos-bar-short {
+    height: 100%;
+    border-radius: 0 8px 8px 0;
+    background: linear-gradient(90deg, #f87171, var(--accent-red));
+    transition: width 1s ease;
+    margin-left: auto;
+  }
+  .pos-bar-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+  }
+  .pos-bar-values .long-val { color: var(--accent-emerald); }
+  .pos-bar-values .short-val { color: var(--accent-red); }
+
+  /* KEY INSIGHT CARDS */
+  .insights-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 16px;
+    margin-bottom: 40px;
+  }
+  .insight-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+  .insight-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%; height: 50%;
+    pointer-events: none;
+  }
+  .insight-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 48px;
+    font-weight: 900;
+    opacity: 0.06;
+    position: absolute;
+    top: 10px; right: 20px;
+    line-height: 1;
+  }
+  .insight-tag {
+    display: inline-flex;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .insight-tag.warning { background: rgba(239,68,68,0.12); color: var(--accent-red); }
+  .insight-tag.opportunity { background: rgba(16,185,129,0.12); color: var(--accent-emerald); }
+  .insight-tag.watch { background: rgba(245,158,11,0.12); color: var(--accent-amber); }
+  .insight-tag.info { background: rgba(59,130,246,0.12); color: var(--accent-blue); }
+
+  .insight-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  .insight-body {
+    font-size: 13.5px;
+    line-height: 1.7;
+    color: var(--text-secondary);
+  }
+
+  /* SENTIMENT GAUGE */
+  .sentiment-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin-bottom: 40px;
+  }
+  .gauge-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 20px;
+    text-align: center;
+    animation: fadeScale 0.5s ease both;
+    transition: transform 0.3s;
+  }
+  .gauge-card:hover { transform: translateY(-3px); }
+  .gauge-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-secondary);
+    margin-bottom: 10px;
+  }
+  .gauge-ring {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 10px;
+    position: relative;
+  }
+  .gauge-ring svg { width: 100%; height: 100%; transform: rotate(-90deg); }
+  .gauge-ring circle {
+    fill: none;
+    stroke-width: 6;
+    cx: 50; cy: 50; r: 42;
+  }
+  .gauge-ring .bg { stroke: rgba(255,255,255,0.06); }
+  .gauge-ring .fill { stroke-linecap: round; transition: stroke-dashoffset 1.5s ease; }
+  .gauge-center {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 20px;
+    font-weight: 700;
+  }
+  .gauge-sentiment-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  /* FOOTER */
+  .report-footer {
+    border-top: 1px solid var(--border);
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 20px;
+  }
+  .footer-left { font-size: 12px; color: var(--text-muted); line-height: 1.6; }
+  .footer-right { font-size: 11px; color: var(--text-muted); text-align: right; }
+  .footer-right .disclaimer { max-width: 400px; line-height: 1.5; opacity: 0.6; }
+
+  /* ANIMATIONS */
+  @keyframes fadeSlideDown { from { opacity:0; transform:translateY(-16px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeSlideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+  @keyframes fadeScale { from { opacity:0; transform:scale(0.95); } to { opacity:1; transform:scale(1); } }
+  @keyframes pulse { 0%,100% { opacity:1; } 50% { opacity:0.4; } }
+
+  /* RESPONSIVE */
+  @media (max-width: 768px) {
+    .hero { padding: 40px 20px 30px; }
+    .container { padding: 0 16px; }
+    .hero-meta { flex-wrap: wrap; gap: 16px; }
+    .cot-table { font-size: 12px; }
+    .position-bar-container { grid-template-columns: 1fr; }
+    .insights-grid { grid-template-columns: 1fr; }
+    .report-footer { padding: 20px; }
+  }
+
+  /* PRINT STYLES */
+  @media print {
+    body { background: #fff; color: #111; }
+    .kpi-card, .cot-table-wrap, .pos-card, .insight-card, .gauge-card { border: 1px solid #ddd; background: #fff; }
+    .hero::before { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="container">
+    <div class="hero-badge"><span class="dot"></span> EXECUTIVE BRIEFING</div>
+    <h1>Commitment of <span class="gold">Traders</span> Report</h1>
+    <p class="subtitle">รายงานสรุปสถานะการถือครองสัญญาล่วงหน้า (COT) จาก CFTC — วิเคราะห์พฤติกรรมผู้เล่นรายใหญ่ในตลาดโลก เพื่อประกอบการตัดสินใจเชิงกลยุทธ์</p>
+    <div class="hero-meta">
+      <div class="hero-meta-item">
+        <span class="label">Report Date</span>
+        <span class="value"><strong>3 March 2026</strong></span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Data Source</span>
+        <span class="value">CFTC / CME / NYMEX / ICE</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Release</span>
+        <span class="value">7 March 2026 (Friday)</span>
+      </div>
+      <div class="hero-meta-item">
+        <span class="label">Classification</span>
+        <span class="value"><strong>CONFIDENTIAL</strong></span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="container">
+
+  <!-- SECTION: MARKET SNAPSHOT KPIs -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(212,168,83,0.12);">📊</div>
+    <h2>Market Snapshot — สรุปภาพรวมตลาด</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="kpi-grid">
+    <div class="kpi-card gold" style="animation-delay:0.1s">
+      <div class="kpi-label">Gold (GC)</div>
+      <div class="kpi-value" style="color:var(--accent-gold);">+159K</div>
+      <div class="kpi-sub">Net Long (Large Specs) <span class="change neutral">— คงที่</span></div>
+    </div>
+    <div class="kpi-card blue" style="animation-delay:0.15s">
+      <div class="kpi-label">Silver (SI)</div>
+      <div class="kpi-value" style="color:var(--accent-blue);">+22K</div>
+      <div class="kpi-sub">Net Long <span class="change down">▼ Near 2yr Low</span></div>
+    </div>
+    <div class="kpi-card emerald" style="animation-delay:0.2s">
+      <div class="kpi-label">WTI Crude Oil (CL)</div>
+      <div class="kpi-value" style="color:var(--accent-emerald);">+6M High</div>
+      <div class="kpi-sub">Managed Funds <span class="change up">▲ Bullish</span></div>
+    </div>
+    <div class="kpi-card purple" style="animation-delay:0.25s">
+      <div class="kpi-label">USD Index (DX)</div>
+      <div class="kpi-value" style="color:var(--accent-purple);">-$19.6B</div>
+      <div class="kpi-sub">Net Short <span class="change up">▲ Short Covering +$3.2B</span></div>
+    </div>
+    <div class="kpi-card amber" style="animation-delay:0.3s">
+      <div class="kpi-label">S&P 500 (ES)</div>
+      <div class="kpi-value" style="color:var(--accent-amber);">-165K</div>
+      <div class="kpi-sub">Non-Comm Net Short <span class="change down">▼ Bearish</span></div>
+    </div>
+    <div class="kpi-card red" style="animation-delay:0.35s">
+      <div class="kpi-label">Copper (HG)</div>
+      <div class="kpi-value" style="color:var(--accent-red);">Flat</div>
+      <div class="kpi-sub">Net Long <span class="change neutral">— ขาดแรงซื้อใหม่</span></div>
+    </div>
+  </div>
+
+  <!-- SECTION: DETAILED COT TABLE -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(59,130,246,0.12);">📋</div>
+    <h2>Disaggregated Positions — สถานะถือครองรายละเอียด</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="cot-table-wrap">
+    <div class="cot-table-title">
+      ⚡ Futures Only — Positions as of 3 March 2026
+    </div>
+    <div style="overflow-x:auto;">
+    <table class="cot-table">
+      <thead>
+        <tr>
+          <th style="min-width:180px;">ASSET</th>
+          <th>Open Interest</th>
+          <th>Producer Long</th>
+          <th>Producer Short</th>
+          <th>Managed $ Long</th>
+          <th>Managed $ Short</th>
+          <th>Net Position</th>
+          <th>Wk Chg</th>
+          <th>Sentiment</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(212,168,83,0.15);color:var(--accent-gold);">Au</div>
+              <div><div class="asset-name">Gold</div><div class="asset-exchange">COMEX 100oz</div></div>
+            </div>
+          </td>
+          <td class="mono">420,182</td>
+          <td class="mono">14,800</td>
+          <td class="mono">34,618</td>
+          <td class="mono">121,233</td>
+          <td class="mono">25,259</td>
+          <td class="mono" style="color:var(--accent-emerald);">+159,000</td>
+          <td class="mono" style="color:var(--text-muted);">~0</td>
+          <td><span class="badge-sentiment bullish">● Bullish</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(148,163,184,0.15);color:var(--text-secondary);">Ag</div>
+              <div><div class="asset-name">Silver</div><div class="asset-exchange">COMEX 5,000oz</div></div>
+            </div>
+          </td>
+          <td class="mono">125,454</td>
+          <td class="mono">3,641</td>
+          <td class="mono">20,316</td>
+          <td class="mono">13,365</td>
+          <td class="mono">4,842</td>
+          <td class="mono" style="color:var(--accent-emerald);">+22,000</td>
+          <td class="mono" style="color:var(--accent-red);">▼</td>
+          <td><span class="badge-sentiment neutral">● Cautious</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(16,185,129,0.15);color:var(--accent-emerald);">🛢</div>
+              <div><div class="asset-name">WTI Crude</div><div class="asset-exchange">NYMEX 1,000bbl</div></div>
+            </div>
+          </td>
+          <td class="mono">~1.8M</td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+          <td class="mono">↑ 6M High</td>
+          <td class="mono">Low</td>
+          <td class="mono" style="color:var(--accent-emerald);">Net Long ↑</td>
+          <td class="mono" style="color:var(--accent-emerald);">▲</td>
+          <td><span class="badge-sentiment bullish">● Bullish</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(239,68,68,0.15);color:var(--accent-red);">Pd</div>
+              <div><div class="asset-name">Palladium</div><div class="asset-exchange">NYMEX 100oz</div></div>
+            </div>
+          </td>
+          <td class="mono">16,423</td>
+          <td class="mono">607</td>
+          <td class="mono">3,931</td>
+          <td class="mono">5,928</td>
+          <td class="mono">4,844</td>
+          <td class="mono" style="color:var(--accent-emerald);">+500</td>
+          <td class="mono" style="color:var(--accent-red);">▼</td>
+          <td><span class="badge-sentiment neutral">● Neutral</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(139,92,246,0.15);color:var(--accent-purple);">$</div>
+              <div><div class="asset-name">USD Index</div><div class="asset-exchange">ICE</div></div>
+            </div>
+          </td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+          <td class="mono">—</td>
+          <td class="mono" style="color:var(--accent-red);">-$19.6B</td>
+          <td class="mono" style="color:var(--accent-emerald);">+$3.2B</td>
+          <td><span class="badge-sentiment bearish">● Bearish</span></td>
+        </tr>
+        <tr>
+          <td>
+            <div class="asset-cell">
+              <div class="asset-icon" style="background:rgba(245,158,11,0.15);color:var(--accent-amber);">ES</div>
+              <div><div class="asset-name">S&P 500</div><div class="asset-exchange">CME Consolidated</div></div>
+            </div>
+          </td>
+          <td class="mono">2,085,416</td>
+          <td class="mono" colspan="2" style="text-align:center;">Comm Long: 1,563,860</td>
+          <td class="mono">207,493</td>
+          <td class="mono">372,947</td>
+          <td class="mono" style="color:var(--accent-red);">-165,454</td>
+          <td class="mono" style="color:var(--accent-emerald);">+22K</td>
+          <td><span class="badge-sentiment bearish">● Bearish</span></td>
+        </tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <!-- SECTION: POSITIONING VISUALIZATION -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(16,185,129,0.12);">📈</div>
+    <h2>Long vs Short Positioning — สัดส่วนสถานะ</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="position-bar-container">
+    <!-- Gold -->
+    <div class="pos-card" style="animation-delay:0.1s">
+      <div class="pos-card-header">
+        <div class="pos-card-title">🥇 Gold (COMEX)</div>
+        <div class="pos-card-oi">OI: 420,182</div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Non-Commercial</span><span>Long 9.9% / Short 8.2%</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:55%;"></div>
+          <div class="pos-bar-short" style="width:45%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 14,800</span><span class="short-val">Short 34,618</span></div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Managed Money</span><span>Long 28.9% / Short 6.0%</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:83%;"></div>
+          <div class="pos-bar-short" style="width:17%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 121,233</span><span class="short-val">Short 25,259</span></div>
+      </div>
+    </div>
+
+    <!-- S&P 500 -->
+    <div class="pos-card" style="animation-delay:0.15s">
+      <div class="pos-card-header">
+        <div class="pos-card-title">📊 S&P 500 Consolidated</div>
+        <div class="pos-card-oi">OI: 2,085,416</div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Non-Commercial</span><span>Long 9.9% / Short 17.9%</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:36%;"></div>
+          <div class="pos-bar-short" style="width:64%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 207,493</span><span class="short-val">Short 372,947</span></div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Commercial</span><span>Long 75.0% / Short 71.3%</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:51%;"></div>
+          <div class="pos-bar-short" style="width:49%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 1,563,860</span><span class="short-val">Short 1,486,757</span></div>
+      </div>
+    </div>
+
+    <!-- Silver -->
+    <div class="pos-card" style="animation-delay:0.2s">
+      <div class="pos-card-header">
+        <div class="pos-card-title">🥈 Silver (COMEX)</div>
+        <div class="pos-card-oi">OI: 125,454</div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Producer/Merchant</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:15%;"></div>
+          <div class="pos-bar-short" style="width:85%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 3,641</span><span class="short-val">Short 20,316</span></div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Managed Money</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:73%;"></div>
+          <div class="pos-bar-short" style="width:27%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 13,365</span><span class="short-val">Short 4,842</span></div>
+      </div>
+    </div>
+
+    <!-- Palladium -->
+    <div class="pos-card" style="animation-delay:0.25s">
+      <div class="pos-card-header">
+        <div class="pos-card-title">⚪ Palladium (NYMEX)</div>
+        <div class="pos-card-oi">OI: 16,423</div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Swap Dealers</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:60%;"></div>
+          <div class="pos-bar-short" style="width:40%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 4,816</span><span class="short-val">Short 3,250</span></div>
+      </div>
+      <div class="pos-bar-row">
+        <div class="pos-bar-label"><span>Managed Money</span></div>
+        <div class="pos-bar-track">
+          <div class="pos-bar-long" style="width:55%;"></div>
+          <div class="pos-bar-short" style="width:45%;"></div>
+        </div>
+        <div class="pos-bar-values"><span class="long-val">Long 5,928</span><span class="short-val">Short 4,844</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: SENTIMENT GAUGES -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(139,92,246,0.12);">🎯</div>
+    <h2>Market Sentiment Gauge — ดัชนีความเชื่อมั่น</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="sentiment-section">
+    <!-- Gold -->
+    <div class="gauge-card" style="animation-delay:0.1s">
+      <div class="gauge-label">Gold</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#d4a853" stroke-dasharray="264" stroke-dashoffset="53"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-gold);">80%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-emerald);">BULLISH</div>
+    </div>
+    <!-- Silver -->
+    <div class="gauge-card" style="animation-delay:0.15s">
+      <div class="gauge-label">Silver</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#3b82f6" stroke-dasharray="264" stroke-dashoffset="145"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-blue);">45%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-amber);">CAUTIOUS</div>
+    </div>
+    <!-- WTI -->
+    <div class="gauge-card" style="animation-delay:0.2s">
+      <div class="gauge-label">WTI Crude</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#10b981" stroke-dasharray="264" stroke-dashoffset="66"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-emerald);">75%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-emerald);">BULLISH</div>
+    </div>
+    <!-- USD Index -->
+    <div class="gauge-card" style="animation-delay:0.25s">
+      <div class="gauge-label">USD Index</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#ef4444" stroke-dasharray="264" stroke-dashoffset="198"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-red);">25%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-red);">BEARISH</div>
+    </div>
+    <!-- S&P 500 -->
+    <div class="gauge-card" style="animation-delay:0.3s">
+      <div class="gauge-label">S&P 500</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#f59e0b" stroke-dasharray="264" stroke-dashoffset="172"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-amber);">35%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-red);">BEARISH</div>
+    </div>
+    <!-- Copper -->
+    <div class="gauge-card" style="animation-delay:0.35s">
+      <div class="gauge-label">Copper</div>
+      <div class="gauge-ring">
+        <svg viewBox="0 0 100 100">
+          <circle class="bg"/>
+          <circle class="fill" stroke="#8b5cf6" stroke-dasharray="264" stroke-dashoffset="132"/>
+        </svg>
+        <div class="gauge-center" style="color:var(--accent-purple);">50%</div>
+      </div>
+      <div class="gauge-sentiment-label" style="color:var(--accent-amber);">NEUTRAL</div>
+    </div>
+  </div>
+
+  <!-- SECTION: KEY INSIGHTS -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(245,158,11,0.12);">💡</div>
+    <h2>Executive Key Insights — ข้อมูลเชิงลึกสำหรับผู้บริหาร</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="insights-grid">
+    <div class="insight-card" style="animation-delay:0.1s">
+      <div class="insight-number">01</div>
+      <div class="insight-tag opportunity">โอกาส</div>
+      <div class="insight-title">ทองคำ: Managed Funds ยืนยัน Bullish แต่ไม่เพิ่ม</div>
+      <div class="insight-body">
+        Net Long ของ Large Speculators อยู่ที่ 159K สัญญา และ Managed Funds ที่ 96K สัญญา ไม่เปลี่ยนแปลงจากสัปดาห์ก่อน แสดงถึง<strong>ความเชื่อมั่นที่มั่นคงแต่ระวังตัว</strong> — ตลาดอาจแกว่งตัว (Consolidation) ก่อนตัดสินใจทิศทางต่อไป สังเกต Gross Short ที่เพิ่มขึ้นเป็นสัญญาณว่า การพุ่งขึ้นทำ New High อาจถูกจำกัด
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.15s">
+      <div class="insight-number">02</div>
+      <div class="insight-tag warning">เตือน</div>
+      <div class="insight-title">เงิน: Large Specs ถอยออก — Net Long ต่ำสุดรอบ 2 ปี</div>
+      <div class="insight-body">
+        Large Speculators ลด Net Long ลงมาที่ 22K สัญญา — <strong>ต่ำที่สุดในรอบเกือบ 2 ปี</strong> แม้ Managed Funds จะเพิ่มขึ้นเล็กน้อยที่ 8.5K สัญญา สะท้อนว่า Smart Money เริ่มระวังตัว ขณะที่ราคายังคงทำแนวโน้มขาขึ้น — ต้องระวัง Divergence
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.2s">
+      <div class="insight-number">03</div>
+      <div class="insight-tag opportunity">โอกาส</div>
+      <div class="insight-title">น้ำมันดิบ: Managed Funds เพิ่ม Net Long สูงสุด 6 เดือน</div>
+      <div class="insight-body">
+        กองทุนจัดการเพิ่มสถานะ Net Long ไปที่ระดับสูงสุดในรอบ 6 เดือน บ่งชี้<strong>ความมั่นใจในแนวโน้มขาขึ้น</strong> Gross Short ยังคงอยู่ในระดับต่ำ แม้มีสัญญาณ Inside Week แต่โครงสร้างพื้นฐานยังคง Bullish — Pullback มาที่ ~$60 อาจเป็นจุดเข้า
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.25s">
+      <div class="insight-number">04</div>
+      <div class="insight-tag info">สังเกต</div>
+      <div class="insight-title">USD: ยังคง Net Short แต่เริ่มมี Short Covering $3.2B</div>
+      <div class="insight-body">
+        แม้ตลาด Futures ยังคง Net Short ดอลลาร์สหรัฐที่ -$19.6B แต่สัปดาห์ที่ผ่านมา<strong>มีการ Cover Short ลง $3.2B</strong> — อาจเป็นสัญญาณเริ่มต้นของการกลับทิศของเงินดอลลาร์ ต้องติดตามว่าจะเป็นแค่ Technical Bounce หรือ Trend Reversal
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.3s">
+      <div class="insight-number">05</div>
+      <div class="insight-tag watch">จับตา</div>
+      <div class="insight-title">S&P 500: Speculators ถือ Net Short -165K สัญญา</div>
+      <div class="insight-body">
+        Non-Commercial Traders ถือ Net Short ที่ -165,454 สัญญา ขณะที่ Commercials (Hedgers) ยังคง Net Long ที่ +77K — <strong>รูปแบบนี้บ่งชี้ว่า Speculators กำลังเดิมพันการปรับฐาน</strong> แต่ Hedgers ยังเชื่อมั่นในขาขึ้น หากตลาดไม่ลงจริง อาจเกิด Short Squeeze
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.35s">
+      <div class="insight-number">06</div>
+      <div class="insight-tag watch">จับตา</div>
+      <div class="insight-title">Copper: โครงสร้าง Bullish แต่ขาดแรงซื้อใหม่</div>
+      <div class="insight-body">
+        แม้ Price Action ยังคงรักษาโครงสร้างขาขึ้น แต่ Net Long ไม่เพิ่ม และ Managed Funds ตัดลดลงมาต่ำสุดในรอบ 20 สัปดาห์ — <strong>ราคาขึ้นโดยไม่มี Positioning สนับสนุน</strong> เป็นสัญญาณ Bearish Divergence ที่ควรระวัง
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTION: WHAT IS COT? -->
+  <div class="section-header">
+    <div class="icon" style="background:rgba(59,130,246,0.12);">📖</div>
+    <h2>COT Report คืออะไร? — ทำไมถึงสำคัญ</h2>
+    <div class="line"></div>
+  </div>
+
+  <div class="insights-grid" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
+    <div class="insight-card" style="animation-delay:0.1s; border-left: 3px solid var(--accent-gold);">
+      <div class="insight-title" style="font-size:16px;">🏛 จัดทำโดย CFTC</div>
+      <div class="insight-body">
+        Commitment of Traders Report เผยแพร่ทุกวันศุกร์โดย Commodity Futures Trading Commission (CFTC) ของสหรัฐฯ ข้อมูลสะท้อนสถานะ ณ วันอังคารก่อนหน้า ครอบคลุมตลาดที่มีผู้เล่น 20 รายขึ้นไป
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.15s; border-left: 3px solid var(--accent-blue);">
+      <div class="insight-title" style="font-size:16px;">👥 ผู้เล่น 3 กลุ่มหลัก</div>
+      <div class="insight-body">
+        <strong>Commercials</strong> — ผู้ป้องกันความเสี่ยง (Hedgers) เช่น ผู้ผลิต/ผู้ใช้สินค้า<br>
+        <strong>Non-Commercials</strong> — นักเก็งกำไรรายใหญ่ (Large Specs/Hedge Funds)<br>
+        <strong>Non-Reportable</strong> — ผู้เล่นรายเล็กที่ต่ำกว่าเกณฑ์รายงาน
+      </div>
+    </div>
+    <div class="insight-card" style="animation-delay:0.2s; border-left: 3px solid var(--accent-emerald);">
+      <div class="insight-title" style="font-size:16px;">🔑 ทำไมถึงสำคัญ</div>
+      <div class="insight-body">
+        COT Report เปิดเผย "ไพ่ในมือ" ของผู้เล่นรายใหญ่ — เมื่อสถานะ Extreme Long/Short เกิดขึ้น มักเป็นสัญญาณล่วงหน้าของการกลับทิศ ช่วยให้ผู้บริหารตัดสินใจเรื่อง Hedging และ Risk Management ได้แม่นยำขึ้น
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="report-footer">
+  <div class="footer-left">
+    <strong style="color:var(--accent-gold);">COT Executive Briefing</strong><br>
+    Prepared for C-Suite | Data as of 3 March 2026<br>
+    Sources: CFTC, CME Group, StoneX, Barchart, LSEG
+  </div>
+  <div class="footer-right">
+    <div class="disclaimer">
+      ⚠️ รายงานนี้จัดทำเพื่อการศึกษาและประกอบการตัดสินใจเท่านั้น ไม่ถือเป็นคำแนะนำการลงทุน ผู้ใช้ควรปรึกษาที่ปรึกษาทางการเงินก่อนตัดสินใจลงทุน
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
