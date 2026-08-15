@@ -1,0 +1,279 @@
+<title>รายงานสรุปผลประกอบการเทรด 2026 — Options &amp; Stocks</title>
+<style>
+:root{
+  --ground:#EFF2EC; --surf:#FAFBF8; --band:#F3F6F0;
+  --ink:#161C18; --muted:#586159; --faint:#8B948B; --rule:#D6DCD2; --rule2:#E4E9E0;
+  --up:#02895C; --dn:#C14E22; --caution:#8A6516; --cautionbg:#F7F1E2;
+  --sh:0 1px 2px rgba(22,28,24,.06),0 8px 24px -18px rgba(22,28,24,.28);
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#111512; --surf:#1A201C; --band:#1E241F;
+    --ink:#E6EBE4; --muted:#98A199; --faint:#6B746C; --rule:#2B322D; --rule2:#242B26;
+    --up:#1CA46F; --dn:#DC5F33; --caution:#C79B3E; --cautionbg:#251F12;
+    --sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px -18px rgba(0,0,0,.8);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#111512; --surf:#1A201C; --band:#1E241F;
+  --ink:#E6EBE4; --muted:#98A199; --faint:#6B746C; --rule:#2B322D; --rule2:#242B26;
+  --up:#1CA46F; --dn:#DC5F33; --caution:#C79B3E; --cautionbg:#251F12;
+  --sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px -18px rgba(0,0,0,.8);
+}
+*,*::before,*::after{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--ground); color:var(--ink);
+  font-family:"Leelawadee UI","Noto Sans Thai","Sarabun","Segoe UI",system-ui,-apple-system,sans-serif;
+  font-size:15px; line-height:1.62;
+}
+.mono,.num,.sv,.mval,.hnum{
+  font-family:ui-monospace,"Cascadia Mono","Consolas","SFMono-Regular",Menlo,monospace;
+  font-variant-numeric:tabular-nums; font-feature-settings:"tnum" 1;
+}
+.up{color:var(--up)} .dn{color:var(--dn)} .fl{color:var(--faint)}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px 96px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px;border-radius:2px}
+
+.mast{padding:56px 0 28px;border-bottom:2px solid var(--ink)}
+.eyebrow{font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:clamp(28px,4.4vw,44px);line-height:1.2;margin:14px 0 0;font-weight:700;
+   letter-spacing:-.015em;text-wrap:balance;max-width:22ch}
+.mmeta{display:flex;flex-wrap:wrap;gap:6px 28px;margin-top:20px;font-size:13px;color:var(--muted)}
+.mmeta b{color:var(--ink);font-weight:600}
+.mmeta span{display:flex;gap:7px;align-items:baseline}
+
+.headline{border-bottom:1px solid var(--rule);padding:32px 0 34px}
+.hnum{font-size:clamp(40px,8.5vw,76px);line-height:1;font-weight:600;letter-spacing:-.03em}
+.hsub{margin-top:14px;color:var(--muted);font-size:14px;max-width:64ch}
+
+section{padding-top:56px}
+.shead{display:flex;align-items:baseline;gap:16px;border-bottom:1px solid var(--ink);
+  padding-bottom:10px;flex-wrap:wrap}
+.tag{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12px;font-weight:700;
+  letter-spacing:.06em;background:var(--ink);color:var(--ground);padding:3px 8px;border-radius:3px}
+h2{font-size:clamp(19px,2.6vw,25px);margin:0;font-weight:700;letter-spacing:-.01em}
+.hnote{margin-left:auto;font-size:12px;color:var(--faint)}
+.sdesc{color:var(--muted);font-size:13.5px;margin:14px 0 0;max-width:76ch}
+
+/* every group emits exactly 10 stats, so 5 or 2 columns always fill the grid
+   completely — auto-fit would leave empty cells showing the rule colour */
+.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:1px;
+  background:var(--rule);border:1px solid var(--rule);margin-top:26px;border-radius:5px;overflow:hidden}
+.st{background:var(--surf);padding:15px 16px 16px}
+.sl{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--faint);font-weight:600}
+.sv{font-size:22px;font-weight:600;margin-top:7px;letter-spacing:-.015em;line-height:1.2}
+.ss{font-size:11.5px;color:var(--muted);margin-top:4px;line-height:1.45}
+
+.panel{background:var(--surf);border:1px solid var(--rule);border-radius:5px;margin-top:24px;
+  box-shadow:var(--sh)}
+.ptitle{font-size:11px;letter-spacing:.11em;text-transform:uppercase;color:var(--muted);
+  font-weight:600;padding:15px 18px 0}
+.pbody{padding:6px 18px 18px}
+
+.chart{position:relative;display:grid;grid-auto-flow:column;grid-auto-columns:1fr;gap:10px;
+  margin-top:18px}
+.chart .zero{position:absolute;left:0;right:0;top:calc(var(--topfr)*168px);height:1px;
+  background:var(--rule);pointer-events:none}
+.col{position:relative;display:grid;
+  grid-template-rows:calc(var(--topfr)*168px) calc(var(--botfr)*168px) auto auto;
+  border-radius:3px}
+.col:hover,.col:focus-visible{background:var(--rule2)}
+.half{display:flex;justify-content:center;min-height:0}
+.half.top{align-items:flex-end} .half.bot{align-items:flex-start}
+.bar{display:block;width:72%;max-width:44px;min-height:2px;
+  border-left:2px solid var(--surf);border-right:2px solid var(--surf)}
+.top .bar{background:var(--up);border-radius:4px 4px 0 0}
+.bot .bar{background:var(--dn);border-radius:0 0 4px 4px}
+.mlab{text-align:center;font-size:12px;color:var(--muted);padding-top:9px}
+.mval{text-align:center;font-size:11.5px;font-weight:600;padding-top:2px}
+.tip{position:absolute;left:50%;bottom:calc(100% - 30px);transform:translateX(-50%);
+  background:var(--ink);color:var(--ground);font-size:11.5px;line-height:1.5;padding:8px 11px;
+  border-radius:4px;width:max-content;max-width:220px;opacity:0;pointer-events:none;
+  transition:opacity .12s ease;z-index:5;box-shadow:0 6px 20px -8px rgba(0,0,0,.5)}
+.col:hover .tip,.col:focus-visible .tip{opacity:1}
+
+svg.line{width:100%;height:auto;display:block;margin-top:10px;overflow:visible}
+svg.line .gl{stroke:var(--rule);stroke-width:1}
+svg.line .gt{fill:var(--faint);font-size:10.5px;
+  font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+svg.line .ln{fill:none;stroke:var(--dn);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+svg.line .ar{fill:var(--dn);opacity:.09}
+svg.line .pt{fill:var(--surf);stroke:var(--dn);stroke-width:2}
+svg.line .ptend{fill:var(--dn);stroke:var(--surf);stroke-width:2}
+svg.line .endlab{font-size:13px;font-weight:700;fill:var(--dn);
+  font-family:ui-monospace,"Cascadia Mono",Consolas,monospace}
+
+.twrap{overflow-x:auto;margin-top:20px;border:1px solid var(--rule);border-radius:5px;
+  background:var(--surf)}
+table.lt{border-collapse:collapse;width:100%;font-size:13px;min-width:540px}
+table.lt th,table.lt td{padding:8px 12px;text-align:left;border-bottom:1px solid var(--rule2)}
+table.lt thead th{font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);
+  font-weight:600;border-bottom:1px solid var(--rule);background:var(--surf);
+  font-family:"Leelawadee UI","Noto Sans Thai","Segoe UI",system-ui,sans-serif}
+table.lt tbody tr:nth-child(even){background:var(--band)}
+table.lt tbody tr:last-child td,table.lt tbody tr:last-child th{border-bottom:0}
+table.lt tbody th{font-weight:600;font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  font-size:12.5px;white-space:nowrap}
+table.lt td.num{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;
+  font-variant-numeric:tabular-nums}
+.num{text-align:right !important;white-space:nowrap}
+td.spark,th.spark{width:32%;min-width:110px;position:relative;padding:0 12px}
+td.spark{height:26px}
+.sb{position:absolute;top:50%;transform:translateY(-50%);height:9px;border-radius:2px}
+.sb.up{background:var(--up)} .sb.dn{background:var(--dn)}
+td.spark::before{content:"";position:absolute;left:50%;top:4px;bottom:4px;width:1px;
+  background:var(--rule)}
+tr.ell td{text-align:center;color:var(--faint);font-size:11.5px;font-style:italic}
+
+.finds{margin:28px 0 0;padding:0;list-style:none;border-top:1px solid var(--rule)}
+.finds li{display:grid;grid-template-columns:24px 1fr;gap:14px;padding:15px 2px;
+  border-bottom:1px solid var(--rule2);font-size:14px}
+.finds .fi{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:11.5px;
+  color:var(--faint);font-weight:700;padding-top:3px}
+.finds b{font-weight:700}
+.finds .mono{font-size:12.5px}
+
+.note{margin-top:26px;border:1px solid var(--rule);border-left:3px solid var(--caution);
+  background:var(--cautionbg);border-radius:4px;padding:15px 18px;font-size:13.5px}
+.note .nh{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--caution);
+  font-weight:700;margin-bottom:6px}
+.note p{margin:0}
+
+.mgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:0 36px;margin-top:8px}
+.mitem{padding:16px 0;border-bottom:1px solid var(--rule2)}
+.mitem h3{font-size:13.5px;margin:0 0 5px;font-weight:700}
+.mitem p{margin:0;font-size:13px;color:var(--muted);line-height:1.6}
+footer{margin-top:56px;padding-top:20px;border-top:2px solid var(--ink);font-size:12px;
+  color:var(--faint);display:flex;flex-wrap:wrap;gap:6px 22px;justify-content:space-between}
+
+@media (max-width:900px){ .stats{grid-template-columns:repeat(2,1fr)} }
+@media (max-width:640px){
+  .wrap{padding:0 16px 64px}
+  .chart{gap:5px}
+  .mval{font-size:9.5px} .mlab{font-size:11px}
+  .bar{border-left-width:1px;border-right-width:1px}
+  .hnote{margin-left:0;width:100%}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important;animation:none !important}}
+</style>
+<div class="wrap">
+
+<header class="mast">
+  <div class="eyebrow">รายงานสรุปผลประกอบการ · Trading Performance</div>
+  <h1>ผลประกอบการเทรด แยกตามกลุ่ม Options และ Stocks</h1>
+  <div class="mmeta">
+    <span>งวด <b>2 ม.ค. – 31 ก.ค. 2026</b></span>
+    <span>ระยะเวลา <b>7 เดือน</b></span>
+    <span>รายการซื้อขาย <b class="mono">1,128</b> ครั้ง</span>
+    <span>สกุลเงิน <b>USD</b></span>
+    <span>แหล่งข้อมูล <b>Monthly Statement 7 ไฟล์</b></span>
+  </div>
+</header>
+
+<div class="headline">
+  <div class="hnum dn">−2,519.82</div>
+  <p class="hsub">กำไร/ขาดทุนที่รับรู้รวมทั้ง 3 กลุ่ม หลังหักค่าธรรมเนียม
+  <span class="mono">592.34</span> ดอลลาร์ ·
+  กลุ่มออปชั่นรวมกันขาดทุน <span class="mono dn">−4,550.11</span>
+  ขณะที่กลุ่มหุ้นทำกำไร <span class="mono up">+2,030.29</span></p>
+</div>
+
+<section id="overview">
+  <div class="shead"><span class="tag">SUM</span><h2>ภาพรวมทั้ง 3 กลุ่ม</h2>
+    <span class="hnote">ตัวเลขทั้งหมดเป็นกำไรที่รับรู้แล้ว (realized)</span></div>
+  <p class="sdesc">แบ่งการเทรดออกเป็น 3 กลุ่มตามที่กำหนด — ออปชั่น QQQ, ออปชั่นตัวอื่นทั้งหมด
+  และการซื้อขายหุ้น แต่ละกลุ่มคิดกำไรขาดทุนแยกกันด้วยวิธี FIFO
+  โดยรับรู้กำไรเมื่อปิดสถานะจริงเท่านั้น</p>
+  <div class="twrap"><table class="lt"><thead><tr>
+    <th scope="col">กลุ่ม</th><th scope="col" class="num">P&amp;L (USD)</th>
+    <th scope="col" class="spark">เทียบขนาด</th><th scope="col" class="num">ไม้</th>
+    <th scope="col" class="num">ชนะ %</th><th scope="col" class="num">PF</th>
+    <th scope="col" class="num">ค่าธรรมเนียม</th></tr></thead>
+    <tbody><tr><th scope="row">R1 · Options — QQQ</th><td class="num dn">−934.29</td><td class="spark"><span class="sb dn" style="right:50%;width:12.9%"></span></td><td class="num">65</td><td class="num">49.2</td><td class="num">0.69</td><td class="num">117.29</td></tr><tr><th scope="row">R2 · Options — ไม่รวม QQQ</th><td class="num dn">−3,615.82</td><td class="spark"><span class="sb dn" style="right:50%;width:50%"></span></td><td class="num">207</td><td class="num">49.8</td><td class="num">0.81</td><td class="num">147.12</td></tr><tr><th scope="row">R3 · Stocks</th><td class="num up">+2,030.29</td><td class="spark"><span class="sb up" style="left:50%;width:28.1%"></span></td><td class="num">208</td><td class="num">48.6</td><td class="num">1.61</td><td class="num">327.93</td></tr></tbody></table></div>
+  <div class="panel"><div class="ptitle">กำไรขาดทุนสะสม · รวมทุกกลุ่ม</div><div class="pbody"><svg class="line" viewBox="0 0 760 208" role="img" aria-label="กำไรขาดทุนสะสมรวมสามกลุ่ม ตั้งแต่มกราคมถึงกรกฎาคม 2026 สิ้นสุดที่ −2,520 ดอลลาร์"><line class="gl" x1="58" y1="33.5" x2="698" y2="33.5"/><text class="gt" x="49" y="37.0" text-anchor="end">0</text><line class="gl" x1="58" y1="73.0" x2="698" y2="73.0"/><text class="gt" x="49" y="76.5" text-anchor="end">-1,000</text><line class="gl" x1="58" y1="112.5" x2="698" y2="112.5"/><text class="gt" x="49" y="116.0" text-anchor="end">-2,000</text><line class="gl" x1="58" y1="152.0" x2="698" y2="152.0"/><text class="gt" x="49" y="155.5" text-anchor="end">-3,000</text><path class="ar" d="M58.0,64.8 L164.7,34.7 L271.3,127.8 L378.0,58.1 L484.7,145.5 L591.3,158.5 L698.0,133.1 L698.0,33.5 L58.0,33.5 Z"/><path class="ln" d="M58.0,64.8 L164.7,34.7 L271.3,127.8 L378.0,58.1 L484.7,145.5 L591.3,158.5 L698.0,133.1"/><circle class="pt" cx="58.0" cy="64.8" r="3.2"><title>ม.ค. 2026 · สะสม −792.26</title></circle><circle class="pt" cx="164.7" cy="34.7" r="3.2"><title>ก.พ. 2026 · สะสม −29.87</title></circle><circle class="pt" cx="271.3" cy="127.8" r="3.2"><title>มี.ค. 2026 · สะสม −2,386.46</title></circle><circle class="pt" cx="378.0" cy="58.1" r="3.2"><title>เม.ย. 2026 · สะสม −623.24</title></circle><circle class="pt" cx="484.7" cy="145.5" r="3.2"><title>พ.ค. 2026 · สะสม −2,834.68</title></circle><circle class="pt" cx="591.3" cy="158.5" r="3.2"><title>มิ.ย. 2026 · สะสม −3,163.69</title></circle><circle class="pt" cx="698.0" cy="133.1" r="3.2"><title>ก.ค. 2026 · สะสม −2,519.82</title></circle><text class="gt" x="58.0" y="199" text-anchor="middle">ม.ค.</text><text class="gt" x="164.7" y="199" text-anchor="middle">ก.พ.</text><text class="gt" x="271.3" y="199" text-anchor="middle">มี.ค.</text><text class="gt" x="378.0" y="199" text-anchor="middle">เม.ย.</text><text class="gt" x="484.7" y="199" text-anchor="middle">พ.ค.</text><text class="gt" x="591.3" y="199" text-anchor="middle">มิ.ย.</text><text class="gt" x="698.0" y="199" text-anchor="middle">ก.ค.</text><circle class="ptend" cx="698.0" cy="133.1" r="4.6"/><text class="endlab" x="708.0" y="137.1">−2,520</text></svg></div></div>
+  <ul class="finds"><li><span class="fi">01</span><span>สามกลุ่มรวมกันขาดทุน <b class="mono dn">−2,519.82</b> ในรอบ 7 เดือน โดย <b>กลุ่มหุ้นเป็นกลุ่มเดียวที่ทำกำไร</b> แต่กำไรนั้นชดเชยการขาดทุนของออปชั่นได้เพียง 45%</span></li><li><span class="fi">02</span><span>ทั้งสามกลุ่มมี <b>อัตราชนะใกล้ 50% เท่ากันหมด</b> (49.2% / 49.8% / 48.6%) สิ่งที่ทำให้ผลต่างกันจึงไม่ใช่ความแม่นยำ แต่เป็น <b>ขนาดของไม้ได้เทียบกับไม้เสีย</b> — กลุ่มหุ้น PF 1.61 ส่วนออปชั่นอยู่ที่ 0.69 และ 0.81</span></li><li><span class="fi">03</span><span>ขาดทุนกระจุกอยู่ที่ <b>2 เดือน</b> คือ มี.ค. (<span class="mono dn">−2,356.60</span>) และ พ.ค. (<span class="mono dn">−2,211.44</span>) รวมกัน <span class="mono">−4,568</span> มากกว่าผลขาดทุนสุทธิทั้งงวด อีก 5 เดือนที่เหลือรวมกันเป็นบวก</span></li><li><span class="fi">04</span><span>ค่าธรรมเนียมรวม <span class="mono">592.34</span> คิดเป็น 23% ของผลขาดทุนสุทธิ โดยกลุ่มหุ้นจ่ายมากที่สุด <span class="mono">327.93</span> จากการเทรดถี่ 535 ครั้ง</span></li></ul>
+</section>
+
+<section id="r1">
+  <div class="shead"><span class="tag">R1</span><h2>รายงานที่ 1 · Options — QQQ</h2>
+    <span class="hnote">เม.ย. – ก.ค. 2026</span></div>
+  <p class="sdesc">ออปชั่น QQQ ถูกแยกออกมาเป็นกลุ่มของตัวเองตามที่กำหนด กลุ่มนี้เพิ่งเริ่มเทรด
+  เดือน เม.ย. 2026 และมีลักษณะเฉพาะตัวชัดเจน — เกือบทั้งหมดเป็น <b>0DTE</b>
+  คือเปิดและหมดอายุภายในวันเดียวกัน ต่างจากกลุ่ม R2 อย่างสิ้นเชิง</p>
+  <div class="stats"><div class="st"><div class="sl">กำไร/ขาดทุนที่รับรู้</div><div class="sv dn">−934.29</div><div class="ss">USD</div></div><div class="st"><div class="sl">จำนวนไม้ที่ปิด</div><div class="sv ">65</div><div class="ss">ชนะ 32 · แพ้ 33</div></div><div class="st"><div class="sl">อัตราชนะ</div><div class="sv ">49.2%</div></div><div class="st"><div class="sl">Profit Factor</div><div class="sv dn">0.69</div><div class="ss">กำไรรวม ÷ ขาดทุนรวม</div></div><div class="st"><div class="sl">กำไรเฉลี่ย/ไม้</div><div class="sv up">+64.91</div></div><div class="st"><div class="sl">ขาดทุนเฉลี่ย/ไม้</div><div class="sv dn">−91.26</div></div><div class="st"><div class="sl">ไม้ที่ดีที่สุด</div><div class="sv up">+208.39</div></div><div class="st"><div class="sl">ไม้ที่แย่ที่สุด</div><div class="sv dn">−632.81</div></div><div class="st"><div class="sl">สัดส่วน 0DTE</div><div class="sv ">89%</div><div class="ss">141 จาก 159 ครั้ง</div></div><div class="st"><div class="sl">ค่าธรรมเนียม</div><div class="sv ">117.29</div><div class="ss">USD</div></div></div>
+  <div class="panel"><div class="ptitle">กำไรขาดทุนรายเดือน</div><div class="pbody"><div class="chart" style="--topfr:0.1318;--botfr:0.8682"><div class="zero"></div><div class="col" tabindex="0" aria-label="เม.ย. 2026 · P&amp;L −226.01 · ปิด 14 ไม้ · ชนะ 64% · ซื้อขาย 30 ครั้ง · ค่าธรรมเนียม 2.01"><div class="tip" role="tooltip">เม.ย. 2026 · P&amp;L −226.01 · ปิด 14 ไม้ · ชนะ 64% · ซื้อขาย 30 ครั้ง · ค่าธรรมเนียม 2.01</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:24.93%"></span></div><div class="mlab">เม.ย.</div><div class="mval dn">−226</div></div><div class="col" tabindex="0" aria-label="พ.ค. 2026 · P&amp;L −906.52 · ปิด 32 ไม้ · ชนะ 44% · ซื้อขาย 83 ครั้ง · ค่าธรรมเนียม 81.52"><div class="tip" role="tooltip">พ.ค. 2026 · P&amp;L −906.52 · ปิด 32 ไม้ · ชนะ 44% · ซื้อขาย 83 ครั้ง · ค่าธรรมเนียม 81.52</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:100.00%"></span></div><div class="mlab">พ.ค.</div><div class="mval dn">−907</div></div><div class="col" tabindex="0" aria-label="มิ.ย. 2026 · P&amp;L +137.64 · ปิด 11 ไม้ · ชนะ 45% · ซื้อขาย 30 ครั้ง · ค่าธรรมเนียม 23.36"><div class="tip" role="tooltip">มิ.ย. 2026 · P&amp;L +137.64 · ปิด 11 ไม้ · ชนะ 45% · ซื้อขาย 30 ครั้ง · ค่าธรรมเนียม 23.36</div><div class="half top"><span class="bar" style="height:100.00%"></span></div><div class="half bot"></div><div class="mlab">มิ.ย.</div><div class="mval up">+138</div></div><div class="col" tabindex="0" aria-label="ก.ค. 2026 · P&amp;L +60.60 · ปิด 8 ไม้ · ชนะ 50% · ซื้อขาย 16 ครั้ง · ค่าธรรมเนียม 10.40"><div class="tip" role="tooltip">ก.ค. 2026 · P&amp;L +60.60 · ปิด 8 ไม้ · ชนะ 50% · ซื้อขาย 16 ครั้ง · ค่าธรรมเนียม 10.40</div><div class="half top"><span class="bar" style="height:44.03%"></span></div><div class="half bot"></div><div class="mlab">ก.ค.</div><div class="mval up">+61</div></div></div></div></div>
+  <div class="panel"><div class="ptitle">ไม้ที่มีผลมากที่สุด</div><div class="pbody"><div class="twrap"><table class="lt"><thead><tr><th scope="col">สัญญา</th><th scope="col" class="num">P&amp;L (USD)</th><th scope="col" class="num">ครั้ง</th><th scope="col">ปิดอย่างไร</th></tr></thead><tbody><tr><th scope="row">QQQ 02/06 C740</th><td class="num up">+208.39</td><td class="num">4</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 12/05 P709</th><td class="num up">+204.70</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 19/05 P700</th><td class="num up">+204.20</td><td class="num">8</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 12/05 P708</th><td class="num up">+171.40</td><td class="num">4</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 14/05 C715</th><td class="num up">+130.69</td><td class="num">2</td><td>ปิดเอง</td></tr><tr class="ell"><td colspan="4">— ไม้ที่เหลืออยู่ระหว่างสองกลุ่มนี้ —</td></tr><tr><th scope="row">QQQ 15/05 P709</th><td class="num dn">−144.60</td><td class="num">4</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 22/05 C720</th><td class="num dn">−181.04</td><td class="num">6</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 22/05 P702</th><td class="num dn">−240.30</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 29/05 P740</th><td class="num dn">−374.86</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">QQQ 28/05 P731</th><td class="num dn">−632.81</td><td class="num">2</td><td>ปิดเอง</td></tr></tbody></table></div></div></div>
+  <ul class="finds"><li><span class="fi">01</span><span><b>เริ่มเทรดเดือน เม.ย.</b> ทำได้ 65 ไม้ / 159 ครั้ง มูลค่าพรีเมียมที่ผ่านมือรวม <span class="mono">41,795</span> ดอลลาร์ ปิดงวดขาดทุน <b class="mono dn">−934.29</b></span></li><li><span class="fi">02</span><span><b>ชนะเกือบครึ่ง แต่ยังขาดทุน</b> — อัตราชนะ 49.2% ใกล้เคียงการโยนเหรียญ ปัญหาอยู่ที่ขาดทุนเฉลี่ย <span class="mono dn">−91.26</span> ใหญ่กว่ากำไรเฉลี่ย <span class="mono up">+64.91</span> ถึง 1.41 เท่า ทำให้ Profit Factor เหลือ 0.69</span></li><li><span class="fi">03</span><span><b>พ.ค. คือเดือนที่เสียหาย</b> ขาดทุน <span class="mono dn">−906.52</span> เกือบเท่ากับผลขาดทุนสุทธิทั้งกลุ่ม ตัวการหลักคือไม้เดียว <span class="mono">QQQ 28/05 P731</span> เสีย <span class="mono dn">−632.81</span></span></li><li><span class="fi">04</span><span><b>ไม้ที่เสียหนักคือไม้ที่ใหญ่ผิดปกติ</b> — ไม้ −632.81 นั้นเปิด 10 สัญญา ขณะที่ไม้ทั่วไปในกลุ่มนี้อยู่ที่ 1–3 สัญญา ขนาดที่โตขึ้น 3–10 เท่าเกิดขึ้นในวันที่ผลลัพธ์แย่ที่สุดพอดี</span></li><li><span class="fi">05</span><span><b>มิ.ย.–ก.ค. กลับมาเป็นบวก</b> (<span class="mono up">+137.64</span> และ <span class="mono up">+60.60</span>) พร้อมกับจำนวนไม้ที่ลดลงจาก 32 เหลือ 11 และ 8 เป็นสัญญาณว่าการลดความถี่และขนาดช่วยให้ผลดีขึ้น</span></li></ul>
+</section>
+
+<section id="r2">
+  <div class="shead"><span class="tag">R2</span><h2>รายงานที่ 2 · Options — ไม่รวม QQQ</h2>
+    <span class="hnote">ม.ค. – ก.ค. 2026 · 29 underlying</span></div>
+  <p class="sdesc">ออปชั่นรายตัวทั้งหมดที่ไม่ใช่ QQQ — ครอบคลุม 29 underlying
+  ตั้งแต่หุ้นเทคใหญ่อย่าง META, MSFT ไปจนถึงหุ้นเล็กอย่าง RKLB, IREN, PL
+  กลุ่มนี้เป็นกลุ่มที่ขาดทุนหนักที่สุดในสามกลุ่ม</p>
+  <div class="stats"><div class="st"><div class="sl">กำไร/ขาดทุนที่รับรู้</div><div class="sv dn">−3,615.82</div><div class="ss">USD</div></div><div class="st"><div class="sl">จำนวนไม้ที่ปิด</div><div class="sv ">207</div><div class="ss">ชนะ 103 · แพ้ 104</div></div><div class="st"><div class="sl">อัตราชนะ</div><div class="sv ">49.8%</div></div><div class="st"><div class="sl">Profit Factor</div><div class="sv dn">0.81</div><div class="ss">กำไรรวม ÷ ขาดทุนรวม</div></div><div class="st"><div class="sl">กำไรเฉลี่ย/ไม้</div><div class="sv up">+153.57</div></div><div class="st"><div class="sl">ขาดทุนเฉลี่ย/ไม้</div><div class="sv dn">−186.86</div></div><div class="st"><div class="sl">ไม้ที่ดีที่สุด</div><div class="sv up">+2,805.80</div></div><div class="st"><div class="sl">ไม้ที่แย่ที่สุด</div><div class="sv dn">−1,800.99</div></div><div class="st"><div class="sl">ถือเฉลี่ย</div><div class="sv ">1 วัน</div><div class="ss">median · 78% ปิดใน 7 วัน</div></div><div class="st"><div class="sl">ค่าธรรมเนียม</div><div class="sv ">147.12</div><div class="ss">USD</div></div></div>
+  <div class="panel"><div class="ptitle">กำไรขาดทุนรายเดือน</div><div class="pbody"><div class="chart" style="--topfr:0.2115;--botfr:0.7885"><div class="zero"></div><div class="col" tabindex="0" aria-label="ม.ค. 2026 · P&amp;L −898.02 · ปิด 33 ไม้ · ชนะ 42% · ซื้อขาย 63 ครั้ง · ค่าธรรมเนียม 40.66"><div class="tip" role="tooltip">ม.ค. 2026 · P&amp;L −898.02 · ปิด 33 ไม้ · ชนะ 42% · ซื้อขาย 63 ครั้ง · ค่าธรรมเนียม 40.66</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:26.68%"></span></div><div class="mlab">ม.ค.</div><div class="mval dn">−898</div></div><div class="col" tabindex="0" aria-label="ก.พ. 2026 · P&amp;L +903.04 · ปิด 29 ไม้ · ชนะ 59% · ซื้อขาย 57 ครั้ง · ค่าธรรมเนียม 4.01"><div class="tip" role="tooltip">ก.พ. 2026 · P&amp;L +903.04 · ปิด 29 ไม้ · ชนะ 59% · ซื้อขาย 57 ครั้ง · ค่าธรรมเนียม 4.01</div><div class="half top"><span class="bar" style="height:100.00%"></span></div><div class="half bot"></div><div class="mlab">ก.พ.</div><div class="mval up">+903</div></div><div class="col" tabindex="0" aria-label="มี.ค. 2026 · P&amp;L −3,366.31 · ปิด 56 ไม้ · ชนะ 43% · ซื้อขาย 108 ครั้ง · ค่าธรรมเนียม 8.38"><div class="tip" role="tooltip">มี.ค. 2026 · P&amp;L −3,366.31 · ปิด 56 ไม้ · ชนะ 43% · ซื้อขาย 108 ครั้ง · ค่าธรรมเนียม 8.38</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:100.00%"></span></div><div class="mlab">มี.ค.</div><div class="mval dn">−3,366</div></div><div class="col" tabindex="0" aria-label="เม.ย. 2026 · P&amp;L +842.16 · ปิด 30 ไม้ · ชนะ 53% · ซื้อขาย 74 ครั้ง · ค่าธรรมเนียม 6.18"><div class="tip" role="tooltip">เม.ย. 2026 · P&amp;L +842.16 · ปิด 30 ไม้ · ชนะ 53% · ซื้อขาย 74 ครั้ง · ค่าธรรมเนียม 6.18</div><div class="half top"><span class="bar" style="height:93.26%"></span></div><div class="half bot"></div><div class="mlab">เม.ย.</div><div class="mval up">+842</div></div><div class="col" tabindex="0" aria-label="พ.ค. 2026 · P&amp;L −1,026.64 · ปิด 22 ไม้ · ชนะ 50% · ซื้อขาย 47 ครั้ง · ค่าธรรมเนียม 31.18"><div class="tip" role="tooltip">พ.ค. 2026 · P&amp;L −1,026.64 · ปิด 22 ไม้ · ชนะ 50% · ซื้อขาย 47 ครั้ง · ค่าธรรมเนียม 31.18</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:30.50%"></span></div><div class="mlab">พ.ค.</div><div class="mval dn">−1,027</div></div><div class="col" tabindex="0" aria-label="มิ.ย. 2026 · P&amp;L +240.16 · ปิด 17 ไม้ · ชนะ 59% · ซื้อขาย 38 ครั้ง · ค่าธรรมเนียม 24.86"><div class="tip" role="tooltip">มิ.ย. 2026 · P&amp;L +240.16 · ปิด 17 ไม้ · ชนะ 59% · ซื้อขาย 38 ครั้ง · ค่าธรรมเนียม 24.86</div><div class="half top"><span class="bar" style="height:26.59%"></span></div><div class="half bot"></div><div class="mlab">มิ.ย.</div><div class="mval up">+240</div></div><div class="col" tabindex="0" aria-label="ก.ค. 2026 · P&amp;L −310.21 · ปิด 20 ไม้ · ชนะ 55% · ซื้อขาย 47 ครั้ง · ค่าธรรมเนียม 31.85"><div class="tip" role="tooltip">ก.ค. 2026 · P&amp;L −310.21 · ปิด 20 ไม้ · ชนะ 55% · ซื้อขาย 47 ครั้ง · ค่าธรรมเนียม 31.85</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:9.22%"></span></div><div class="mlab">ก.ค.</div><div class="mval dn">−310</div></div></div></div></div>
+  <div class="twrap"><table class="lt"><thead><tr><th scope="col">Underlying</th><th scope="col" class="num">P&amp;L (USD)</th><th scope="col" class="spark">สัดส่วน</th><th scope="col" class="num">ไม้</th><th scope="col" class="num">ชนะ %</th><th scope="col" class="num">ครั้ง</th></tr></thead><tbody><tr><th scope="row">GOOG</th><td class="num up">+459.48</td><td class="spark"><span class="sb up" style="left:50%;width:15.13%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">ORCL</th><td class="num up">+365.89</td><td class="spark"><span class="sb up" style="left:50%;width:12.05%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">AMD</th><td class="num up">+322.59</td><td class="spark"><span class="sb up" style="left:50%;width:10.62%"></span></td><td class="num">2</td><td class="num">100</td><td class="num">4</td></tr><tr><th scope="row">PLTR</th><td class="num up">+305.47</td><td class="spark"><span class="sb up" style="left:50%;width:10.06%"></span></td><td class="num">3</td><td class="num">100</td><td class="num">6</td></tr><tr><th scope="row">WDC</th><td class="num up">+273.71</td><td class="spark"><span class="sb up" style="left:50%;width:9.01%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">UNH</th><td class="num up">+233.71</td><td class="spark"><span class="sb up" style="left:50%;width:7.70%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">IREN</th><td class="num up">+136.91</td><td class="spark"><span class="sb up" style="left:50%;width:4.51%"></span></td><td class="num">40</td><td class="num">48</td><td class="num">75</td></tr><tr><th scope="row">RBRK</th><td class="num up">+119.94</td><td class="spark"><span class="sb up" style="left:50%;width:3.95%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">1</td></tr><tr><th scope="row">OKLO</th><td class="num up">+103.42</td><td class="spark"><span class="sb up" style="left:50%;width:3.41%"></span></td><td class="num">2</td><td class="num">100</td><td class="num">4</td></tr><tr><th scope="row">ALAB</th><td class="num up">+99.89</td><td class="spark"><span class="sb up" style="left:50%;width:3.29%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr class="ell"><td colspan="6">อีก 9 รายการที่เหลือ ผลรวมใกล้ศูนย์ — ตัดออกจากตาราง</td></tr><tr><th scope="row">VST</th><td class="num dn">−246.40</td><td class="spark"><span class="sb dn" style="right:50%;width:8.11%"></span></td><td class="num">2</td><td class="num">50</td><td class="num">4</td></tr><tr><th scope="row">AAPL</th><td class="num dn">−248.58</td><td class="spark"><span class="sb dn" style="right:50%;width:8.18%"></span></td><td class="num">2</td><td class="num">50</td><td class="num">4</td></tr><tr><th scope="row">NFLX</th><td class="num dn">−293.30</td><td class="spark"><span class="sb dn" style="right:50%;width:9.66%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">2</td></tr><tr><th scope="row">AMZN</th><td class="num dn">−333.58</td><td class="spark"><span class="sb dn" style="right:50%;width:10.98%"></span></td><td class="num">4</td><td class="num">50</td><td class="num">10</td></tr><tr><th scope="row">PL</th><td class="num dn">−355.01</td><td class="spark"><span class="sb dn" style="right:50%;width:11.69%"></span></td><td class="num">12</td><td class="num">50</td><td class="num">20</td></tr><tr><th scope="row">NDXP</th><td class="num dn">−531.60</td><td class="spark"><span class="sb dn" style="right:50%;width:17.50%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">2</td></tr><tr><th scope="row">ASTS</th><td class="num dn">−709.00</td><td class="spark"><span class="sb dn" style="right:50%;width:23.35%"></span></td><td class="num">11</td><td class="num">36</td><td class="num">23</td></tr><tr><th scope="row">META</th><td class="num dn">−718.06</td><td class="spark"><span class="sb dn" style="right:50%;width:23.64%"></span></td><td class="num">36</td><td class="num">42</td><td class="num">84</td></tr><tr><th scope="row">TSLA</th><td class="num dn">−826.52</td><td class="spark"><span class="sb dn" style="right:50%;width:27.21%"></span></td><td class="num">3</td><td class="num">33</td><td class="num">6</td></tr><tr><th scope="row">MSFT</th><td class="num dn">−1,518.51</td><td class="spark"><span class="sb dn" style="right:50%;width:50.00%"></span></td><td class="num">3</td><td class="num">0</td><td class="num">6</td></tr></tbody></table></div>
+  <div class="panel"><div class="ptitle">ไม้ที่มีผลมากที่สุด</div><div class="pbody"><div class="twrap"><table class="lt"><thead><tr><th scope="col">สัญญา</th><th scope="col" class="num">P&amp;L (USD)</th><th scope="col" class="num">ครั้ง</th><th scope="col">ปิดอย่างไร</th></tr></thead><tbody><tr><th scope="row">META 01/05 P645</th><td class="num up">+2,805.80</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">META 30/01 C640</th><td class="num up">+1,902.42</td><td class="num">4</td><td>ปิดเอง</td></tr><tr><th scope="row">RKLB 02/07 P89</th><td class="num up">+523.39</td><td class="num">4</td><td>ปิดเอง</td></tr><tr><th scope="row">GOOG 13/02 P315</th><td class="num up">+459.48</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">RKLB 17/07 C94</th><td class="num up">+428.68</td><td class="num">2</td><td>ปิดเอง</td></tr><tr class="ell"><td colspan="4">— ไม้ที่เหลืออยู่ระหว่างสองกลุ่มนี้ —</td></tr><tr><th scope="row">RKLB 22/05 C79</th><td class="num dn">−780.05</td><td class="num">1</td><td>หมดอายุ / ถูกใช้สิทธิ</td></tr><tr><th scope="row">META 21/08 C660</th><td class="num dn">−821.32</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">MSFT 02/02 C482.5</th><td class="num dn">−1,184.29</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">META 01/05 C697.5</th><td class="num dn">−1,497.12</td><td class="num">2</td><td>ปิดเอง</td></tr><tr><th scope="row">META 18/03 P607.5</th><td class="num dn">−1,800.99</td><td class="num">2</td><td>ปิดเอง</td></tr></tbody></table></div></div></div>
+  <ul class="finds"><li><span class="fi">01</span><span><b>ขาดทุนหนักที่สุดในสามกลุ่ม</b> <b class="mono dn">−3,615.82</b> จาก 207 ไม้ / 434 ครั้ง มูลค่าพรีเมียมที่ผ่านมือรวม <span class="mono">222,695</span> ดอลลาร์</span></li><li><span class="fi">02</span><span><b>มี.ค. เดือนเดียวเสีย <span class="mono dn">−3,366.31</span></b> ≈ 93% ของผลขาดทุนสุทธิทั้งกลุ่ม โดยไม้ <span class="mono">META 18/03 P607.5</span> เสียเดี่ยว <span class="mono dn">−1,800.99</span> ซึ่งเป็นไม้ที่แย่ที่สุดของทั้งรายงาน</span></li><li><span class="fi">03</span><span><b>กระจุกตัวสูงมาก</b> — 4 underlying คือ MSFT <span class="mono dn">−1,518.51</span>, TSLA <span class="mono dn">−826.52</span>, META <span class="mono dn">−718.06</span>, ASTS <span class="mono dn">−709.00</span> รวมกัน <span class="mono dn">−3,772</span> <b>มากกว่าผลขาดทุนทั้งกลุ่ม</b> แปลว่าอีก 25 ตัวที่เหลือรวมกันยังเป็นบวกเล็กน้อย</span></li><li><span class="fi">04</span><span><b>MSFT และ TSLA เสียหนักจากไม้น้อยมาก</b> — MSFT เทรดแค่ 3 ไม้ แพ้ทั้ง 3 เสียรวม <span class="mono dn">−1,518.51</span> เฉลี่ยไม้ละกว่า 500 ดอลลาร์ ต่างจากไม้ทั่วไปในกลุ่มที่เฉลี่ยหลักร้อยต้น ๆ</span></li><li><span class="fi">05</span><span><b>RKLB คือกรณีที่ค่าธรรมเนียมกินกำไรหมด</b> — เทรดถี่ที่สุด 65 ไม้ / 143 ครั้ง ได้ผลลัพธ์ <span class="mono dn">−49.94</span> โดยจ่ายค่าธรรมเนียมไป <span class="mono">59.24</span> หากไม่มีค่าธรรมเนียม กลุ่มนี้จะเป็นบวก <span class="mono up">+9.30</span> พอดี</span></li><li><span class="fi">06</span><span><b>ถือสั้นมาก</b> — median เพียง 1 วัน มี 0DTE 7% และอีก 72% หมดอายุภายใน 1–7 วัน เป็นการเทรดพรีเมียมระยะสั้นเกือบทั้งหมด ไม่ใช่การถือยาว</span></li></ul>
+</section>
+
+<section id="r3">
+  <div class="shead"><span class="tag">R3</span><h2>รายงานที่ 3 · การซื้อขายหุ้น</h2>
+    <span class="hnote">ม.ค. – ก.ค. 2026 · 70 หลักทรัพย์</span></div>
+  <p class="sdesc">การซื้อขายหุ้นและ ETF ทั้งหมด รวมหุ้นที่ได้รับมาจากการถูกใช้สิทธิออปชั่น
+  (assignment / exercise) ซึ่งบันทึกเป็นรายการซื้อที่ราคา strike พอดีและไม่มีค่าคอมมิชชั่น
+  กลุ่มนี้เป็น <b>กลุ่มเดียวที่ทำกำไร</b></p>
+  <div class="stats"><div class="st"><div class="sl">กำไร/ขาดทุนที่รับรู้</div><div class="sv up">+2,030.29</div><div class="ss">USD</div></div><div class="st"><div class="sl">จำนวนไม้ที่ปิด</div><div class="sv ">208</div><div class="ss">ชนะ 101 · แพ้ 107</div></div><div class="st"><div class="sl">อัตราชนะ</div><div class="sv ">48.6%</div></div><div class="st"><div class="sl">Profit Factor</div><div class="sv up">1.61</div><div class="ss">กำไรรวม ÷ ขาดทุนรวม</div></div><div class="st"><div class="sl">กำไรเฉลี่ย/ไม้</div><div class="sv up">+53.12</div></div><div class="st"><div class="sl">ขาดทุนเฉลี่ย/ไม้</div><div class="sv dn">−31.17</div></div><div class="st"><div class="sl">ไม้ที่ดีที่สุด</div><div class="sv up">+871.38</div></div><div class="st"><div class="sl">ไม้ที่แย่ที่สุด</div><div class="sv dn">−325.05</div></div><div class="st"><div class="sl">มูลค่าซื้อ/ขายรวม</div><div class="sv ">172K / 167K</div><div class="ss">USD</div></div><div class="st"><div class="sl">ค่าธรรมเนียม</div><div class="sv ">327.93</div><div class="ss">USD</div></div></div>
+  <div class="panel"><div class="ptitle">กำไรขาดทุนรายเดือน</div><div class="pbody"><div class="chart" style="--topfr:0.6187;--botfr:0.3813"><div class="zero"></div><div class="col" tabindex="0" aria-label="ม.ค. 2026 · P&amp;L +105.76 · ปิด 11 ไม้ · ชนะ 36% · ซื้อขาย 44 ครั้ง · ค่าธรรมเนียม 20.02"><div class="tip" role="tooltip">ม.ค. 2026 · P&amp;L +105.76 · ปิด 11 ไม้ · ชนะ 36% · ซื้อขาย 44 ครั้ง · ค่าธรรมเนียม 20.02</div><div class="half top"><span class="bar" style="height:9.22%"></span></div><div class="half bot"></div><div class="mlab">ม.ค.</div><div class="mval up">+106</div></div><div class="col" tabindex="0" aria-label="ก.พ. 2026 · P&amp;L −140.65 · ปิด 24 ไม้ · ชนะ 38% · ซื้อขาย 48 ครั้ง · ค่าธรรมเนียม 23.57"><div class="tip" role="tooltip">ก.พ. 2026 · P&amp;L −140.65 · ปิด 24 ไม้ · ชนะ 38% · ซื้อขาย 48 ครั้ง · ค่าธรรมเนียม 23.57</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:19.90%"></span></div><div class="mlab">ก.พ.</div><div class="mval dn">−141</div></div><div class="col" tabindex="0" aria-label="มี.ค. 2026 · P&amp;L +1,009.71 · ปิด 16 ไม้ · ชนะ 62% · ซื้อขาย 31 ครั้ง · ค่าธรรมเนียม 22.09"><div class="tip" role="tooltip">มี.ค. 2026 · P&amp;L +1,009.71 · ปิด 16 ไม้ · ชนะ 62% · ซื้อขาย 31 ครั้ง · ค่าธรรมเนียม 22.09</div><div class="half top"><span class="bar" style="height:88.03%"></span></div><div class="half bot"></div><div class="mlab">มี.ค.</div><div class="mval up">+1,010</div></div><div class="col" tabindex="0" aria-label="เม.ย. 2026 · P&amp;L +1,147.07 · ปิด 47 ไม้ · ชนะ 43% · ซื้อขาย 103 ครั้ง · ค่าธรรมเนียม 84.25"><div class="tip" role="tooltip">เม.ย. 2026 · P&amp;L +1,147.07 · ปิด 47 ไม้ · ชนะ 43% · ซื้อขาย 103 ครั้ง · ค่าธรรมเนียม 84.25</div><div class="half top"><span class="bar" style="height:100.00%"></span></div><div class="half bot"></div><div class="mlab">เม.ย.</div><div class="mval up">+1,147</div></div><div class="col" tabindex="0" aria-label="พ.ค. 2026 · P&amp;L −278.28 · ปิด 36 ไม้ · ชนะ 53% · ซื้อขาย 96 ครั้ง · ค่าธรรมเนียม 63.18"><div class="tip" role="tooltip">พ.ค. 2026 · P&amp;L −278.28 · ปิด 36 ไม้ · ชนะ 53% · ซื้อขาย 96 ครั้ง · ค่าธรรมเนียม 63.18</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:39.37%"></span></div><div class="mlab">พ.ค.</div><div class="mval dn">−278</div></div><div class="col" tabindex="0" aria-label="มิ.ย. 2026 · P&amp;L −706.81 · ปิด 45 ไม้ · ชนะ 47% · ซื้อขาย 116 ครั้ง · ค่าธรรมเนียม 64.83"><div class="tip" role="tooltip">มิ.ย. 2026 · P&amp;L −706.81 · ปิด 45 ไม้ · ชนะ 47% · ซื้อขาย 116 ครั้ง · ค่าธรรมเนียม 64.83</div><div class="half top"></div><div class="half bot"><span class="bar" style="height:100.00%"></span></div><div class="mlab">มิ.ย.</div><div class="mval dn">−707</div></div><div class="col" tabindex="0" aria-label="ก.ค. 2026 · P&amp;L +893.48 · ปิด 29 ไม้ · ชนะ 62% · ซื้อขาย 97 ครั้ง · ค่าธรรมเนียม 49.99"><div class="tip" role="tooltip">ก.ค. 2026 · P&amp;L +893.48 · ปิด 29 ไม้ · ชนะ 62% · ซื้อขาย 97 ครั้ง · ค่าธรรมเนียม 49.99</div><div class="half top"><span class="bar" style="height:77.89%"></span></div><div class="half bot"></div><div class="mlab">ก.ค.</div><div class="mval up">+893</div></div></div></div></div>
+  <div class="twrap"><table class="lt"><thead><tr><th scope="col">หลักทรัพย์</th><th scope="col" class="num">P&amp;L (USD)</th><th scope="col" class="spark">สัดส่วน</th><th scope="col" class="num">ไม้</th><th scope="col" class="num">ชนะ %</th><th scope="col" class="num">ครั้ง</th></tr></thead><tbody><tr><th scope="row">RKLB</th><td class="num up">+1,532.25</td><td class="spark"><span class="sb up" style="left:50%;width:50.00%"></span></td><td class="num">4</td><td class="num">75</td><td class="num">12</td></tr><tr><th scope="row">META</th><td class="num up">+1,320.92</td><td class="spark"><span class="sb up" style="left:50%;width:43.10%"></span></td><td class="num">24</td><td class="num">67</td><td class="num">44</td></tr><tr><th scope="row">AMD</th><td class="num up">+288.58</td><td class="spark"><span class="sb up" style="left:50%;width:9.42%"></span></td><td class="num">9</td><td class="num">89</td><td class="num">26</td></tr><tr><th scope="row">AAPL</th><td class="num up">+218.45</td><td class="spark"><span class="sb up" style="left:50%;width:7.13%"></span></td><td class="num">6</td><td class="num">50</td><td class="num">9</td></tr><tr><th scope="row">MU</th><td class="num up">+139.78</td><td class="spark"><span class="sb up" style="left:50%;width:4.56%"></span></td><td class="num">18</td><td class="num">44</td><td class="num">43</td></tr><tr><th scope="row">FICO</th><td class="num up">+115.41</td><td class="spark"><span class="sb up" style="left:50%;width:3.77%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">ASTS</th><td class="num up">+94.23</td><td class="spark"><span class="sb up" style="left:50%;width:3.07%"></span></td><td class="num">7</td><td class="num">71</td><td class="num">11</td></tr><tr><th scope="row">CRWV</th><td class="num up">+55.57</td><td class="spark"><span class="sb up" style="left:50%;width:1.81%"></span></td><td class="num">10</td><td class="num">50</td><td class="num">17</td></tr><tr><th scope="row">ARM</th><td class="num up">+49.66</td><td class="spark"><span class="sb up" style="left:50%;width:1.62%"></span></td><td class="num">1</td><td class="num">100</td><td class="num">2</td></tr><tr><th scope="row">ALAB</th><td class="num up">+42.40</td><td class="spark"><span class="sb up" style="left:50%;width:1.38%"></span></td><td class="num">8</td><td class="num">38</td><td class="num">21</td></tr><tr class="ell"><td colspan="6">อีก 34 รายการที่เหลือ ผลรวมใกล้ศูนย์ — ตัดออกจากตาราง</td></tr><tr><th scope="row">VST</th><td class="num dn">−44.05</td><td class="spark"><span class="sb dn" style="right:50%;width:1.44%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">4</td></tr><tr><th scope="row">NVDA</th><td class="num dn">−53.72</td><td class="spark"><span class="sb dn" style="right:50%;width:1.75%"></span></td><td class="num">7</td><td class="num">57</td><td class="num">13</td></tr><tr><th scope="row">HOOD</th><td class="num dn">−77.18</td><td class="spark"><span class="sb dn" style="right:50%;width:2.52%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">3</td></tr><tr><th scope="row">AVGO</th><td class="num dn">−79.28</td><td class="spark"><span class="sb dn" style="right:50%;width:2.59%"></span></td><td class="num">6</td><td class="num">33</td><td class="num">14</td></tr><tr><th scope="row">TSLA</th><td class="num dn">−89.35</td><td class="spark"><span class="sb dn" style="right:50%;width:2.92%"></span></td><td class="num">11</td><td class="num">27</td><td class="num">14</td></tr><tr><th scope="row">GOOGL</th><td class="num dn">−95.92</td><td class="spark"><span class="sb dn" style="right:50%;width:3.13%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">6</td></tr><tr><th scope="row">MRVL</th><td class="num dn">−101.37</td><td class="spark"><span class="sb dn" style="right:50%;width:3.31%"></span></td><td class="num">6</td><td class="num">50</td><td class="num">16</td></tr><tr><th scope="row">IREN</th><td class="num dn">−288.37</td><td class="spark"><span class="sb dn" style="right:50%;width:9.41%"></span></td><td class="num">7</td><td class="num">0</td><td class="num">11</td></tr><tr><th scope="row">WDC</th><td class="num dn">−325.05</td><td class="spark"><span class="sb dn" style="right:50%;width:10.61%"></span></td><td class="num">1</td><td class="num">0</td><td class="num">3</td></tr><tr><th scope="row">NBIS</th><td class="num dn">−610.29</td><td class="spark"><span class="sb dn" style="right:50%;width:19.91%"></span></td><td class="num">13</td><td class="num">46</td><td class="num">22</td></tr></tbody></table></div>
+  <ul class="finds"><li><span class="fi">01</span><span><b>กลุ่มเดียวที่ทำกำไร</b> <b class="mono up">+2,030.29</b> และมี Profit Factor 1.61 สูงที่สุดในสามกลุ่ม</span></li><li><span class="fi">02</span><span><b>โครงสร้างตรงข้ามกับออปชั่นอย่างสิ้นเชิง</b> — อัตราชนะต่ำที่สุดในสามกลุ่ม (48.6%) แต่กำไรเฉลี่ย <span class="mono up">+53.12</span> ใหญ่กว่าขาดทุนเฉลี่ย <span class="mono dn">−31.17</span> ถึง 1.70 เท่า คือ <b>ตัดขาดทุนไว ปล่อยกำไรวิ่ง</b> ซึ่งเป็นสิ่งที่ไม่เกิดขึ้นในสองกลุ่มออปชั่น</span></li><li><span class="fi">03</span><span><b>กำไรมาจากสองตัวเป็นหลัก</b> — RKLB <span class="mono up">+1,532.25</span> และ META <span class="mono up">+1,320.92</span> รวม <span class="mono">+2,853</span> มากกว่ากำไรสุทธิทั้งกลุ่ม แปลว่าหลักทรัพย์อีก 52 ตัวที่มีไม้ปิดรวมกันขาดทุน <span class="mono dn">−823</span></span></li><li><span class="fi">04</span><span><b>ตัวถ่วงหลัก</b> — NBIS <span class="mono dn">−610.29</span>, WDC <span class="mono dn">−325.05</span>, IREN <span class="mono dn">−288.37</span> โดย IREN แพ้ทั้ง 7 ไม้ที่ปิด ไม่มีไม้กำไรเลย</span></li><li><span class="fi">05</span><span><b>QQQ ในกลุ่มหุ้นไม่ใช่การเทรด</b> — เป็นการทยอยสะสมแบบ DCA ซื้อย่อย 69 ครั้ง ครั้งละราว 5 ดอลลาร์ รวมลงทุน <span class="mono">4,488.74</span> จึงไม่ควรนำไปตัดสินผลการเทรดของกลุ่มนี้</span></li><li><span class="fi">06</span><span><b>พอร์ตที่ยังถืออยู่ ณ 31 ก.ค.</b> ต้นทุน <span class="mono">20,776.32</span> มูลค่าตลาด <span class="mono">20,390.36</span> เท่ากับกำไรที่ยังไม่รับรู้ <span class="mono dn">−385.96</span> ซึ่ง<b>ไม่ได้รวม</b>อยู่ในตัวเลข <span class="mono up">+2,030.29</span> ข้างต้น</span></li></ul>
+</section>
+
+<section id="method">
+  <div class="shead"><span class="tag">M</span><h2>วิธีคำนวณและข้อจำกัดของข้อมูล</h2></div>
+  <p class="sdesc">ตัวเลขทุกตัวคำนวณจากไฟล์ Monthly Statement 7 ไฟล์โดยตรง
+  ไม่มีการประมาณค่า ส่วนที่ข้อมูลไม่ครบถูกแยกออกและระบุไว้ชัดเจนด้านล่าง</p>
+  <div class="note">
+    <div class="nh">ข้อจำกัดสำคัญที่ต้องอ่านก่อนใช้ตัวเลข</div>
+    <p>สเตทเมนต์เริ่มที่ 2 ม.ค. 2026 หุ้นที่ถืออยู่<b>ก่อน</b>วันนั้นจึงไม่มีต้นทุนในระบบ
+    เมื่อขายออกในงวดนี้ จึงไม่สามารถคำนวณกำไรได้ รายการเหล่านี้ถูก<b>ตัดออกทั้งหมด</b>
+    จากตัวเลขกำไรที่รับรู้ — มี 17 หลักทรัพย์ คิดเป็นเงินที่ขายได้
+    <b class="mono">9,998.76</b> ดอลลาร์ (เช่น IREN 99.9 หุ้น, RTX 13 หุ้น, NBIS 5.99 หุ้น)
+    กำไรหรือขาดทุนจริงของส่วนนี้ไม่ทราบ และ<b>อาจเปลี่ยนผลของรายงานที่ 3 ได้อย่างมีนัยสำคัญ</b></p>
+  </div>
+  <div class="mgrid">
+    <div class="mitem"><h3>การจับคู่กำไร (FIFO)</h3>
+      <p>จับคู่ซื้อ–ขายแบบเข้าก่อนออกก่อน แยกรายหลักทรัพย์และรายสัญญา
+      รองรับทั้งสถานะ long และ short รับรู้กำไรเมื่อปิดสถานะเท่านั้น
+      ราคาที่ใช้เป็น Net Amount ซึ่งรวมค่าคอมมิชชั่นและ VAT แล้ว</p></div>
+    <div class="mitem"><h3>ออปชั่นที่หมดอายุ</h3>
+      <p>สัญญาที่พ้นวันหมดอายุแล้วแต่ไม่มีรายการปิด ถือว่าจบที่มูลค่า 0
+      ฝั่งขายจึงรับรู้พรีเมียมเต็มจำนวนเป็นกำไร ฝั่งซื้อรับรู้ค่าพรีเมียมเป็นขาดทุน</p></div>
+    <div class="mitem"><h3>การถูกใช้สิทธิ (assignment)</h3>
+      <p>ตรวจพบจากรายการหุ้นที่<b>ค่าคอมมิชชั่นเป็น 0 และราคาตรงกับ strike พอดี</b>
+      เช่น IREN 100 @ 42.00, RKLB 100 @ 70.00, PL 100 @ 22.00
+      หุ้นที่ได้มาถูกนับเข้ากลุ่มหุ้น ส่วนพรีเมียมนับเข้ากลุ่มออปชั่น ไม่มีการนับซ้ำ</p></div>
+    <div class="mitem"><h3>สถานะที่ยังเปิดค้าง</h3>
+      <p>ณ 31 ก.ค. มีออปชั่น RKLB 2 สัญญา (หมดอายุ 14 ส.ค.) ยังไม่ปิด
+      มูลค่าขาดทุนที่ยังไม่รับรู้ <b class="mono">−324.44</b> — ไม่รวมอยู่ในรายงานที่ 1 และ 2
+      เพราะสเตทเมนต์ยังไม่ครอบคลุมผลลัพธ์สุดท้าย</p></div>
+    <div class="mitem"><h3>สิ่งที่ไม่รวมในรายงาน</h3>
+      <p>เงินปันผลและดอกเบี้ย (สเตทเมนต์ไม่ได้แสดงส่วนนี้), พอร์ตย่อย Multi Portfolio
+      คือ “My son” (PL 100 หุ้น) และ “Trader Options” (QQQ 1 หุ้น)
+      ซึ่งไม่มีประวัติการซื้อขายในไฟล์</p></div>
+    <div class="mitem"><h3>ความคลาดเคลื่อนที่ทราบ</h3>
+      <p>สเตทเมนต์ระบุเฉพาะวันที่ ไม่มีเวลา การจับคู่รายการภายในวันเดียวกันจึงอาจต่างจาก
+      ลำดับจริงเล็กน้อย ซึ่งกระทบการแบ่งกำไรระหว่างไม้ แต่<b>ไม่กระทบยอดรวม</b>
+      สถานะคงเหลือที่คำนวณได้ตรงกับพอร์ตในสเตทเมนต์ทุกรายการที่ตรวจสอบได้</p></div>
+  </div>
+</section>
+
+<footer>
+  <span>สร้างจาก Monthly Statement 2026-01 ถึง 2026-07 · โฟลเดอร์ Trader/P&amp;L</span>
+  <span class="mono">ข้อมูล ณ 31 ก.ค. 2026 · จัดทำ 15 ส.ค. 2026</span>
+</footer>
+</div>
