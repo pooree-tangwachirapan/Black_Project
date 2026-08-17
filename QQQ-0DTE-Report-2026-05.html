@@ -1,0 +1,857 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>รายงาน QQQ 0DTE — พฤษภาคม 2026</title>
+<style>
+:root{color-scheme:light;
+ --plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;
+ --grid:#e1e0d9;--axis:#c3c2b7;--ring:rgba(11,11,11,.10);
+ --pos:#008300;--neg:#e34948;--line:#2a78d6;--posText:#006300;--negText:#c2302f;
+ --chipbg:rgba(11,11,11,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+ --plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;
+ --grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,.10);
+ --pos:#008300;--neg:#e66767;--line:#3987e5;--posText:#0ca30c;--negText:#e66767;
+ --chipbg:rgba(255,255,255,.06)}}
+:root[data-theme="dark"]{color-scheme:dark;
+ --plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;
+ --grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,.10);
+ --pos:#008300;--neg:#e66767;--line:#3987e5;--posText:#0ca30c;--negText:#e66767;
+ --chipbg:rgba(255,255,255,.06)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+ font-family:system-ui,-apple-system,"Segoe UI","Leelawadee UI","Noto Sans Thai",Tahoma,sans-serif;
+ line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px 72px}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:30px;line-height:1.25;margin:.35rem 0 .3rem;font-weight:650;letter-spacing:-.01em}
+.sub{color:var(--ink2);font-size:15px;margin:0}
+h2{font-size:19px;font-weight:650;margin:0 0 4px;letter-spacing:-.005em}
+.sec-note{color:var(--ink2);font-size:14px;margin:0 0 16px}
+section{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:24px 22px;margin:18px 0}
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:26px;padding:26px 24px;
+ background:var(--surface);border:1px solid var(--ring);border-radius:14px}
+.hero-fig{font-size:56px;font-weight:680;letter-spacing:-.025em;line-height:1}
+.hero-side{font-size:14px;color:var(--ink2);max-width:440px}
+.pos{color:var(--posText)}.neg{color:var(--negText)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+ background:var(--ring);border:1px solid var(--ring);border-radius:12px;overflow:hidden;margin-top:6px}
+.kpi{background:var(--surface);padding:14px 16px}
+.kpi-l{font-size:12.5px;color:var(--muted);font-weight:500}
+.kpi-v{font-size:23px;font-weight:660;letter-spacing:-.015em;margin-top:1px}
+.kpi-n{font-size:12px;color:var(--ink2);margin-top:2px}
+.chart-wrap{position:relative;overflow-x:auto}
+svg.chart{width:100%;height:auto;min-width:600px;display:block}
+.grid{stroke:var(--grid);stroke-width:1}
+.zero{stroke:var(--axis);stroke-width:1}
+.tick{fill:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.ty{text-anchor:end}.tx{text-anchor:middle}.tx.sm{font-size:10.5px;opacity:.85}
+.rowlab{fill:var(--ink2);font-size:13px;text-anchor:end;font-weight:560}
+.eqline{fill:none;stroke:var(--line);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.area{fill:var(--line);opacity:.10}
+.dot{fill:var(--line);stroke:var(--surface);stroke-width:2}
+.bar.pos{fill:var(--pos)}.bar.neg{fill:var(--neg)}.bar.faded{opacity:.32}
+.val{font-size:11.5px;font-weight:640;text-anchor:middle;fill:var(--ink2);font-variant-numeric:tabular-nums}
+.anno{font-size:12px;font-weight:620;fill:var(--ink2);text-anchor:middle}
+.hit{fill:transparent;cursor:pointer}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:2px 0 12px;font-size:12.5px;color:var(--ink2)}
+.lg{display:inline-flex;align-items:center;gap:7px}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+.sw.pos{background:var(--pos)}.sw.neg{background:var(--neg)}
+#tip{position:fixed;z-index:9;pointer-events:none;opacity:0;transition:opacity .1s;
+ background:var(--surface);border:1px solid var(--ring);border-radius:9px;padding:9px 12px;
+ font-size:12.5px;box-shadow:0 6px 22px rgba(0,0,0,.18);max-width:310px}
+#tip b{display:block;margin-bottom:2px}#tip span{color:var(--ink2)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+th{text-align:left;font-weight:620;color:var(--ink2);font-size:12px;letter-spacing:.02em;
+ padding:8px 9px;border-bottom:1px solid var(--axis);white-space:nowrap}
+td{padding:8px 9px;border-bottom:1px solid var(--grid);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.strong{font-weight:650}
+tbody tr:hover{background:var(--chipbg)}
+tfoot td{border-top:1px solid var(--axis);border-bottom:none;font-weight:650;padding-top:10px}
+.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12px}
+.mute{color:var(--muted)}
+.badge{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11px;font-weight:640;
+ background:var(--chipbg);color:var(--ink2)}
+.tbl-scroll{overflow-x:auto}
+ul.find{list-style:none;padding:0;margin:0}
+ul.find li{padding:13px 0 13px 30px;border-bottom:1px solid var(--grid);position:relative;font-size:14.5px}
+ul.find li:last-child{border-bottom:none}
+ul.find li::before{content:attr(data-n);position:absolute;left:0;top:14px;width:20px;height:20px;
+ border-radius:50%;background:var(--chipbg);color:var(--ink2);font-size:11px;font-weight:680;
+ display:flex;align-items:center;justify-content:center}
+ul.find b{font-weight:650}
+.note{font-size:13px;color:var(--ink2);background:var(--chipbg);border-radius:10px;padding:14px 16px;margin-top:14px}
+.note p{margin:0 0 7px}.note p:last-child{margin:0}
+.warn{border-left:3px solid var(--neg)}
+footer{color:var(--muted);font-size:12.5px;margin-top:26px;text-align:center}
+@media (max-width:640px){.hero-fig{font-size:42px}h1{font-size:24px}.wrap{padding:26px 14px 56px}
+ section{padding:20px 15px}}
+</style></head><body><div class="wrap">
+
+<header>
+ <div class="eyebrow">รายงานผลการเทรด · Options</div>
+ <h1>QQQ 0DTE — พฤษภาคม 2026</h1>
+ <p class="sub">คัดเฉพาะออปชัน QQQ ที่ <b>วันเทรด = วันหมดอายุ</b> จากไฟล์
+ <span class="mono">2026-05.csv</span> · 37 ไม้ (81 ขา,
+ 62 สัญญา) · เทรดจริง 14 วัน</p>
+</header>
+
+
+<div class="hero">
+ <div><div class="eyebrow">กำไร/ขาดทุนสุทธิ</div>
+  <div class="hero-fig neg">-$666.22</div></div>
+ <div class="hero-side">อัตราชนะ 45.9% (ชนะ 17 จาก 37 ไม้) และไม้ที่แพ้เฉลี่ยยังใหญ่กว่าไม้ที่ชนะ — <b>ติดลบทั้งสองทาง</b></div>
+</div>
+
+<div class="kpis">
+ <div class="kpi"><div class="kpi-l">จำนวนไม้</div><div class="kpi-v ">37</div><div class="kpi-n">81 ขา · 62 สัญญา</div></div>
+ <div class="kpi"><div class="kpi-l">อัตราชนะ</div><div class="kpi-v ">45.9%</div><div class="kpi-n">ชนะ 17 · แพ้ 20</div></div>
+ <div class="kpi"><div class="kpi-l">Profit Factor</div><div class="kpi-v ">0.71</div><div class="kpi-n">ต่ำกว่า 1.00 = ขาดทุน</div></div>
+ <div class="kpi"><div class="kpi-l">Payoff Ratio</div><div class="kpi-v ">0.84</div><div class="kpi-n">ชนะเฉลี่ย ÷ แพ้เฉลี่ย</div></div>
+ <div class="kpi"><div class="kpi-l">คาดหวังต่อไม้</div><div class="kpi-v ">-$18.01</div><div class="kpi-n">Expectancy</div></div>
+ <div class="kpi"><div class="kpi-l">ชนะเฉลี่ย</div><div class="kpi-v pos">+$96.97</div><div class="kpi-n">+38.2% ของพรีเมียม</div></div>
+ <div class="kpi"><div class="kpi-l">แพ้เฉลี่ย</div><div class="kpi-v neg">-$115.73</div><div class="kpi-n">-24.8% ของพรีเมียม</div></div>
+ <div class="kpi"><div class="kpi-l">ค่าคอม + ค่าธรรมเนียม</div><div class="kpi-v ">$80.22</div><div class="kpi-n">$1.29 ต่อสัญญาต่อรอบ</div></div>
+ <div class="kpi"><div class="kpi-l">ทุนที่ลงรวม</div><div class="kpi-v ">$12,455.65</div><div class="kpi-n">เฉลี่ย $337 ต่อไม้</div></div>
+ <div class="kpi"><div class="kpi-l">ผลตอบแทนต่อทุน</div><div class="kpi-v ">-5.35%</div><div class="kpi-n">จากทุนที่ลงรวม</div></div>
+ <div class="kpi"><div class="kpi-l">Max Drawdown</div><div class="kpi-v ">$1,366.90</div><div class="kpi-n">จากจุดสูงสุด +$700.68</div></div>
+ <div class="kpi"><div class="kpi-l">วันที่บวก</div><div class="kpi-v ">7/14</div><div class="kpi-n">จำนวนวันที่จบเป็นบวก</div></div>
+ <div class="kpi"><div class="kpi-l">ไม้ที่ดีที่สุด</div><div class="kpi-v pos">+$390.10</div><div class="kpi-n">19/05 PUT 700</div></div>
+ <div class="kpi"><div class="kpi-l">ไม้ที่แย่ที่สุด</div><div class="kpi-v neg">-$632.81</div><div class="kpi-n">28/05 PUT 731 ×10</div></div>
+</div>
+
+<section>
+ <h2>เส้นทุนสะสม</h2>
+ <p class="sec-note">ไล่ตามลำดับการเทรดจริง ไม้ที่ 1 ถึงไม้ที่ 37 —
+ ขึ้นสูงสุด +$700.68 ที่ไม้ #28 · ต่ำสุด -$666.22
+ ที่ไม้ #37</p>
+ <div class="chart-wrap"><svg viewBox="0 0 880 340" class="chart" role="img" aria-label="เส้นทุนสะสม 37 ไม้ จบเดือนที่ -$666.22"><line class="grid" x1="66" x2="856" y1="286.0" y2="286.0"/><text class="tick ty" x="56" y="290.0">-$1,000</text><line class="grid" x1="66" x2="856" y1="248.9" y2="248.9"/><text class="tick ty" x="56" y="252.9">-$750</text><line class="grid" x1="66" x2="856" y1="211.7" y2="211.7"/><text class="tick ty" x="56" y="215.7">-$500</text><line class="grid" x1="66" x2="856" y1="174.6" y2="174.6"/><text class="tick ty" x="56" y="178.6">-$250</text><line class="grid" x1="66" x2="856" y1="137.4" y2="137.4"/><text class="tick ty" x="56" y="141.4">$0</text><line class="grid" x1="66" x2="856" y1="100.3" y2="100.3"/><text class="tick ty" x="56" y="104.3">+$250</text><line class="grid" x1="66" x2="856" y1="63.1" y2="63.1"/><text class="tick ty" x="56" y="67.1">+$500</text><line class="grid" x1="66" x2="856" y1="26.0" y2="26.0"/><text class="tick ty" x="56" y="30.0">+$750</text><line class="zero" x1="66" x2="856" y1="137.4" y2="137.4"/><path class="area" d="M66,137.4 L76.7,137.2 L98.0,142.3 L119.4,138.8 L140.7,137.5 L162.1,124.3 L183.4,123.9 L204.8,129.6 L226.1,131.1 L247.5,132.1 L268.8,127.7 L290.2,108.6 L311.5,116.1 L332.9,85.6 L354.2,79.6 L375.6,83.4 L396.9,50.4 L418.3,36.3 L439.6,43.2 L461.0,54.1 L482.4,34.7 L503.7,53.2 L525.1,74.7 L546.4,78.2 L567.8,73.7 L589.1,101.4 L610.5,111.2 L631.8,53.3 L653.2,33.3 L674.5,74.5 L695.9,80.2 L717.2,83.8 L738.6,85.9 L759.9,71.7 L781.3,68.3 L802.6,162.3 L824.0,218.0 L845.3,236.4 L845.3,137.4 L66,137.4 Z"/><path class="eqline" d="M66,137.4 L76.7,137.2 L98.0,142.3 L119.4,138.8 L140.7,137.5 L162.1,124.3 L183.4,123.9 L204.8,129.6 L226.1,131.1 L247.5,132.1 L268.8,127.7 L290.2,108.6 L311.5,116.1 L332.9,85.6 L354.2,79.6 L375.6,83.4 L396.9,50.4 L418.3,36.3 L439.6,43.2 L461.0,54.1 L482.4,34.7 L503.7,53.2 L525.1,74.7 L546.4,78.2 L567.8,73.7 L589.1,101.4 L610.5,111.2 L631.8,53.3 L653.2,33.3 L674.5,74.5 L695.9,80.2 L717.2,83.8 L738.6,85.9 L759.9,71.7 L781.3,68.3 L802.6,162.3 L824.0,218.0 L845.3,236.4"/><circle class="dot" cx="76.7" cy="137.2" r="3"/><circle class="hit" cx="76.7" cy="137.2" r="11" data-tip="ไม้ #1 · 05/05/2026 · CALL 682|ไม้นี้ +$1.70 → ทุนสะสม +$1.70"/><text class="tick tx" x="76.7" y="306">#1</text><text class="tick tx sm" x="76.7" y="322">05/05</text><circle class="dot" cx="98.0" cy="142.3" r="3"/><circle class="hit" cx="98.0" cy="142.3" r="11" data-tip="ไม้ #2 · 05/05/2026 · CALL 682|ไม้นี้ -$34.30 → ทุนสะสม -$32.60"/><circle class="dot" cx="119.4" cy="138.8" r="3"/><circle class="hit" cx="119.4" cy="138.8" r="11" data-tip="ไม้ #3 · 05/05/2026 · CALL 682|ไม้นี้ +$23.70 → ทุนสะสม -$8.90"/><circle class="dot" cx="140.7" cy="137.5" r="3"/><circle class="hit" cx="140.7" cy="137.5" r="11" data-tip="ไม้ #4 · 06/05/2026 · CALL 689|ไม้นี้ +$8.70 → ทุนสะสม -$0.20"/><text class="tick tx" x="140.7" y="306">#4</text><text class="tick tx sm" x="140.7" y="322">06/05</text><circle class="dot" cx="162.1" cy="124.3" r="3"/><circle class="hit" cx="162.1" cy="124.3" r="11" data-tip="ไม้ #5 · 06/05/2026 · CALL 690|ไม้นี้ +$88.42 → ทุนสะสม +$88.22"/><circle class="dot" cx="183.4" cy="123.9" r="3"/><circle class="hit" cx="183.4" cy="123.9" r="11" data-tip="ไม้ #6 · 07/05/2026 · CALL 698|ไม้นี้ +$2.70 → ทุนสะสม +$90.92"/><circle class="dot" cx="204.8" cy="129.6" r="3"/><circle class="hit" cx="204.8" cy="129.6" r="11" data-tip="ไม้ #7 · 07/05/2026 · PUT 699|ไม้นี้ -$38.30 → ทุนสะสม +$52.62"/><text class="tick tx" x="204.8" y="306">#7</text><text class="tick tx sm" x="204.8" y="322">07/05</text><circle class="dot" cx="226.1" cy="131.1" r="3"/><circle class="hit" cx="226.1" cy="131.1" r="11" data-tip="ไม้ #8 · 07/05/2026 · CALL 697|ไม้นี้ -$10.30 → ทุนสะสม +$42.32"/><circle class="dot" cx="247.5" cy="132.1" r="3"/><circle class="hit" cx="247.5" cy="132.1" r="11" data-tip="ไม้ #9 · 07/05/2026 · PUT 695|ไม้นี้ -$6.58 → ทุนสะสม +$35.74"/><circle class="dot" cx="268.8" cy="127.7" r="3"/><circle class="hit" cx="268.8" cy="127.7" r="11" data-tip="ไม้ #10 · 08/05/2026 · CALL 700|ไม้นี้ +$29.70 → ทุนสะสม +$65.44"/><text class="tick tx" x="268.8" y="306">#10</text><text class="tick tx sm" x="268.8" y="322">08/05</text><circle class="dot" cx="290.2" cy="108.6" r="3"/><circle class="hit" cx="290.2" cy="108.6" r="11" data-tip="ไม้ #11 · 08/05/2026 · CALL 702|ไม้นี้ +$128.70 → ทุนสะสม +$194.14"/><circle class="dot" cx="311.5" cy="116.1" r="3"/><circle class="hit" cx="311.5" cy="116.1" r="11" data-tip="ไม้ #12 · 12/05/2026 · PUT 708|ไม้นี้ -$50.30 → ทุนสะสม +$143.84"/><circle class="dot" cx="332.9" cy="85.6" r="3"/><circle class="hit" cx="332.9" cy="85.6" r="11" data-tip="ไม้ #13 · 12/05/2026 · PUT 709|ไม้นี้ +$204.70 → ทุนสะสม +$348.54"/><text class="tick tx" x="332.9" y="306">#13</text><text class="tick tx sm" x="332.9" y="322">12/05</text><circle class="dot" cx="354.2" cy="79.6" r="3"/><circle class="hit" cx="354.2" cy="79.6" r="11" data-tip="ไม้ #14 · 12/05/2026 · PUT 705|ไม้นี้ +$40.70 → ทุนสะสม +$389.24"/><circle class="dot" cx="375.6" cy="83.4" r="3"/><circle class="hit" cx="375.6" cy="83.4" r="11" data-tip="ไม้ #15 · 12/05/2026 · PUT 704|ไม้นี้ -$25.30 → ทุนสะสม +$363.94"/><circle class="dot" cx="396.9" cy="50.4" r="3"/><circle class="hit" cx="396.9" cy="50.4" r="11" data-tip="ไม้ #16 · 12/05/2026 · PUT 708|ไม้นี้ +$221.70 → ทุนสะสม +$585.64"/><text class="tick tx" x="396.9" y="306">#16</text><text class="tick tx sm" x="396.9" y="322">12/05</text><circle class="dot" cx="418.3" cy="36.3" r="3"/><circle class="hit" cx="418.3" cy="36.3" r="11" data-tip="ไม้ #17 · 13/05/2026 · PUT 708|ไม้นี้ +$94.70 → ทุนสะสม +$680.34"/><circle class="dot" cx="439.6" cy="43.2" r="3"/><circle class="hit" cx="439.6" cy="43.2" r="11" data-tip="ไม้ #18 · 13/05/2026 · PUT 707|ไม้นี้ -$46.30 → ทุนสะสม +$634.04"/><circle class="dot" cx="461.0" cy="54.1" r="3"/><circle class="hit" cx="461.0" cy="54.1" r="11" data-tip="ไม้ #19 · 14/05/2026 · CALL 718|ไม้นี้ -$73.30 → ทุนสะสม +$560.74"/><text class="tick tx" x="461.0" y="306">#19</text><text class="tick tx sm" x="461.0" y="322">14/05</text><circle class="dot" cx="482.4" cy="34.7" r="3"/><circle class="hit" cx="482.4" cy="34.7" r="11" data-tip="ไม้ #20 · 14/05/2026 · CALL 715|ไม้นี้ +$130.69 → ทุนสะสม +$691.43"/><circle class="dot" cx="503.7" cy="53.2" r="3"/><circle class="hit" cx="503.7" cy="53.2" r="11" data-tip="ไม้ #21 · 15/05/2026 · PUT 705|ไม้นี้ -$124.58 → ทุนสะสม +$566.85"/><circle class="dot" cx="525.1" cy="74.7" r="3"/><circle class="hit" cx="525.1" cy="74.7" r="11" data-tip="ไม้ #22 · 15/05/2026 · PUT 709|ไม้นี้ -$144.60 → ทุนสะสม +$422.25"/><text class="tick tx" x="525.1" y="306">#22</text><text class="tick tx sm" x="525.1" y="322">15/05</text><circle class="dot" cx="546.4" cy="78.2" r="3"/><circle class="hit" cx="546.4" cy="78.2" r="11" data-tip="ไม้ #23 · 15/05/2026 · PUT 707|ไม้นี้ -$23.30 → ทุนสะสม +$398.95"/><circle class="dot" cx="567.8" cy="73.7" r="3"/><circle class="hit" cx="567.8" cy="73.7" r="11" data-tip="ไม้ #24 · 19/05/2026 · CALL 702|ไม้นี้ +$29.70 → ทุนสะสม +$428.65"/><circle class="dot" cx="589.1" cy="101.4" r="3"/><circle class="hit" cx="589.1" cy="101.4" r="11" data-tip="ไม้ #25 · 19/05/2026 · PUT 700|ไม้นี้ -$185.90 → ทุนสะสม +$242.75"/><text class="tick tx" x="589.1" y="306">#25</text><text class="tick tx sm" x="589.1" y="322">19/05</text><circle class="dot" cx="610.5" cy="111.2" r="3"/><circle class="hit" cx="610.5" cy="111.2" r="11" data-tip="ไม้ #26 · 19/05/2026 · CALL 706|ไม้นี้ -$66.30 → ทุนสะสม +$176.45"/><circle class="dot" cx="631.8" cy="53.3" r="3"/><circle class="hit" cx="631.8" cy="53.3" r="11" data-tip="ไม้ #27 · 19/05/2026 · PUT 700|ไม้นี้ +$390.10 → ทุนสะสม +$566.55"/><circle class="dot" cx="653.2" cy="33.3" r="3"/><circle class="hit" cx="653.2" cy="33.3" r="11" data-tip="ไม้ #28 · 22/05/2026 · CALL 720|ไม้นี้ +$134.13 → ทุนสะสม +$700.68"/><text class="tick tx" x="653.2" y="306">#28</text><text class="tick tx sm" x="653.2" y="322">22/05</text><circle class="dot" cx="674.5" cy="74.5" r="3"/><circle class="hit" cx="674.5" cy="74.5" r="11" data-tip="ไม้ #29 · 22/05/2026 · CALL 720|ไม้นี้ -$276.87 → ทุนสะสม +$423.81"/><circle class="dot" cx="695.9" cy="80.2" r="3"/><circle class="hit" cx="695.9" cy="80.2" r="11" data-tip="ไม้ #30 · 22/05/2026 · CALL 720|ไม้นี้ -$38.30 → ทุนสะสม +$385.51"/><circle class="dot" cx="717.2" cy="83.8" r="3"/><circle class="hit" cx="717.2" cy="83.8" r="11" data-tip="ไม้ #31 · 26/05/2026 · CALL 727|ไม้นี้ -$24.30 → ทุนสะสม +$361.21"/><text class="tick tx" x="717.2" y="306">#31</text><text class="tick tx sm" x="717.2" y="322">26/05</text><circle class="dot" cx="738.6" cy="85.9" r="3"/><circle class="hit" cx="738.6" cy="85.9" r="11" data-tip="ไม้ #32 · 26/05/2026 · CALL 730|ไม้นี้ -$14.30 → ทุนสะสม +$346.91"/><circle class="dot" cx="759.9" cy="71.7" r="3"/><circle class="hit" cx="759.9" cy="71.7" r="11" data-tip="ไม้ #33 · 27/05/2026 · PUT 730|ไม้นี้ +$95.70 → ทุนสะสม +$442.61"/><circle class="dot" cx="781.3" cy="68.3" r="3"/><circle class="hit" cx="781.3" cy="68.3" r="11" data-tip="ไม้ #34 · 28/05/2026 · CALL 728|ไม้นี้ +$22.70 → ทุนสะสม +$465.31"/><text class="tick tx" x="781.3" y="306">#34</text><text class="tick tx sm" x="781.3" y="322">28/05</text><circle class="dot" cx="802.6" cy="162.3" r="3"/><circle class="hit" cx="802.6" cy="162.3" r="11" data-tip="ไม้ #35 · 28/05/2026 · PUT 731|ไม้นี้ -$632.81 → ทุนสะสม -$167.50"/><circle class="dot" cx="824.0" cy="218.0" r="3"/><circle class="hit" cx="824.0" cy="218.0" r="11" data-tip="ไม้ #36 · 29/05/2026 · PUT 740|ไม้นี้ -$374.86 → ทุนสะสม -$542.36"/><circle class="dot" cx="845.3" cy="236.4" r="3"/><circle class="hit" cx="845.3" cy="236.4" r="11" data-tip="ไม้ #37 · 29/05/2026 · CALL 741|ไม้นี้ -$123.86 → ทุนสะสม -$666.22"/><text class="tick tx" x="845.3" y="306">#37</text><text class="tick tx sm" x="845.3" y="322">29/05</text><text class="anno" x="653.2" y="20.3">สูงสุด +$700.68</text><text class="anno" x="845.3" y="261.4" text-anchor="end">ปิดเดือน -$666.22</text></svg></div>
+ <div class="note"><p><b>Max Drawdown $1,366.90</b> — วัดจากจุดสูงสุด
+ +$700.68 ลงมาถึงจุดต่ำสุดหลังจากนั้น เทียบกับทุนที่ลงเฉลี่ยต่อไม้
+ $337 คือช่วงที่ต้องทนให้ไหวก่อนกลยุทธ์จะกลับมา</p></div>
+</section>
+
+<section>
+ <h2>กำไร/ขาดทุน รายไม้</h2>
+ <p class="sec-note">ทิศทางของแท่งบอกผลอยู่แล้ว (ขึ้น = กำไร, ลง = ขาดทุน) สีเป็นแค่ตัวช่วยอ่าน</p>
+ <div class="legend"><span class="lg"><i class="sw pos"></i>กำไร (แท่งขึ้น)</span><span class="lg"><i class="sw neg"></i>ขาดทุน (แท่งลง)</span></div>
+ <div class="chart-wrap"><svg viewBox="0 0 880 330" class="chart" role="img" aria-label="กำไรขาดทุนรายไม้ 37 ไม้"><line class="grid" x1="66" x2="856" y1="264.0" y2="264.0"/><text class="tick ty" x="56" y="268.0">-$1,000</text><line class="grid" x1="66" x2="856" y1="225.0" y2="225.0"/><text class="tick ty" x="56" y="229.0">-$750</text><line class="grid" x1="66" x2="856" y1="186.0" y2="186.0"/><text class="tick ty" x="56" y="190.0">-$500</text><line class="grid" x1="66" x2="856" y1="147.0" y2="147.0"/><text class="tick ty" x="56" y="151.0">-$250</text><line class="grid" x1="66" x2="856" y1="108.0" y2="108.0"/><text class="tick ty" x="56" y="112.0">$0</text><line class="grid" x1="66" x2="856" y1="69.0" y2="69.0"/><text class="tick ty" x="56" y="73.0">+$250</text><line class="grid" x1="66" x2="856" y1="30.0" y2="30.0"/><text class="tick ty" x="56" y="34.0">+$500</text><line class="zero" x1="66" x2="856" y1="108.0" y2="108.0"/><path class="bar pos" d="M70.80405405405405,108.0 L70.80405405405405,108.0 Q70.80405405405405,107.73479999999998 71.06925405405407,107.73479999999998 L82.28209729729727,107.73479999999998 Q82.54729729729729,107.73479999999998 82.54729729729729,108.0 L82.54729729729729,108.0 Z"/><text class="val" x="76.7" y="98.7">+$1.70</text><text class="tick tx" x="76.7" y="286">#1</text><text class="tick tx sm" x="76.7" y="302">C682</text><rect class="hit" x="66.0" y="30" width="21.4" height="234" data-tip="ไม้ #1 · 05/05/2026 · CALL 682 × 1 สัญญา|เข้า $0.95 → ออก $0.98 (+3.2%) = +$1.70"/><path class="bar neg" d="M92.1554054054054,108.0 L92.1554054054054,109.35079999999999 Q92.1554054054054,113.35079999999999 96.1554054054054,113.35079999999999 L99.89864864864865,113.35079999999999 Q103.89864864864865,113.35079999999999 103.89864864864865,109.35079999999999 L103.89864864864865,108.0 Z"/><rect class="hit" x="87.4" y="30" width="21.4" height="234" data-tip="ไม้ #2 · 05/05/2026 · CALL 682 × 1 สัญญา|เข้า $1.12 → ออก $0.79 (-29.5%) = -$34.30"/><path class="bar pos" d="M113.50675675675676,108.0 L113.50675675675676,108.0 Q113.50675675675676,104.30279999999999 117.20395675675677,104.30279999999999 L121.55279999999999,104.30279999999999 Q125.25,104.30279999999999 125.25,108.0 L125.25,108.0 Z"/><text class="val" x="119.4" y="95.3">+$23.70</text><text class="tick tx" x="119.4" y="286">#3</text><text class="tick tx sm" x="119.4" y="302">C682</text><rect class="hit" x="108.7" y="30" width="21.4" height="234" data-tip="ไม้ #3 · 05/05/2026 · CALL 682 × 1 สัญญา|เข้า $0.86 → ออก $1.11 (+29.1%) = +$23.70"/><path class="bar pos" d="M134.85810810810813,108.0 L134.85810810810813,108.0 Q134.85810810810813,106.6428 136.21530810810813,106.6428 L145.24415135135138,106.6428 Q146.60135135135138,106.6428 146.60135135135138,108.0 L146.60135135135138,108.0 Z"/><rect class="hit" x="130.1" y="30" width="21.4" height="234" data-tip="ไม้ #4 · 06/05/2026 · CALL 689 × 1 สัญญา|เข้า $1.69 → ออก $1.79 (+5.9%) = +$8.70"/><path class="bar pos" d="M156.20945945945948,108.0 L156.20945945945948,98.20648 Q156.20945945945948,94.20648 160.20945945945948,94.20648 L163.95270270270274,94.20648 Q167.95270270270274,94.20648 167.95270270270274,98.20648 L167.95270270270274,108.0 Z"/><text class="val" x="162.1" y="85.2">+$88.42</text><text class="tick tx" x="162.1" y="286">#5</text><text class="tick tx sm" x="162.1" y="302">C690</text><rect class="hit" x="151.4" y="30" width="21.4" height="234" data-tip="ไม้ #5 · 06/05/2026 · CALL 690 × 2 สัญญา|เข้า $1.21 → ออก $1.66 (+37.8%) = +$88.42"/><path class="bar pos" d="M177.56081081081084,108.0 L177.56081081081084,108.0 Q177.56081081081084,107.5788 177.98201081081083,107.5788 L188.8828540540541,107.5788 Q189.3040540540541,107.5788 189.3040540540541,108.0 L189.3040540540541,108.0 Z"/><rect class="hit" x="172.8" y="30" width="21.4" height="234" data-tip="ไม้ #6 · 07/05/2026 · CALL 698 × 1 สัญญา|เข้า $1.30 → ออก $1.34 (+3.1%) = +$2.70"/><path class="bar neg" d="M198.91216216216216,108.0 L198.91216216216216,109.97479999999999 Q198.91216216216216,113.97479999999999 202.91216216216216,113.97479999999999 L206.65540540540542,113.97479999999999 Q210.65540540540542,113.97479999999999 210.65540540540542,109.97479999999999 L210.65540540540542,108.0 Z"/><text class="val" x="204.8" y="131.0">-$38.30</text><text class="tick tx" x="204.8" y="286">#7</text><text class="tick tx sm" x="204.8" y="302">P699</text><rect class="hit" x="194.1" y="30" width="21.4" height="234" data-tip="ไม้ #7 · 07/05/2026 · PUT 699 × 1 สัญญา|เข้า $1.36 → ออก $0.99 (-27.2%) = -$38.30"/><path class="bar neg" d="M220.26351351351352,108.0 L220.26351351351352,108.0 Q220.26351351351352,109.60679999999999 221.8703135135135,109.60679999999999 L230.39995675675678,109.60679999999999 Q232.00675675675677,109.60679999999999 232.00675675675677,108.0 L232.00675675675677,108.0 Z"/><rect class="hit" x="215.5" y="30" width="21.4" height="234" data-tip="ไม้ #8 · 07/05/2026 · CALL 697 × 1 สัญญา|เข้า $1.24 → ออก $1.15 (-7.3%) = -$10.30"/><path class="bar neg" d="M241.61486486486487,108.0 L241.61486486486487,108.0 Q241.61486486486487,109.02647999999999 242.64134486486486,109.02647999999999 L252.33162810810813,109.02647999999999 Q253.35810810810813,109.02647999999999 253.35810810810813,108.0 L253.35810810810813,108.0 Z"/><text class="val" x="247.5" y="126.0">-$6.58</text><text class="tick tx" x="247.5" y="286">#9</text><text class="tick tx sm" x="247.5" y="302">P695</text><rect class="hit" x="236.8" y="30" width="21.4" height="234" data-tip="ไม้ #9 · 07/05/2026 · PUT 695 × 2 สัญญา|เข้า $1.12 → ออก $1.10 (-1.8%) = -$6.58"/><path class="bar pos" d="M262.9662162162162,108.0 L262.9662162162162,107.36680000000001 Q262.9662162162162,103.36680000000001 266.9662162162162,103.36680000000001 L270.7094594594594,103.36680000000001 Q274.7094594594594,103.36680000000001 274.7094594594594,107.36680000000001 L274.7094594594594,108.0 Z"/><rect class="hit" x="258.2" y="30" width="21.4" height="234" data-tip="ไม้ #10 · 08/05/2026 · CALL 700 × 1 สัญญา|เข้า $2.18 → ออก $2.49 (+14.2%) = +$29.70"/><path class="bar pos" d="M284.31756756756755,108.0 L284.31756756756755,91.9228 Q284.31756756756755,87.9228 288.31756756756755,87.9228 L292.0608108108108,87.9228 Q296.0608108108108,87.9228 296.0608108108108,91.9228 L296.0608108108108,108.0 Z"/><text class="val" x="290.2" y="78.9">+$129</text><text class="tick tx" x="290.2" y="286">#11</text><text class="tick tx sm" x="290.2" y="302">C702</text><rect class="hit" x="279.5" y="30" width="21.4" height="234" data-tip="ไม้ #11 · 08/05/2026 · CALL 702 × 1 สัญญา|เข้า $1.70 → ออก $3.00 (+76.5%) = +$128.70"/><path class="bar neg" d="M305.6689189189189,108.0 L305.6689189189189,111.8468 Q305.6689189189189,115.8468 309.6689189189189,115.8468 L313.41216216216213,115.8468 Q317.41216216216213,115.8468 317.41216216216213,111.8468 L317.41216216216213,108.0 Z"/><rect class="hit" x="300.9" y="30" width="21.4" height="234" data-tip="ไม้ #12 · 12/05/2026 · PUT 708 × 1 สัญญา|เข้า $1.99 → ออก $1.50 (-24.6%) = -$50.30"/><path class="bar pos" d="M327.02027027027026,108.0 L327.02027027027026,80.0668 Q327.02027027027026,76.0668 331.02027027027026,76.0668 L334.7635135135135,76.0668 Q338.7635135135135,76.0668 338.7635135135135,80.0668 L338.7635135135135,108.0 Z"/><text class="val" x="332.9" y="67.1">+$205</text><text class="tick tx" x="332.9" y="286">#13</text><text class="tick tx sm" x="332.9" y="302">P709</text><rect class="hit" x="322.2" y="30" width="21.4" height="234" data-tip="ไม้ #13 · 12/05/2026 · PUT 709 × 1 สัญญา|เข้า $1.94 → ออก $4.00 (+106.2%) = +$204.70"/><path class="bar pos" d="M348.3716216216216,108.0 L348.3716216216216,105.65079999999998 Q348.3716216216216,101.65079999999998 352.3716216216216,101.65079999999998 L356.11486486486484,101.65079999999998 Q360.11486486486484,101.65079999999998 360.11486486486484,105.65079999999998 L360.11486486486484,108.0 Z"/><rect class="hit" x="343.6" y="30" width="21.4" height="234" data-tip="ไม้ #14 · 12/05/2026 · PUT 705 × 1 สัญญา|เข้า $1.80 → ออก $2.22 (+23.3%) = +$40.70"/><path class="bar neg" d="M369.72297297297297,108.0 L369.72297297297297,108.0 Q369.72297297297297,111.9468 373.66977297297296,111.9468 L377.5194162162162,111.9468 Q381.4662162162162,111.9468 381.4662162162162,108.0 L381.4662162162162,108.0 Z"/><text class="val" x="375.6" y="128.9">-$25.30</text><text class="tick tx" x="375.6" y="286">#15</text><text class="tick tx sm" x="375.6" y="302">P704</text><rect class="hit" x="364.9" y="30" width="21.4" height="234" data-tip="ไม้ #15 · 12/05/2026 · PUT 704 × 1 สัญญา|เข้า $1.92 → ออก $1.68 (-12.5%) = -$25.30"/><path class="bar pos" d="M391.0743243243243,108.0 L391.0743243243243,77.41479999999999 Q391.0743243243243,73.41479999999999 395.0743243243243,73.41479999999999 L398.81756756756755,73.41479999999999 Q402.81756756756755,73.41479999999999 402.81756756756755,77.41479999999999 L402.81756756756755,108.0 Z"/><rect class="hit" x="386.3" y="30" width="21.4" height="234" data-tip="ไม้ #16 · 12/05/2026 · PUT 708 × 1 สัญญา|เข้า $1.80 → ออก $4.03 (+123.9%) = +$221.70"/><path class="bar pos" d="M412.4256756756757,108.0 L412.4256756756757,97.2268 Q412.4256756756757,93.2268 416.4256756756757,93.2268 L420.1689189189189,93.2268 Q424.1689189189189,93.2268 424.1689189189189,97.2268 L424.1689189189189,108.0 Z"/><text class="val" x="418.3" y="84.2">+$94.70</text><text class="tick tx" x="418.3" y="286">#17</text><text class="tick tx sm" x="418.3" y="302">P708</text><rect class="hit" x="407.6" y="30" width="21.4" height="234" data-tip="ไม้ #17 · 13/05/2026 · PUT 708 × 1 สัญญา|เข้า $2.10 → ออก $3.06 (+45.7%) = +$94.70"/><path class="bar neg" d="M433.77702702702703,108.0 L433.77702702702703,111.2228 Q433.77702702702703,115.2228 437.77702702702703,115.2228 L441.52027027027026,115.2228 Q445.52027027027026,115.2228 445.52027027027026,111.2228 L445.52027027027026,108.0 Z"/><rect class="hit" x="429.0" y="30" width="21.4" height="234" data-tip="ไม้ #18 · 13/05/2026 · PUT 707 × 1 สัญญา|เข้า $1.94 → ออก $1.49 (-23.2%) = -$46.30"/><path class="bar neg" d="M455.1283783783784,108.0 L455.1283783783784,115.4348 Q455.1283783783784,119.4348 459.1283783783784,119.4348 L462.8716216216216,119.4348 Q466.8716216216216,119.4348 466.8716216216216,115.4348 L466.8716216216216,108.0 Z"/><text class="val" x="461.0" y="136.4">-$73.30</text><text class="tick tx" x="461.0" y="286">#19</text><text class="tick tx sm" x="461.0" y="302">C718</text><rect class="hit" x="450.3" y="30" width="21.4" height="234" data-tip="ไม้ #19 · 14/05/2026 · CALL 718 × 1 สัญญา|เข้า $2.50 → ออก $1.78 (-28.8%) = -$73.30"/><path class="bar pos" d="M476.47972972972974,108.0 L476.47972972972974,91.61236 Q476.47972972972974,87.61236 480.47972972972974,87.61236 L484.22297297297297,87.61236 Q488.22297297297297,87.61236 488.22297297297297,91.61236 L488.22297297297297,108.0 Z"/><rect class="hit" x="471.7" y="30" width="21.4" height="234" data-tip="ไม้ #20 · 14/05/2026 · CALL 715 × 1 สัญญา|เข้า $3.68 → ออก $5.00 (+35.9%) = +$130.69"/><path class="bar neg" d="M497.8310810810811,108.0 L497.8310810810811,123.43447999999998 Q497.8310810810811,127.43447999999998 501.8310810810811,127.43447999999998 L505.5743243243243,127.43447999999998 Q509.5743243243243,127.43447999999998 509.5743243243243,123.43447999999998 L509.5743243243243,108.0 Z"/><text class="val" x="503.7" y="144.4">-$125</text><text class="tick tx" x="503.7" y="286">#21</text><text class="tick tx sm" x="503.7" y="302">P705</text><rect class="hit" x="493.0" y="30" width="21.4" height="234" data-tip="ไม้ #21 · 15/05/2026 · PUT 705 × 2 สัญญา|เข้า $1.50 → ออก $0.89 (-40.7%) = -$124.58"/><path class="bar neg" d="M519.1824324324324,108.0 L519.1824324324324,126.55759999999998 Q519.1824324324324,130.55759999999998 523.1824324324324,130.55759999999998 L526.9256756756756,130.55759999999998 Q530.9256756756756,130.55759999999998 530.9256756756756,126.55759999999998 L530.9256756756756,108.0 Z"/><rect class="hit" x="514.4" y="30" width="21.4" height="234" data-tip="ไม้ #22 · 15/05/2026 · PUT 709 × 2 สัญญา|เข้า $2.40 → ออก $1.69 (-29.6%) = -$144.60"/><path class="bar neg" d="M540.5337837837837,108.0 L540.5337837837837,108.0 Q540.5337837837837,111.63479999999998 544.1685837837838,111.63479999999998 L548.642227027027,111.63479999999998 Q552.277027027027,111.63479999999998 552.277027027027,108.0 L552.277027027027,108.0 Z"/><text class="val" x="546.4" y="128.6">-$23.30</text><text class="tick tx" x="546.4" y="286">#23</text><text class="tick tx sm" x="546.4" y="302">P707</text><rect class="hit" x="535.7" y="30" width="21.4" height="234" data-tip="ไม้ #23 · 15/05/2026 · PUT 707 × 1 สัญญา|เข้า $1.17 → ออก $0.95 (-18.8%) = -$23.30"/><path class="bar pos" d="M561.8851351351351,108.0 L561.8851351351351,107.36680000000001 Q561.8851351351351,103.36680000000001 565.8851351351351,103.36680000000001 L569.6283783783783,103.36680000000001 Q573.6283783783783,103.36680000000001 573.6283783783783,107.36680000000001 L573.6283783783783,108.0 Z"/><rect class="hit" x="557.1" y="30" width="21.4" height="234" data-tip="ไม้ #24 · 19/05/2026 · CALL 702 × 1 สัญญา|เข้า $2.50 → ออก $2.81 (+12.4%) = +$29.70"/><path class="bar neg" d="M583.2364864864865,108.0 L583.2364864864865,133.00039999999998 Q583.2364864864865,137.00039999999998 587.2364864864865,137.00039999999998 L590.9797297297297,137.00039999999998 Q594.9797297297297,137.00039999999998 594.9797297297297,133.00039999999998 L594.9797297297297,108.0 Z"/><text class="val" x="589.1" y="154.0">-$186</text><text class="tick tx" x="589.1" y="286">#25</text><text class="tick tx sm" x="589.1" y="302">P700</text><rect class="hit" x="578.4" y="30" width="21.4" height="234" data-tip="ไม้ #25 · 19/05/2026 · PUT 700 × 3 สัญญา|เข้า $2.27 → ออก $1.67 (-26.7%) = -$185.90"/><path class="bar neg" d="M604.5878378378378,108.0 L604.5878378378378,114.34279999999998 Q604.5878378378378,118.34279999999998 608.5878378378378,118.34279999999998 L612.331081081081,118.34279999999998 Q616.331081081081,118.34279999999998 616.331081081081,114.34279999999998 L616.331081081081,108.0 Z"/><rect class="hit" x="599.8" y="30" width="21.4" height="234" data-tip="ไม้ #26 · 19/05/2026 · CALL 706 × 1 สัญญา|เข้า $1.10 → ออก $0.45 (-59.1%) = -$66.30"/><path class="bar pos" d="M625.9391891891892,108.0 L625.9391891891892,51.14440000000002 Q625.9391891891892,47.14440000000002 629.9391891891892,47.14440000000002 L633.6824324324324,47.14440000000002 Q637.6824324324324,47.14440000000002 637.6824324324324,51.14440000000002 L637.6824324324324,108.0 Z"/><text class="val" x="631.8" y="38.1">+$390</text><text class="tick tx" x="631.8" y="286">#27</text><text class="tick tx sm" x="631.8" y="302">P700</text><rect class="hit" x="621.1" y="30" width="21.4" height="234" data-tip="ไม้ #27 · 19/05/2026 · PUT 700 × 3 สัญญา|เข้า $3.02 → ออก $4.33 (+43.5%) = +$390.10"/><path class="bar pos" d="M647.2905405405405,108.0 L647.2905405405405,91.07572000000002 Q647.2905405405405,87.07572000000002 651.2905405405405,87.07572000000002 L655.0337837837837,87.07572000000002 Q659.0337837837837,87.07572000000002 659.0337837837837,91.07572000000002 L659.0337837837837,108.0 Z"/><rect class="hit" x="642.5" y="30" width="21.4" height="234" data-tip="ไม้ #28 · 22/05/2026 · CALL 720 × 3 สัญญา|เข้า $1.67 → ออก $2.13 (+27.5%) = +$134.13"/><path class="bar neg" d="M668.6418918918919,108.0 L668.6418918918919,147.19172 Q668.6418918918919,151.19172 672.6418918918919,151.19172 L676.3851351351351,151.19172 Q680.3851351351351,151.19172 680.3851351351351,147.19172 L680.3851351351351,108.0 Z"/><text class="val" x="674.5" y="168.2">-$277</text><text class="tick tx" x="674.5" y="286">#29</text><text class="tick tx sm" x="674.5" y="302">C720</text><rect class="hit" x="663.8" y="30" width="21.4" height="234" data-tip="ไม้ #29 · 22/05/2026 · CALL 720 × 3 สัญญา|เข้า $2.81 → ออก $1.90 (-32.4%) = -$276.87"/><path class="bar neg" d="M689.9932432432432,108.0 L689.9932432432432,109.97479999999999 Q689.9932432432432,113.97479999999999 693.9932432432432,113.97479999999999 L697.7364864864865,113.97479999999999 Q701.7364864864865,113.97479999999999 701.7364864864865,109.97479999999999 L701.7364864864865,108.0 Z"/><rect class="hit" x="685.2" y="30" width="21.4" height="234" data-tip="ไม้ #30 · 22/05/2026 · CALL 720 × 1 สัญญา|เข้า $2.00 → ออก $1.63 (-18.5%) = -$38.30"/><path class="bar neg" d="M711.3445945945946,108.0 L711.3445945945946,108.0 Q711.3445945945946,111.79079999999999 715.1353945945946,111.79079999999999 L719.2970378378378,111.79079999999999 Q723.0878378378378,111.79079999999999 723.0878378378378,108.0 L723.0878378378378,108.0 Z"/><text class="val" x="717.2" y="128.8">-$24.30</text><text class="tick tx" x="717.2" y="286">#31</text><text class="tick tx sm" x="717.2" y="302">C727</text><rect class="hit" x="706.5" y="30" width="21.4" height="234" data-tip="ไม้ #31 · 26/05/2026 · CALL 727 × 1 สัญญา|เข้า $2.20 → ออก $1.97 (-10.5%) = -$24.30"/><path class="bar neg" d="M732.6959459459459,108.0 L732.6959459459459,108.0 Q732.6959459459459,110.23079999999999 734.9267459459459,110.23079999999999 L742.2083891891891,110.23079999999999 Q744.4391891891892,110.23079999999999 744.4391891891892,108.0 L744.4391891891892,108.0 Z"/><rect class="hit" x="727.9" y="30" width="21.4" height="234" data-tip="ไม้ #32 · 26/05/2026 · CALL 730 × 1 สัญญา|เข้า $1.15 → ออก $1.02 (-11.3%) = -$14.30"/><path class="bar pos" d="M754.0472972972972,108.0 L754.0472972972972,97.07079999999999 Q754.0472972972972,93.07079999999999 758.0472972972972,93.07079999999999 L761.7905405405404,93.07079999999999 Q765.7905405405404,93.07079999999999 765.7905405405404,97.07079999999999 L765.7905405405404,108.0 Z"/><text class="val" x="759.9" y="84.1">+$95.70</text><text class="tick tx" x="759.9" y="286">#33</text><text class="tick tx sm" x="759.9" y="302">P730</text><rect class="hit" x="749.2" y="30" width="21.4" height="234" data-tip="ไม้ #33 · 27/05/2026 · PUT 730 × 1 สัญญา|เข้า $2.00 → ออก $2.97 (+48.5%) = +$95.70"/><path class="bar pos" d="M775.3986486486485,108.0 L775.3986486486485,108.0 Q775.3986486486485,104.4588 778.9398486486485,104.4588 L783.6006918918918,104.4588 Q787.1418918918918,104.4588 787.1418918918918,108.0 L787.1418918918918,108.0 Z"/><rect class="hit" x="770.6" y="30" width="21.4" height="234" data-tip="ไม้ #34 · 28/05/2026 · CALL 728 × 1 สัญญา|เข้า $1.76 → ออก $2.00 (+13.6%) = +$22.70"/><path class="bar neg" d="M796.7499999999999,108.0 L796.7499999999999,202.71836 Q796.7499999999999,206.71836 800.7499999999999,206.71836 L804.4932432432431,206.71836 Q808.4932432432431,206.71836 808.4932432432431,202.71836 L808.4932432432431,108.0 Z"/><text class="val" x="802.6" y="223.7">-$633</text><text class="tick tx" x="802.6" y="286">#35</text><text class="tick tx sm" x="802.6" y="302">P731</text><rect class="hit" x="791.9" y="30" width="21.4" height="234" data-tip="ไม้ #35 · 28/05/2026 · PUT 731 × 10 สัญญา|เข้า $2.29 → ออก $1.67 (-27.1%) = -$632.81"/><path class="bar neg" d="M818.1013513513512,108.0 L818.1013513513512,162.47816 Q818.1013513513512,166.47816 822.1013513513512,166.47816 L825.8445945945945,166.47816 Q829.8445945945945,166.47816 829.8445945945945,162.47816 L829.8445945945945,108.0 Z"/><rect class="hit" x="813.3" y="30" width="21.4" height="234" data-tip="ไม้ #36 · 29/05/2026 · PUT 740 × 3 สัญญา|เข้า $2.77 → ออก $1.53 (-44.7%) = -$374.86"/><path class="bar neg" d="M839.4527027027026,108.0 L839.4527027027026,123.32216 Q839.4527027027026,127.32216 843.4527027027026,127.32216 L847.1959459459458,127.32216 Q851.1959459459458,127.32216 851.1959459459458,123.32216 L851.1959459459458,108.0 Z"/><text class="val" x="845.3" y="144.3">-$124</text><text class="tick tx" x="845.3" y="286">#37</text><text class="tick tx sm" x="845.3" y="302">C741</text><rect class="hit" x="834.6" y="30" width="21.4" height="234" data-tip="ไม้ #37 · 29/05/2026 · CALL 741 × 3 สัญญา|เข้า $1.75 → ออก $1.35 (-22.9%) = -$123.86"/></svg></div>
+</section>
+
+<section>
+ <h2>จุดที่ชี้ผลของเดือนนี้</h2>
+ <p class="sec-note">เทียบเปอร์เซ็นต์ที่ปิดไม้ — ชนะปิดที่เท่าไร เทียบกับแพ้ปล่อยถึงเท่าไร</p>
+ <div class="chart-wrap"><svg viewBox="0 0 760 150" class="chart" role="img" aria-label="เทียบเปอร์เซ็นต์กำไรเฉลี่ยกับขาดทุนเฉลี่ย"><line class="grid" x1="140.0" x2="140.0" y1="14" y2="120"/><text class="tick tx" x="140.0" y="138">-40%</text><line class="grid" x1="248.4" x2="248.4" y1="14" y2="120"/><text class="tick tx" x="248.4" y="138">-20%</text><line class="grid" x1="356.8" x2="356.8" y1="14" y2="120"/><text class="tick tx" x="356.8" y="138">+0%</text><line class="grid" x1="465.2" x2="465.2" y1="14" y2="120"/><text class="tick tx" x="465.2" y="138">+20%</text><line class="grid" x1="573.6" x2="573.6" y1="14" y2="120"/><text class="tick tx" x="573.6" y="138">+40%</text><line class="grid" x1="682.0" x2="682.0" y1="14" y2="120"/><text class="tick tx" x="682.0" y="138">+60%</text><line class="zero" x1="356.8" x2="356.8" y1="14" y2="120"/><path class="bar pos" d="M356.8,24 L560.1094606133146,24 Q564.1094606133146,24 564.1094606133146,28 L564.1094606133146,44 Q564.1094606133146,48 560.1094606133146,48 L356.8,48 Z"/><text class="rowlab" x="126" y="40.0">ไม้ที่ชนะ (เฉลี่ย)</text><text class="val" style="text-anchor:start" x="574.1" y="40.0">+38.2%</text><rect class="hit" x="0" y="18" width="760" height="36" data-tip="ปิดกำไรเฉลี่ยที่ +38.2% ของพรีเมียม|17 ไม้ · เฉลี่ย +$96.97 ต่อไม้"/><path class="bar neg" d="M356.8,62 L226.11336503307024,62 Q222.11336503307024,62 222.11336503307024,66 L222.11336503307024,82 Q222.11336503307024,86 226.11336503307024,86 L356.8,86 Z"/><text class="rowlab" x="126" y="78.0">ไม้ที่แพ้ (เฉลี่ย)</text><text class="val" style="text-anchor:end" x="212.1" y="78.0">-24.8%</text><rect class="hit" x="0" y="56" width="760" height="36" data-tip="ปล่อยขาดทุนเฉลี่ยถึง -24.8% ของพรีเมียม|20 ไม้ · เฉลี่ย -$115.73 ต่อไม้"/></svg></div>
+ <div class="note"><p>ที่อัตราชนะ 46% เดือนนี้จะเสมอตัวได้ต่อเมื่อไม้ที่ชนะเฉลี่ยอย่างน้อย <b>$136.16</b> (ตอนนี้ +$96.97) หรืออีกทางคือกดไม้ที่แพ้ให้เหลือไม่เกิน <b>$82.42</b> ต่อไม้ (ตอนนี้ -$115.73)</p></div>
+</section>
+
+<section>
+ <h2>กำไร/ขาดทุน รายวัน</h2>
+ <p class="sec-note">เทรด 0DTE ทั้งหมด 14 วัน — จบเป็นบวก 7 วัน</p>
+ <div class="legend"><span class="lg"><i class="sw pos"></i>กำไร (แท่งขึ้น)</span><span class="lg"><i class="sw neg"></i>ขาดทุน (แท่งลง)</span></div>
+ <div class="chart-wrap"><svg viewBox="0 0 880 310" class="chart" role="img" aria-label="กำไรขาดทุนรายวัน"><line class="grid" x1="66" x2="856" y1="244.0" y2="244.0"/><text class="tick ty" x="56" y="248.0">-$1,000</text><line class="grid" x1="66" x2="856" y1="208.3" y2="208.3"/><text class="tick ty" x="56" y="212.3">-$750</text><line class="grid" x1="66" x2="856" y1="172.7" y2="172.7"/><text class="tick ty" x="56" y="176.7">-$500</text><line class="grid" x1="66" x2="856" y1="137.0" y2="137.0"/><text class="tick ty" x="56" y="141.0">-$250</text><line class="grid" x1="66" x2="856" y1="101.3" y2="101.3"/><text class="tick ty" x="56" y="105.3">$0</text><line class="grid" x1="66" x2="856" y1="65.7" y2="65.7"/><text class="tick ty" x="56" y="69.7">+$250</text><line class="grid" x1="66" x2="856" y1="30.0" y2="30.0"/><text class="tick ty" x="56" y="34.0">+$500</text><line class="zero" x1="66" x2="856" y1="101.3" y2="101.3"/><path class="bar neg" d="M82.21428571428572,101.33333333333334 L82.21428571428572,101.33333333333334 Q82.21428571428572,102.60306666666665 83.48401904761903,102.60306666666665 L104.94455238095242,102.60306666666665 Q106.21428571428572,102.60306666666665 106.21428571428572,101.33333333333334 L106.21428571428572,101.33333333333334 Z"/><text class="val" x="94.2" y="119.6">-$8.90</text><text class="tick tx" x="94.2" y="266">05/05</text><text class="tick tx sm" x="94.2" y="282">อังคาร</text><rect class="hit" x="66.0" y="30" width="56.4" height="214" data-tip="05/05/2026 (อังคาร)|3 ไม้ · ชนะ 2 แพ้ 1 · รวม -$8.90"/><path class="bar pos" d="M138.64285714285714,101.33333333333334 L138.64285714285714,91.47754666666668 Q138.64285714285714,87.47754666666668 142.64285714285714,87.47754666666668 L158.64285714285714,87.47754666666668 Q162.64285714285714,87.47754666666668 162.64285714285714,91.47754666666668 L162.64285714285714,101.33333333333334 Z"/><text class="val" x="150.6" y="78.5">+$97.12</text><text class="tick tx" x="150.6" y="266">06/05</text><text class="tick tx sm" x="150.6" y="282">พุธ</text><rect class="hit" x="122.4" y="30" width="56.4" height="214" data-tip="06/05/2026 (พุธ)|2 ไม้ · ชนะ 2 แพ้ 0 · รวม +$97.12"/><path class="bar neg" d="M195.07142857142858,101.33333333333334 L195.07142857142858,104.82048 Q195.07142857142858,108.82048 199.07142857142858,108.82048 L215.07142857142858,108.82048 Q219.07142857142858,108.82048 219.07142857142858,104.82048 L219.07142857142858,101.33333333333334 Z"/><text class="val" x="207.1" y="125.8">-$52.48</text><text class="tick tx" x="207.1" y="266">07/05</text><text class="tick tx sm" x="207.1" y="282">พฤหัสบดี</text><rect class="hit" x="178.9" y="30" width="56.4" height="214" data-tip="07/05/2026 (พฤหัสบดี)|4 ไม้ · ชนะ 1 แพ้ 3 · รวม -$52.48"/><path class="bar pos" d="M251.5,101.33333333333334 L251.5,82.73493333333332 Q251.5,78.73493333333332 255.5,78.73493333333332 L271.5,78.73493333333332 Q275.5,78.73493333333332 275.5,82.73493333333332 L275.5,101.33333333333334 Z"/><text class="val" x="263.5" y="69.7">+$158</text><text class="tick tx" x="263.5" y="266">08/05</text><text class="tick tx sm" x="263.5" y="282">ศุกร์</text><rect class="hit" x="235.3" y="30" width="56.4" height="214" data-tip="08/05/2026 (ศุกร์)|2 ไม้ · ชนะ 2 แพ้ 0 · รวม +$158.40"/><path class="bar pos" d="M307.92857142857144,101.33333333333334 L307.92857142857144,49.47933333333333 Q307.92857142857144,45.47933333333333 311.92857142857144,45.47933333333333 L327.92857142857144,45.47933333333333 Q331.92857142857144,45.47933333333333 331.92857142857144,49.47933333333333 L331.92857142857144,101.33333333333334 Z"/><text class="val" x="319.9" y="36.5">+$392</text><text class="tick tx" x="319.9" y="266">12/05</text><text class="tick tx sm" x="319.9" y="282">อังคาร</text><rect class="hit" x="291.7" y="30" width="56.4" height="214" data-tip="12/05/2026 (อังคาร)|5 ไม้ · ชนะ 3 แพ้ 2 · รวม +$391.50"/><path class="bar pos" d="M364.3571428571429,101.33333333333334 L364.3571428571429,98.42826666666664 Q364.3571428571429,94.42826666666664 368.3571428571429,94.42826666666664 L384.3571428571429,94.42826666666664 Q388.3571428571429,94.42826666666664 388.3571428571429,98.42826666666664 L388.3571428571429,101.33333333333334 Z"/><text class="val" x="376.4" y="85.4">+$48.40</text><text class="tick tx" x="376.4" y="266">13/05</text><text class="tick tx sm" x="376.4" y="282">พุธ</text><rect class="hit" x="348.1" y="30" width="56.4" height="214" data-tip="13/05/2026 (พุธ)|2 ไม้ · ชนะ 1 แพ้ 1 · รวม +$48.40"/><path class="bar pos" d="M420.7857142857143,101.33333333333334 L420.7857142857143,97.14569333333333 Q420.7857142857143,93.14569333333333 424.7857142857143,93.14569333333333 L440.7857142857143,93.14569333333333 Q444.7857142857143,93.14569333333333 444.7857142857143,97.14569333333333 L444.7857142857143,101.33333333333334 Z"/><text class="val" x="432.8" y="84.1">+$57.39</text><text class="tick tx" x="432.8" y="266">14/05</text><text class="tick tx sm" x="432.8" y="282">พฤหัสบดี</text><rect class="hit" x="404.6" y="30" width="56.4" height="214" data-tip="14/05/2026 (พฤหัสบดี)|2 ไม้ · ชนะ 1 แพ้ 1 · รวม +$57.39"/><path class="bar neg" d="M477.2142857142857,101.33333333333334 L477.2142857142857,139.06047999999998 Q477.2142857142857,143.06047999999998 481.2142857142857,143.06047999999998 L497.2142857142857,143.06047999999998 Q501.2142857142857,143.06047999999998 501.2142857142857,139.06047999999998 L501.2142857142857,101.33333333333334 Z"/><text class="val" x="489.2" y="160.1">-$292</text><text class="tick tx" x="489.2" y="266">15/05</text><text class="tick tx sm" x="489.2" y="282">ศุกร์</text><rect class="hit" x="461.0" y="30" width="56.4" height="214" data-tip="15/05/2026 (ศุกร์)|3 ไม้ · ชนะ 0 แพ้ 3 · รวม -$292.48"/><path class="bar pos" d="M533.6428571428571,101.33333333333334 L533.6428571428571,81.42240000000001 Q533.6428571428571,77.42240000000001 537.6428571428571,77.42240000000001 L553.6428571428571,77.42240000000001 Q557.6428571428571,77.42240000000001 557.6428571428571,81.42240000000001 L557.6428571428571,101.33333333333334 Z"/><text class="val" x="545.6" y="68.4">+$168</text><text class="tick tx" x="545.6" y="266">19/05</text><text class="tick tx sm" x="545.6" y="282">อังคาร</text><rect class="hit" x="517.4" y="30" width="56.4" height="214" data-tip="19/05/2026 (อังคาร)|4 ไม้ · ชนะ 2 แพ้ 2 · รวม +$167.60"/><path class="bar neg" d="M590.0714285714286,101.33333333333334 L590.0714285714286,123.16170666666667 Q590.0714285714286,127.16170666666667 594.0714285714286,127.16170666666667 L610.0714285714286,127.16170666666667 Q614.0714285714286,127.16170666666667 614.0714285714286,123.16170666666667 L614.0714285714286,101.33333333333334 Z"/><text class="val" x="602.1" y="144.2">-$181</text><text class="tick tx" x="602.1" y="266">22/05</text><text class="tick tx sm" x="602.1" y="282">ศุกร์</text><rect class="hit" x="573.9" y="30" width="56.4" height="214" data-tip="22/05/2026 (ศุกร์)|3 ไม้ · ชนะ 1 แพ้ 2 · รวม -$181.04"/><path class="bar neg" d="M646.5,101.33333333333334 L646.5,102.84026666666665 Q646.5,106.84026666666665 650.5,106.84026666666665 L666.5,106.84026666666665 Q670.5,106.84026666666665 670.5,102.84026666666665 L670.5,101.33333333333334 Z"/><text class="val" x="658.5" y="123.8">-$38.60</text><text class="tick tx" x="658.5" y="266">26/05</text><text class="tick tx sm" x="658.5" y="282">อังคาร</text><rect class="hit" x="630.3" y="30" width="56.4" height="214" data-tip="26/05/2026 (อังคาร)|2 ไม้ · ชนะ 0 แพ้ 2 · รวม -$38.60"/><path class="bar pos" d="M702.9285714285714,101.33333333333334 L702.9285714285714,91.68013333333332 Q702.9285714285714,87.68013333333332 706.9285714285714,87.68013333333332 L722.9285714285714,87.68013333333332 Q726.9285714285714,87.68013333333332 726.9285714285714,91.68013333333332 L726.9285714285714,101.33333333333334 Z"/><text class="val" x="714.9" y="78.7">+$95.70</text><text class="tick tx" x="714.9" y="266">27/05</text><text class="tick tx sm" x="714.9" y="282">พุธ</text><rect class="hit" x="686.7" y="30" width="56.4" height="214" data-tip="27/05/2026 (พุธ)|1 ไม้ · ชนะ 1 แพ้ 0 · รวม +$95.70"/><path class="bar neg" d="M759.3571428571429,101.33333333333334 L759.3571428571429,184.37569333333332 Q759.3571428571429,188.37569333333332 763.3571428571429,188.37569333333332 L779.3571428571429,188.37569333333332 Q783.3571428571429,188.37569333333332 783.3571428571429,184.37569333333332 L783.3571428571429,101.33333333333334 Z"/><text class="val" x="771.4" y="205.4">-$610</text><text class="tick tx" x="771.4" y="266">28/05</text><text class="tick tx sm" x="771.4" y="282">พฤหัสบดี</text><rect class="hit" x="743.1" y="30" width="56.4" height="214" data-tip="28/05/2026 (พฤหัสบดี)|2 ไม้ · ชนะ 1 แพ้ 1 · รวม -$610.11"/><path class="bar neg" d="M815.7857142857143,101.33333333333334 L815.7857142857143,168.48405333333332 Q815.7857142857143,172.48405333333332 819.7857142857143,172.48405333333332 L835.7857142857143,172.48405333333332 Q839.7857142857143,172.48405333333332 839.7857142857143,168.48405333333332 L839.7857142857143,101.33333333333334 Z"/><text class="val" x="827.8" y="189.5">-$499</text><text class="tick tx" x="827.8" y="266">29/05</text><text class="tick tx sm" x="827.8" y="282">ศุกร์</text><rect class="hit" x="799.6" y="30" width="56.4" height="214" data-tip="29/05/2026 (ศุกร์)|2 ไม้ · ชนะ 0 แพ้ 2 · รวม -$498.72"/></svg></div>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th>วันที่</th><th>วัน</th><th class="num">ไม้</th><th class="num">ชนะ/แพ้</th>
+   <th class="num">ทุนที่ลง</th><th class="num">P&amp;L</th><th class="num">สะสม</th></tr></thead>
+  <tbody><tr><td>05/05/2026</td><td>อังคาร</td><td class="num">3</td><td class="num">2/1</td><td class="num">294.92</td><td class="num strong neg">-$8.90</td><td class="num neg">-$8.90</td></tr><tr><td>06/05/2026</td><td>พุธ</td><td class="num">2</td><td class="num">2/0</td><td class="num">411.92</td><td class="num strong pos">+$97.12</td><td class="num pos">+$88.22</td></tr><tr><td>07/05/2026</td><td>พฤหัสบดี</td><td class="num">4</td><td class="num">1/3</td><td class="num">617.20</td><td class="num strong neg">-$52.48</td><td class="num pos">+$35.74</td></tr><tr><td>08/05/2026</td><td>ศุกร์</td><td class="num">2</td><td class="num">2/0</td><td class="num">389.28</td><td class="num strong pos">+$158.40</td><td class="num pos">+$194.14</td></tr><tr><td>12/05/2026</td><td>อังคาร</td><td class="num">5</td><td class="num">3/2</td><td class="num">948.20</td><td class="num strong pos">+$391.50</td><td class="num pos">+$585.64</td></tr><tr><td>13/05/2026</td><td>พุธ</td><td class="num">2</td><td class="num">1/1</td><td class="num">405.28</td><td class="num strong pos">+$48.40</td><td class="num pos">+$634.04</td></tr><tr><td>14/05/2026</td><td>พฤหัสบดี</td><td class="num">2</td><td class="num">1/1</td><td class="num">619.28</td><td class="num strong pos">+$57.39</td><td class="num pos">+$691.43</td></tr><tr><td>15/05/2026</td><td>ศุกร์</td><td class="num">3</td><td class="num">0/3</td><td class="num">899.20</td><td class="num strong neg">-$292.48</td><td class="num pos">+$398.95</td></tr><tr><td>19/05/2026</td><td>อังคาร</td><td class="num">4</td><td class="num">2/2</td><td class="num">1,953.12</td><td class="num strong pos">+$167.60</td><td class="num pos">+$566.55</td></tr><tr><td>22/05/2026</td><td>ศุกร์</td><td class="num">3</td><td class="num">1/2</td><td class="num">1,548.48</td><td class="num strong neg">-$181.04</td><td class="num pos">+$385.51</td></tr><tr><td>26/05/2026</td><td>อังคาร</td><td class="num">2</td><td class="num">0/2</td><td class="num">336.28</td><td class="num strong neg">-$38.60</td><td class="num pos">+$346.91</td></tr><tr><td>27/05/2026</td><td>พุธ</td><td class="num">1</td><td class="num">1/0</td><td class="num">200.64</td><td class="num strong pos">+$95.70</td><td class="num pos">+$442.61</td></tr><tr><td>28/05/2026</td><td>พฤหัสบดี</td><td class="num">2</td><td class="num">1/1</td><td class="num">2,473.01</td><td class="num strong neg">-$610.11</td><td class="num neg">-$167.50</td></tr><tr><td>29/05/2026</td><td>ศุกร์</td><td class="num">2</td><td class="num">0/2</td><td class="num">1,358.84</td><td class="num strong neg">-$498.72</td><td class="num neg">-$666.22</td></tr></tbody>
+  <tfoot><tr><td>รวม</td><td></td><td class="num">37</td>
+   <td class="num">17/20</td><td class="num">12,455.65</td>
+   <td class="num neg">-$666.22</td><td></td></tr></tfoot></table></div>
+</section>
+
+<section>
+ <h2>แยกตามลักษณะการเทรด</h2>
+ <p class="sec-note">ทั้ง 37 ไม้เป็นการ <b>ซื้อออปชัน (long premium)</b> ทั้งหมด — เปิดด้วยการซื้อ ปิดด้วยการขาย ภายในวันเดียว</p>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th>กลุ่ม</th><th class="num">ไม้</th><th class="num">ชนะ/แพ้</th>
+   <th class="num">%ชนะ</th><th class="num">ทุนที่ลง</th><th class="num">P&amp;L</th></tr></thead>
+  <tbody>
+   <tr><td>CALL — ซื้อฝั่งขึ้น</td><td class="num">20</td><td class="num">11/9</td><td class="num">55%</td><td class="num">4,920.28</td><td class="num strong neg">-$60.99</td></tr>
+   <tr><td>PUT — ซื้อฝั่งลง</td><td class="num">17</td><td class="num">6/11</td><td class="num">35%</td><td class="num">7,535.37</td><td class="num strong neg">-$605.23</td></tr>
+   <tr><td colspan="6" style="border:none;height:8px;padding:0"></td></tr>
+   <tr><td>ขนาด 1 สัญญา</td><td class="num">26</td><td class="num">14/12</td><td class="num">54%</td><td class="num">4,611.64</td><td class="num strong pos">+$591.19</td></tr><tr><td>ขนาด 2 สัญญา</td><td class="num">4</td><td class="num">1/3</td><td class="num">25%</td><td class="num">1,249.12</td><td class="num strong neg">-$187.34</td></tr><tr><td>ขนาด 3 สัญญา</td><td class="num">6</td><td class="num">2/4</td><td class="num">33%</td><td class="num">4,298.52</td><td class="num strong neg">-$437.26</td></tr><tr><td>ขนาด 10 สัญญา</td><td class="num">1</td><td class="num">0/1</td><td class="num">0%</td><td class="num">2,296.37</td><td class="num strong neg">-$632.81</td></tr>
+  </tbody></table></div>
+</section>
+
+
+
+<section>
+ <h2>ตารางการเทรดแบบเต็ม</h2>
+ <p class="sec-note">จับคู่ขาซื้อ–ขาขายของสัญญาเดียวกันเป็นไม้ เรียงตามลำดับเวลา</p>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th class="num">#</th><th>วันที่</th><th>ประเภท</th><th class="num">Strike</th>
+   <th class="num">จำนวน</th><th class="num">เข้า</th><th class="num">ออก</th><th class="num">%</th>
+   <th class="num">จ่ายออก</th><th class="num">รับเข้า</th><th class="num">ค่าธรรมเนียม</th>
+   <th class="num">P&amp;L</th><th class="num">QQQ อ้างอิง</th></tr></thead>
+  <tbody><tr><td class="num">1</td><td>05/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">682</td>
+<td class="num">1</td><td class="num">0.95</td>
+<td class="num">0.98</td><td class="num pos">+3.2%</td>
+<td class="num">95.64</td><td class="num">97.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$1.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">2</td><td>05/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">682</td>
+<td class="num">1</td><td class="num">1.12</td>
+<td class="num">0.79</td><td class="num neg">-29.5%</td>
+<td class="num">112.64</td><td class="num">78.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$34.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">3</td><td>05/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">682</td>
+<td class="num">1</td><td class="num">0.86</td>
+<td class="num">1.11</td><td class="num pos">+29.1%</td>
+<td class="num">86.64</td><td class="num">110.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$23.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">4</td><td>06/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">689</td>
+<td class="num">1</td><td class="num">1.69</td>
+<td class="num">1.79</td><td class="num pos">+5.9%</td>
+<td class="num">169.64</td><td class="num">178.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$8.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">5</td><td>06/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">690</td>
+<td class="num">2</td><td class="num">1.21</td>
+<td class="num">1.66</td><td class="num pos">+37.8%</td>
+<td class="num">242.28</td><td class="num">330.70</td>
+<td class="num">2.58</td>
+<td class="num strong pos">+$88.42</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">6</td><td>07/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">698</td>
+<td class="num">1</td><td class="num">1.30</td>
+<td class="num">1.34</td><td class="num pos">+3.1%</td>
+<td class="num">130.64</td><td class="num">133.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$2.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">7</td><td>07/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">699</td>
+<td class="num">1</td><td class="num">1.36</td>
+<td class="num">0.99</td><td class="num neg">-27.2%</td>
+<td class="num">136.64</td><td class="num">98.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$38.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">8</td><td>07/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">697</td>
+<td class="num">1</td><td class="num">1.24</td>
+<td class="num">1.15</td><td class="num neg">-7.3%</td>
+<td class="num">124.64</td><td class="num">114.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$10.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">9</td><td>07/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">695</td>
+<td class="num">2</td><td class="num">1.12</td>
+<td class="num">1.10</td><td class="num neg">-1.8%</td>
+<td class="num">225.28</td><td class="num">218.70</td>
+<td class="num">2.58</td>
+<td class="num strong neg">-$6.58</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">10</td><td>08/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">700</td>
+<td class="num">1</td><td class="num">2.18</td>
+<td class="num">2.49</td><td class="num pos">+14.2%</td>
+<td class="num">218.64</td><td class="num">248.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$29.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">11</td><td>08/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">702</td>
+<td class="num">1</td><td class="num">1.70</td>
+<td class="num">3.00</td><td class="num pos">+76.5%</td>
+<td class="num">170.64</td><td class="num">299.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$128.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">12</td><td>12/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">708</td>
+<td class="num">1</td><td class="num">1.99</td>
+<td class="num">1.50</td><td class="num neg">-24.6%</td>
+<td class="num">199.64</td><td class="num">149.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$50.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">13</td><td>12/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">709</td>
+<td class="num">1</td><td class="num">1.94</td>
+<td class="num">4.00</td><td class="num pos">+106.2%</td>
+<td class="num">194.64</td><td class="num">399.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$204.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">14</td><td>12/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">705</td>
+<td class="num">1</td><td class="num">1.80</td>
+<td class="num">2.22</td><td class="num pos">+23.3%</td>
+<td class="num">180.64</td><td class="num">221.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$40.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">15</td><td>12/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">704</td>
+<td class="num">1</td><td class="num">1.92</td>
+<td class="num">1.68</td><td class="num neg">-12.5%</td>
+<td class="num">192.64</td><td class="num">167.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$25.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">16</td><td>12/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">708</td>
+<td class="num">1</td><td class="num">1.80</td>
+<td class="num">4.03</td><td class="num pos">+123.9%</td>
+<td class="num">180.64</td><td class="num">402.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$221.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">17</td><td>13/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">708</td>
+<td class="num">1</td><td class="num">2.10</td>
+<td class="num">3.06</td><td class="num pos">+45.7%</td>
+<td class="num">210.64</td><td class="num">305.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$94.70</td>
+<td class="num">711.00</td></tr><tr><td class="num">18</td><td>13/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">707</td>
+<td class="num">1</td><td class="num">1.94</td>
+<td class="num">1.49</td><td class="num neg">-23.2%</td>
+<td class="num">194.64</td><td class="num">148.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$46.30</td>
+<td class="num">711.00</td></tr><tr><td class="num">19</td><td>14/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">718</td>
+<td class="num">1</td><td class="num">2.50</td>
+<td class="num">1.78</td><td class="num neg">-28.8%</td>
+<td class="num">250.64</td><td class="num">177.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$73.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">20</td><td>14/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">715</td>
+<td class="num">1</td><td class="num">3.68</td>
+<td class="num">5.00</td><td class="num pos">+35.9%</td>
+<td class="num">368.64</td><td class="num">499.33</td>
+<td class="num">1.31</td>
+<td class="num strong pos">+$130.69</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">21</td><td>15/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">705</td>
+<td class="num">2</td><td class="num">1.50</td>
+<td class="num">0.89</td><td class="num neg">-40.7%</td>
+<td class="num">301.28</td><td class="num">176.70</td>
+<td class="num">2.58</td>
+<td class="num strong neg">-$124.58</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">22</td><td>15/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">709</td>
+<td class="num">2</td><td class="num">2.40</td>
+<td class="num">1.69</td><td class="num neg">-29.6%</td>
+<td class="num">480.28</td><td class="num">335.68</td>
+<td class="num">2.60</td>
+<td class="num strong neg">-$144.60</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">23</td><td>15/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">707</td>
+<td class="num">1</td><td class="num">1.17</td>
+<td class="num">0.95</td><td class="num neg">-18.8%</td>
+<td class="num">117.64</td><td class="num">94.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$23.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">24</td><td>19/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">702</td>
+<td class="num">1</td><td class="num">2.50</td>
+<td class="num">2.81</td><td class="num pos">+12.4%</td>
+<td class="num">250.64</td><td class="num">280.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$29.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">25</td><td>19/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">700</td>
+<td class="num">3</td><td class="num">2.27</td>
+<td class="num">1.67</td><td class="num neg">-26.7%</td>
+<td class="num">683.92</td><td class="num">498.02</td>
+<td class="num">3.90</td>
+<td class="num strong neg">-$185.90</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">26</td><td>19/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">706</td>
+<td class="num">1</td><td class="num">1.10</td>
+<td class="num">0.45</td><td class="num neg">-59.1%</td>
+<td class="num">110.64</td><td class="num">44.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$66.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">27</td><td>19/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">700</td>
+<td class="num">3</td><td class="num">3.02</td>
+<td class="num">4.33</td><td class="num pos">+43.5%</td>
+<td class="num">907.92</td><td class="num">1,298.02</td>
+<td class="num">3.90</td>
+<td class="num strong pos">+$390.10</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">28</td><td>22/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">720</td>
+<td class="num">3</td><td class="num">1.67</td>
+<td class="num">2.13</td><td class="num pos">+27.5%</td>
+<td class="num">502.92</td><td class="num">637.05</td>
+<td class="num">3.87</td>
+<td class="num strong pos">+$134.13</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">29</td><td>22/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">720</td>
+<td class="num">3</td><td class="num">2.81</td>
+<td class="num">1.90</td><td class="num neg">-32.4%</td>
+<td class="num">844.92</td><td class="num">568.05</td>
+<td class="num">3.87</td>
+<td class="num strong neg">-$276.87</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">30</td><td>22/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">720</td>
+<td class="num">1</td><td class="num">2.00</td>
+<td class="num">1.63</td><td class="num neg">-18.5%</td>
+<td class="num">200.64</td><td class="num">162.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$38.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">31</td><td>26/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">727</td>
+<td class="num">1</td><td class="num">2.20</td>
+<td class="num">1.97</td><td class="num neg">-10.5%</td>
+<td class="num">220.64</td><td class="num">196.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$24.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">32</td><td>26/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">730</td>
+<td class="num">1</td><td class="num">1.15</td>
+<td class="num">1.02</td><td class="num neg">-11.3%</td>
+<td class="num">115.64</td><td class="num">101.34</td>
+<td class="num">1.30</td>
+<td class="num strong neg">-$14.30</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">33</td><td>27/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">730</td>
+<td class="num">1</td><td class="num">2.00</td>
+<td class="num">2.97</td><td class="num pos">+48.5%</td>
+<td class="num">200.64</td><td class="num">296.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$95.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">34</td><td>28/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">728</td>
+<td class="num">1</td><td class="num">1.76</td>
+<td class="num">2.00</td><td class="num pos">+13.6%</td>
+<td class="num">176.64</td><td class="num">199.34</td>
+<td class="num">1.30</td>
+<td class="num strong pos">+$22.70</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">35</td><td>28/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">731</td>
+<td class="num">10</td><td class="num">2.29</td>
+<td class="num">1.67</td><td class="num neg">-27.1%</td>
+<td class="num">2,296.37</td><td class="num">1,663.56</td>
+<td class="num">12.81</td>
+<td class="num strong neg">-$632.81</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">36</td><td>29/05/2026</td>
+<td><span class="badge">PUT</span></td><td class="num">740</td>
+<td class="num">3</td><td class="num">2.77</td>
+<td class="num">1.53</td><td class="num neg">-44.7%</td>
+<td class="num">831.92</td><td class="num">457.06</td>
+<td class="num">3.86</td>
+<td class="num strong neg">-$374.86</td>
+<td class="num"><span class="mute">—</span></td></tr><tr><td class="num">37</td><td>29/05/2026</td>
+<td><span class="badge">CALL</span></td><td class="num">741</td>
+<td class="num">3</td><td class="num">1.75</td>
+<td class="num">1.35</td><td class="num neg">-22.9%</td>
+<td class="num">526.92</td><td class="num">403.06</td>
+<td class="num">3.86</td>
+<td class="num strong neg">-$123.86</td>
+<td class="num"><span class="mute">—</span></td></tr></tbody>
+  <tfoot><tr><td colspan="8">รวม 37 ไม้</td><td class="num">12,455.65</td>
+   <td class="num">11,789.43</td><td class="num">80.22</td>
+   <td class="num neg">-$666.22</td><td></td></tr></tfoot></table></div>
+ <p class="sec-note" style="margin-top:12px">คอลัมน์ <b>QQQ อ้างอิง</b> คือราคาหุ้น QQQ
+ ที่คุณเทรดเองในวันเดียวกัน (จากส่วน Stocks ของสเตตเมนต์) ใช้ดูคร่าว ๆ ว่า strike
+ ห่างจากราคาตลาดแค่ไหน — ไม่ใช่ราคาปิดของวัน วันที่ไม่ได้เทรดหุ้น QQQ จะไม่มีข้อมูล</p>
+</section>
+
+<section>
+ <h2>สิ่งที่ตัวเลขบอก</h2>
+ <ul class="find"><li data-n="1"><b>ทั้งความแม่นและขนาดไม้ไม่เข้าข้าง</b> — อัตราชนะ 45.9% (แพ้ 20 จาก 37 ไม้) และไม้ที่แพ้เฉลี่ย -$115.73 ยังใหญ่กว่าไม้ที่ชนะเฉลี่ย +$96.97 ผลคือ Profit Factor เหลือ 0.71 เดือนนี้จึงติดลบทั้งสองทาง</li><li data-n="2"><b>คุมขาดทุนได้ดีกว่ากำไรที่ปล่อยไว้</b> — ไม้ที่แพ้ตัดที่ <b>-24.8%</b> ของพรีเมียม ขณะที่ไม้ที่ชนะถือถึง <b>+38.2%</b> นี่คือฝั่งที่ถูกของสมการ ถ้ารักษาไว้ได้อัตราชนะต่ำก็ยังกำไรได้</li><li data-n="3"><b>ขนาดไม้กับผลลัพธ์</b> — แยกตามจำนวนสัญญา: 1 สัญญา +$591.19 (26 ไม้) · 2 สัญญา -$187.34 (4 ไม้) · 3 สัญญา -$437.26 (6 ไม้) · 10 สัญญา -$632.81 (1 ไม้) <b>ไม้ขนาด 1 สัญญารวมกำไร +$591.19 แต่พอเพิ่มขนาดเป็น 2 สัญญาขึ้นไป กลับขาดทุน -$1,257.41</b> การเพิ่มขนาดตอนนี้ยังทำให้ผลแย่ลง ไม่ใช่ดีขึ้น</li><li data-n="4"><b>ไม้ที่แย่ที่สุดกินสัดส่วนใหญ่</b> — 28/05 PUT 731 × 10 สัญญา ขาดทุน -$632.81 คิดเป็น 27% ของขาดทุนทั้งเดือน ที่เหลืออีก 36 ไม้รวมกันได้ -$33.41</li><li data-n="5"><b>ค่าธรรมเนียมยังไม่ใช่ตัวชี้ขาด</b> — ทั้งเดือน $80.22 หรือ 14% ของผลก่อนค่าธรรมเนียม (-$586.00) ต่อให้ไม่เสียเลย เดือนนี้ก็ยังเป็น -$586.00 อยู่ดี</li><li data-n="6"><b>ซื้อออปชันอย่างเดียว ไม่เคยขายพรีเมียม</b> — ทั้ง 37 ไม้เป็น long premium ซึ่งใน 0DTE คือฝั่งที่ค่าเวลา (theta) ไหลออกเร็วที่สุดของวัน ต้องเดาทิศถูก <i>และ</i> ถูกเร็ว ไม้ที่ถือแล้วราคาไม่ไปไหนจะขาดทุนเองอัตโนมัติ</li><li data-n="7"><b>ไล่ราคาเข้าซ้ำสัญญาเดิม 6 ครั้ง</b> — เช่น 05/05 CALL 682 ขายออกที่ $0.98 แล้วกลับเข้าใหม่ที่ $1.12 (แพงกว่า 14%) ไม้ที่กลับเข้าซ้ำทั้งหมดรวมกันได้ +$286.03 — เป็นจุดที่ควรมีกฎเขียนไว้ล่วงหน้าว่าจะเข้าซ้ำได้เมื่อไร</li></ul>
+</section>
+
+<section>
+ <h2>เทียบกับเดือนอื่น</h2>
+ <p class="sec-note">ผล QQQ 0DTE ของทุกเดือนที่มีข้อมูล — แท่งเข้มคือเดือนนี้</p>
+ <div class="chart-wrap"><svg viewBox="0 0 760 250" class="chart" role="img" aria-label="เทียบผล QQQ 0DTE รายเดือน"><line class="grid" x1="66" x2="736" y1="188.0" y2="188.0"/><text class="tick ty" x="56" y="192.0">-$1,000</text><line class="grid" x1="66" x2="736" y1="161.7" y2="161.7"/><text class="tick ty" x="56" y="165.7">-$800</text><line class="grid" x1="66" x2="736" y1="135.3" y2="135.3"/><text class="tick ty" x="56" y="139.3">-$600</text><line class="grid" x1="66" x2="736" y1="109.0" y2="109.0"/><text class="tick ty" x="56" y="113.0">-$400</text><line class="grid" x1="66" x2="736" y1="82.7" y2="82.7"/><text class="tick ty" x="56" y="86.7">-$200</text><line class="grid" x1="66" x2="736" y1="56.3" y2="56.3"/><text class="tick ty" x="56" y="60.3">$0</text><line class="grid" x1="66" x2="736" y1="30.0" y2="30.0"/><text class="tick ty" x="56" y="34.0">+$200</text><line class="zero" x1="66" x2="736" y1="56.3" y2="56.3"/><path class="bar neg faded" d="M134.75,56.333333333333314 L134.75,56.333333333333314 Q134.75,57.55520000000001 135.9718666666667,57.55520000000001 L163.5281333333333,57.55520000000001 Q164.75,57.55520000000001 164.75,56.333333333333314 L164.75,56.333333333333314 Z"/><text class="val" x="149.8" y="74.6">-$9</text><text class="tick tx sm" x="149.8" y="210">เม.ย.</text><text class="tick tx sm" x="149.8" y="226">9 ไม้</text><rect class="hit" x="66.0" y="30" width="167.5" height="158" data-tip="เมษายน 2026 — 9 ไม้|สุทธิ -$9.28 · ชนะ 67% · ค่าธรรมเนียม $1.28"/><path class="bar neg" d="M302.25,56.333333333333314 L302.25,140.05229999999995 Q302.25,144.05229999999995 306.25,144.05229999999995 L328.25,144.05229999999995 Q332.25,144.05229999999995 332.25,140.05229999999995 L332.25,56.333333333333314 Z"/><text class="val" x="317.2" y="161.1">-$666</text><text class="tick tx" x="317.2" y="210">พ.ค. ●</text><text class="tick tx sm" x="317.2" y="226">37 ไม้</text><rect class="hit" x="233.5" y="30" width="167.5" height="158" data-tip="พฤษภาคม 2026 — 37 ไม้|สุทธิ -$666.22 · ชนะ 46% · ค่าธรรมเนียม $80.22"/><path class="bar pos faded" d="M469.75,56.333333333333314 L469.75,56.333333333333314 Q469.75,55.28789999999998 470.79543333333334,55.28789999999998 L498.70456666666666,55.28789999999998 Q499.75,55.28789999999998 499.75,56.333333333333314 L499.75,56.333333333333314 Z"/><text class="val" x="484.8" y="46.3">+$8</text><text class="tick tx sm" x="484.8" y="210">มิ.ย.</text><text class="tick tx sm" x="484.8" y="226">13 ไม้</text><rect class="hit" x="401.0" y="30" width="167.5" height="158" data-tip="มิถุนายน 2026 — 13 ไม้|สุทธิ +$7.94 · ชนะ 38% · ค่าธรรมเนียม $22.06"/><path class="bar neg faded" d="M637.25,56.333333333333314 L637.25,80.71276666666665 Q637.25,84.71276666666665 641.25,84.71276666666665 L663.25,84.71276666666665 Q667.25,84.71276666666665 667.25,80.71276666666665 L667.25,56.333333333333314 Z"/><text class="val" x="652.2" y="101.7">-$216</text><text class="tick tx sm" x="652.2" y="210">ก.ค.</text><text class="tick tx sm" x="652.2" y="226">14 ไม้</text><rect class="hit" x="568.5" y="30" width="167.5" height="158" data-tip="กรกฎาคม 2026 — 14 ไม้|สุทธิ -$215.54 · ชนะ 43% · ค่าธรรมเนียม $52.54"/></svg></div>
+ <div class="note"><p>รวมทุกเดือนที่มีข้อมูล QQQ 0DTE (4 เดือน, 73 ไม้) ผลสะสม <b>-$883.10</b></p><p>ค่าธรรมเนียมต่อสัญญาต่อรอบขยับจาก <b>$0.12</b> (เม.ย.) เป็น <b>$1.30</b> (มิ.ย.) — ราว 11 เท่า ยิ่งเทรดถี่ ส่วนต่างนี้ยิ่งมีน้ำหนัก</p></div>
+</section>
+
+<section>
+ <h2>ขาการเทรดดิบทั้งหมด</h2>
+ <p class="sec-note">81 รายการตามที่ปรากฏในสเตตเมนต์ เรียงตามลำดับเวลา</p>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th>วันที่</th><th>สัญญา</th><th>ฝั่ง</th><th>ประเภท</th><th class="num">Strike</th>
+   <th class="num">จำนวน</th><th class="num">ราคา</th><th class="num">มูลค่า</th>
+   <th class="num">ค่าธรรมเนียม</th><th class="num">สุทธิ</th></tr></thead>
+  <tbody><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">0.95</td><td class="num">95.00</td>
+<td class="num">0.64</td><td class="num">95.64</td></tr><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">0.98</td><td class="num">98.00</td>
+<td class="num">0.66</td><td class="num">97.34</td></tr><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">1.12</td><td class="num">112.00</td>
+<td class="num">0.64</td><td class="num">112.64</td></tr><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">0.79</td><td class="num">79.00</td>
+<td class="num">0.66</td><td class="num">78.34</td></tr><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">0.86</td><td class="num">86.00</td>
+<td class="num">0.64</td><td class="num">86.64</td></tr><tr><td>05/05/2026</td><td class="mono">QQQ   260505C00682000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">682</td><td class="num">1</td>
+<td class="num">1.11</td><td class="num">111.00</td>
+<td class="num">0.66</td><td class="num">110.34</td></tr><tr><td>06/05/2026</td><td class="mono">QQQ   260506C00689000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">689</td><td class="num">1</td>
+<td class="num">1.69</td><td class="num">169.00</td>
+<td class="num">0.64</td><td class="num">169.64</td></tr><tr><td>06/05/2026</td><td class="mono">QQQ   260506C00689000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">689</td><td class="num">1</td>
+<td class="num">1.79</td><td class="num">179.00</td>
+<td class="num">0.66</td><td class="num">178.34</td></tr><tr><td>06/05/2026</td><td class="mono">QQQ   260506C00690000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">690</td><td class="num">1</td>
+<td class="num">1.25</td><td class="num">125.00</td>
+<td class="num">0.64</td><td class="num">125.64</td></tr><tr><td>06/05/2026</td><td class="mono">QQQ   260506C00690000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">690</td><td class="num">1</td>
+<td class="num">1.16</td><td class="num">116.00</td>
+<td class="num">0.64</td><td class="num">116.64</td></tr><tr><td>06/05/2026</td><td class="mono">QQQ   260506C00690000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">690</td><td class="num">2</td>
+<td class="num">1.66</td><td class="num">332.00</td>
+<td class="num">1.30</td><td class="num">330.70</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507C00698000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">698</td><td class="num">1</td>
+<td class="num">1.30</td><td class="num">130.00</td>
+<td class="num">0.64</td><td class="num">130.64</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507C00698000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">698</td><td class="num">1</td>
+<td class="num">1.34</td><td class="num">134.00</td>
+<td class="num">0.66</td><td class="num">133.34</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507P00699000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">699</td><td class="num">1</td>
+<td class="num">1.36</td><td class="num">136.00</td>
+<td class="num">0.64</td><td class="num">136.64</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507P00699000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">699</td><td class="num">1</td>
+<td class="num">0.99</td><td class="num">99.00</td>
+<td class="num">0.66</td><td class="num">98.34</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507C00697000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">697</td><td class="num">1</td>
+<td class="num">1.24</td><td class="num">124.00</td>
+<td class="num">0.64</td><td class="num">124.64</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507C00697000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">697</td><td class="num">1</td>
+<td class="num">1.15</td><td class="num">115.00</td>
+<td class="num">0.66</td><td class="num">114.34</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507P00695000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">695</td><td class="num">2</td>
+<td class="num">1.12</td><td class="num">224.00</td>
+<td class="num">1.28</td><td class="num">225.28</td></tr><tr><td>07/05/2026</td><td class="mono">QQQ   260507P00695000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">695</td><td class="num">2</td>
+<td class="num">1.10</td><td class="num">220.00</td>
+<td class="num">1.30</td><td class="num">218.70</td></tr><tr><td>08/05/2026</td><td class="mono">QQQ   260508C00700000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">2.18</td><td class="num">218.00</td>
+<td class="num">0.64</td><td class="num">218.64</td></tr><tr><td>08/05/2026</td><td class="mono">QQQ   260508C00700000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">2.49</td><td class="num">249.00</td>
+<td class="num">0.66</td><td class="num">248.34</td></tr><tr><td>08/05/2026</td><td class="mono">QQQ   260508C00702000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">702</td><td class="num">1</td>
+<td class="num">1.70</td><td class="num">170.00</td>
+<td class="num">0.64</td><td class="num">170.64</td></tr><tr><td>08/05/2026</td><td class="mono">QQQ   260508C00702000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">702</td><td class="num">1</td>
+<td class="num">3.00</td><td class="num">300.00</td>
+<td class="num">0.66</td><td class="num">299.34</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00708000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">1.99</td><td class="num">199.00</td>
+<td class="num">0.64</td><td class="num">199.64</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00709000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">1.94</td><td class="num">194.00</td>
+<td class="num">0.64</td><td class="num">194.64</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00708000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">1.50</td><td class="num">150.00</td>
+<td class="num">0.66</td><td class="num">149.34</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00709000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">4.00</td><td class="num">400.00</td>
+<td class="num">0.66</td><td class="num">399.34</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00708000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">1.80</td><td class="num">180.00</td>
+<td class="num">0.64</td><td class="num">180.64</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00704000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">704</td><td class="num">1</td>
+<td class="num">1.92</td><td class="num">192.00</td>
+<td class="num">0.64</td><td class="num">192.64</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00705000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">705</td><td class="num">1</td>
+<td class="num">1.80</td><td class="num">180.00</td>
+<td class="num">0.64</td><td class="num">180.64</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00705000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">705</td><td class="num">1</td>
+<td class="num">2.22</td><td class="num">222.00</td>
+<td class="num">0.66</td><td class="num">221.34</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00704000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">704</td><td class="num">1</td>
+<td class="num">1.68</td><td class="num">168.00</td>
+<td class="num">0.66</td><td class="num">167.34</td></tr><tr><td>12/05/2026</td><td class="mono">QQQ   260512P00708000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">4.03</td><td class="num">403.00</td>
+<td class="num">0.66</td><td class="num">402.34</td></tr><tr><td>13/05/2026</td><td class="mono">QQQ   260513P00707000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">707</td><td class="num">1</td>
+<td class="num">1.94</td><td class="num">194.00</td>
+<td class="num">0.64</td><td class="num">194.64</td></tr><tr><td>13/05/2026</td><td class="mono">QQQ   260513P00708000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">2.10</td><td class="num">210.00</td>
+<td class="num">0.64</td><td class="num">210.64</td></tr><tr><td>13/05/2026</td><td class="mono">QQQ   260513P00708000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">708</td><td class="num">1</td>
+<td class="num">3.06</td><td class="num">306.00</td>
+<td class="num">0.66</td><td class="num">305.34</td></tr><tr><td>13/05/2026</td><td class="mono">QQQ   260513P00707000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">707</td><td class="num">1</td>
+<td class="num">1.49</td><td class="num">149.00</td>
+<td class="num">0.66</td><td class="num">148.34</td></tr><tr><td>14/05/2026</td><td class="mono">QQQ   260514C00718000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">718</td><td class="num">1</td>
+<td class="num">2.50</td><td class="num">250.00</td>
+<td class="num">0.64</td><td class="num">250.64</td></tr><tr><td>14/05/2026</td><td class="mono">QQQ   260514C00718000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">718</td><td class="num">1</td>
+<td class="num">1.78</td><td class="num">178.00</td>
+<td class="num">0.66</td><td class="num">177.34</td></tr><tr><td>14/05/2026</td><td class="mono">QQQ   260514C00715000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">715</td><td class="num">1</td>
+<td class="num">3.68</td><td class="num">368.00</td>
+<td class="num">0.64</td><td class="num">368.64</td></tr><tr><td>14/05/2026</td><td class="mono">QQQ   260514C00715000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">715</td><td class="num">1</td>
+<td class="num">5.00</td><td class="num">500.00</td>
+<td class="num">0.67</td><td class="num">499.33</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00709000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">2.90</td><td class="num">290.00</td>
+<td class="num">0.64</td><td class="num">290.64</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00705000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">705</td><td class="num">2</td>
+<td class="num">1.50</td><td class="num">300.00</td>
+<td class="num">1.28</td><td class="num">301.28</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00705000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">705</td><td class="num">2</td>
+<td class="num">0.89</td><td class="num">178.00</td>
+<td class="num">1.30</td><td class="num">176.70</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00709000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">1.89</td><td class="num">189.00</td>
+<td class="num">0.64</td><td class="num">189.64</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00709000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">1.81</td><td class="num">181.00</td>
+<td class="num">0.66</td><td class="num">180.34</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00709000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">709</td><td class="num">1</td>
+<td class="num">1.56</td><td class="num">156.00</td>
+<td class="num">0.66</td><td class="num">155.34</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00707000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">707</td><td class="num">1</td>
+<td class="num">1.17</td><td class="num">117.00</td>
+<td class="num">0.64</td><td class="num">117.64</td></tr><tr><td>15/05/2026</td><td class="mono">QQQ   260515P00707000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">707</td><td class="num">1</td>
+<td class="num">0.95</td><td class="num">95.00</td>
+<td class="num">0.66</td><td class="num">94.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">700</td><td class="num">2</td>
+<td class="num">2.50</td><td class="num">500.00</td>
+<td class="num">1.28</td><td class="num">501.28</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">1.90</td><td class="num">190.00</td>
+<td class="num">0.66</td><td class="num">189.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">1.82</td><td class="num">182.00</td>
+<td class="num">0.64</td><td class="num">182.64</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">1.50</td><td class="num">150.00</td>
+<td class="num">0.66</td><td class="num">149.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519C00702000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">702</td><td class="num">1</td>
+<td class="num">2.50</td><td class="num">250.00</td>
+<td class="num">0.64</td><td class="num">250.64</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519C00702000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">702</td><td class="num">1</td>
+<td class="num">2.81</td><td class="num">281.00</td>
+<td class="num">0.66</td><td class="num">280.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">1.60</td><td class="num">160.00</td>
+<td class="num">0.66</td><td class="num">159.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519C00706000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">706</td><td class="num">1</td>
+<td class="num">1.10</td><td class="num">110.00</td>
+<td class="num">0.64</td><td class="num">110.64</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">700</td><td class="num">3</td>
+<td class="num">3.02</td><td class="num">906.00</td>
+<td class="num">1.92</td><td class="num">907.92</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519C00706000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">706</td><td class="num">1</td>
+<td class="num">0.45</td><td class="num">45.00</td>
+<td class="num">0.66</td><td class="num">44.34</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">700</td><td class="num">2</td>
+<td class="num">4.00</td><td class="num">800.00</td>
+<td class="num">1.31</td><td class="num">798.69</td></tr><tr><td>19/05/2026</td><td class="mono">QQQ   260519P00700000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">700</td><td class="num">1</td>
+<td class="num">5.00</td><td class="num">500.00</td>
+<td class="num">0.67</td><td class="num">499.33</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">720</td><td class="num">3</td>
+<td class="num">1.67</td><td class="num">501.00</td>
+<td class="num">1.92</td><td class="num">502.92</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">720</td><td class="num">3</td>
+<td class="num">2.13</td><td class="num">639.00</td>
+<td class="num">1.95</td><td class="num">637.05</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">720</td><td class="num">3</td>
+<td class="num">2.81</td><td class="num">843.00</td>
+<td class="num">1.92</td><td class="num">844.92</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">720</td><td class="num">3</td>
+<td class="num">1.90</td><td class="num">570.00</td>
+<td class="num">1.95</td><td class="num">568.05</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">720</td><td class="num">1</td>
+<td class="num">2.00</td><td class="num">200.00</td>
+<td class="num">0.64</td><td class="num">200.64</td></tr><tr><td>22/05/2026</td><td class="mono">QQQ   260522C00720000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">720</td><td class="num">1</td>
+<td class="num">1.63</td><td class="num">163.00</td>
+<td class="num">0.66</td><td class="num">162.34</td></tr><tr><td>26/05/2026</td><td class="mono">QQQ   260526C00727000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">727</td><td class="num">1</td>
+<td class="num">2.20</td><td class="num">220.00</td>
+<td class="num">0.64</td><td class="num">220.64</td></tr><tr><td>26/05/2026</td><td class="mono">QQQ   260526C00727000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">727</td><td class="num">1</td>
+<td class="num">1.97</td><td class="num">197.00</td>
+<td class="num">0.66</td><td class="num">196.34</td></tr><tr><td>26/05/2026</td><td class="mono">QQQ   260526C00730000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">730</td><td class="num">1</td>
+<td class="num">1.15</td><td class="num">115.00</td>
+<td class="num">0.64</td><td class="num">115.64</td></tr><tr><td>26/05/2026</td><td class="mono">QQQ   260526C00730000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">730</td><td class="num">1</td>
+<td class="num">1.02</td><td class="num">102.00</td>
+<td class="num">0.66</td><td class="num">101.34</td></tr><tr><td>27/05/2026</td><td class="mono">QQQ   260527P00730000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">730</td><td class="num">1</td>
+<td class="num">2.00</td><td class="num">200.00</td>
+<td class="num">0.64</td><td class="num">200.64</td></tr><tr><td>27/05/2026</td><td class="mono">QQQ   260527P00730000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">730</td><td class="num">1</td>
+<td class="num">2.97</td><td class="num">297.00</td>
+<td class="num">0.66</td><td class="num">296.34</td></tr><tr><td>28/05/2026</td><td class="mono">QQQ   260528C00728000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">728</td><td class="num">1</td>
+<td class="num">1.76</td><td class="num">176.00</td>
+<td class="num">0.64</td><td class="num">176.64</td></tr><tr><td>28/05/2026</td><td class="mono">QQQ   260528C00728000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">728</td><td class="num">1</td>
+<td class="num">2.00</td><td class="num">200.00</td>
+<td class="num">0.66</td><td class="num">199.34</td></tr><tr><td>28/05/2026</td><td class="mono">QQQ   260528P00731000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">731</td><td class="num">10</td>
+<td class="num">2.29</td><td class="num">2,290.00</td>
+<td class="num">6.37</td><td class="num">2,296.37</td></tr><tr><td>28/05/2026</td><td class="mono">QQQ   260528P00731000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">731</td><td class="num">10</td>
+<td class="num">1.67</td><td class="num">1,670.00</td>
+<td class="num">6.44</td><td class="num">1,663.56</td></tr><tr><td>29/05/2026</td><td class="mono">QQQ   260529P00740000</td>
+<td>ซื้อ</td><td>PUT</td>
+<td class="num">740</td><td class="num">3</td>
+<td class="num">2.77</td><td class="num">830.00</td>
+<td class="num">1.92</td><td class="num">831.92</td></tr><tr><td>29/05/2026</td><td class="mono">QQQ   260529P00740000</td>
+<td>ขาย</td><td>PUT</td>
+<td class="num">740</td><td class="num">3</td>
+<td class="num">1.53</td><td class="num">459.00</td>
+<td class="num">1.94</td><td class="num">457.06</td></tr><tr><td>29/05/2026</td><td class="mono">QQQ   260529C00741000</td>
+<td>ซื้อ</td><td>CALL</td>
+<td class="num">741</td><td class="num">3</td>
+<td class="num">1.75</td><td class="num">525.00</td>
+<td class="num">1.92</td><td class="num">526.92</td></tr><tr><td>29/05/2026</td><td class="mono">QQQ   260529C00741000</td>
+<td>ขาย</td><td>CALL</td>
+<td class="num">741</td><td class="num">3</td>
+<td class="num">1.35</td><td class="num">405.00</td>
+<td class="num">1.94</td><td class="num">403.06</td></tr></tbody>
+  <tfoot><tr><td colspan="7">ขาย 11,789.43 − ซื้อ 12,455.65</td>
+   <td class="num">-586.00</td><td class="num">80.22</td>
+   <td class="num neg">-$666.22</td></tr></tfoot></table></div>
+</section>
+
+<section>
+  <h2>ภาคผนวก — QQQ ที่ไม่ใช่ 0DTE <span class="badge">นอกขอบเขตรายงาน</span></h2>
+  <p class="sec-note">เดือนนี้ยังมีออปชัน QQQ อีก 1 ไม้
+  (2 ขา) ที่อายุมากกว่า 0 วัน จึงไม่นับในตัวเลขทุกส่วนด้านบน
+  แต่ยกมาให้ดูเป็นบริบท</p>
+  <div class="tbl-scroll"><table>
+   <thead><tr><th>วันเทรด</th><th class="num">DTE</th><th>หมดอายุ</th><th>ประเภท</th>
+     <th class="num">Strike</th><th class="num">จำนวน</th><th class="num">เข้า</th>
+     <th class="num">ออก</th><th class="num">%</th><th class="num">P&amp;L</th></tr></thead>
+   <tbody><tr><td>20/05/2026</td><td class="num">1</td>
+<td>22/05/2026</td><td><span class="badge">PUT</span></td>
+<td class="num">702</td><td class="num">1</td>
+<td class="num">4.39</td><td class="num">2.00</td>
+<td class="num neg">-54.4%</td>
+<td class="num strong neg">-$240.30</td></tr></tbody>
+   <tfoot><tr><td colspan="9">รวม 1 ไม้</td>
+     <td class="num neg">-$240.30</td></tr></tfoot></table></div>
+  <div class="note"><p>กลุ่มนี้ให้ผล <b>-$240.30</b> เทียบกับฝั่ง 0DTE ที่ -$666.22
+  ถ้ารวมออปชัน QQQ ทั้งหมดของเดือนนี้ ผลจะเป็น <b>-$906.52</b>
+  จาก 38 ไม้</p></div>
+</section>
+
+<section>
+ <h2>วิธีคิดและข้อจำกัดของรายงาน</h2>
+ <div class="note" style="margin-top:6px">
+  <p><b>เกณฑ์คัดข้อมูล</b> — เอาเฉพาะแถวในส่วนรายการเทรดที่ชื่อสัญญาขึ้นต้นด้วย
+  <span class="mono">QQQ</span> และ <b>วันเทรด = วันหมดอายุ</b> (0DTE จริง) ได้ 81 ขา
+  จับคู่เป็น 37 ไม้</p>
+  <p><b>การจับคู่ไม้</b> — ใช้การเดินสถานะรายสัญญา ไม้หนึ่ง = ตั้งแต่เปิดสถานะจนกลับมาศูนย์
+  จึงรองรับกรณีทยอยเข้า ทยอยออก และการเข้าซ้ำสัญญาเดิมหลายรอบในวันเดียว
+  ราคาเข้า–ออกเป็นค่าเฉลี่ยถ่วงน้ำหนักจาก Gross Amount ÷ (จำนวนสัญญา × 100)
+  ไม่ใช่คอลัมน์ Traded Price ซึ่งปัดเศษ</p>
+  <p><b>การคำนวณ P&amp;L</b> — ใช้คอลัมน์ Net Amount ตรง ๆ (รวมค่าคอม/ค่าธรรมเนียม/VAT แล้ว)
+  P&amp;L ต่อไม้ = เงินที่รับตอนขาย − เงินที่จ่ายตอนซื้อ ยอดรวมกระทบยอดพอดี:
+  ขาย $11,789.43 − ซื้อ $12,455.65 = <b>-$666.22</b></p>
+  <p><b>ลำดับเวลา</b> — สเตตเมนต์เรียงรายการใหม่สุดไว้บน จึงกลับลำดับไฟล์เพื่อให้ได้ลำดับการเทรดจริง
+  ไฟล์นี้ไม่มีเวลาบันทึกไว้ จึงบอกไม่ได้ว่าถือแต่ละไม้นานเท่าไร
+  ยอดรวมทั้งเดือนไม่เปลี่ยนไม่ว่าจะเรียงแบบไหน แต่รูปเส้นทุนสะสมขึ้นกับสมมติฐานนี้</p>
+  <p><b>สิ่งที่รายงานนี้ไม่มี</b> — ไม่มีราคา QQQ รายวัน จึงคำนวณ moneyness ที่แม่นยำไม่ได้
+  และไม่มีข้อมูล IV หรือ Greeks ตัวเลขทั้งหมดคือผลที่เกิดขึ้นจริงแล้ว
+  ไม่ใช่การประเมินย้อนหลังของกลยุทธ์</p>
+ </div>
+</section>
+
+<footer>สร้างจาก 2026-05.csv · จำนวนเงินทั้งหมดเป็น USD</footer>
+</div><div id="tip"></div><script>(function(){var t=document.getElementById('tip');
+document.querySelectorAll('.hit').forEach(function(e){
+ e.addEventListener('mouseenter',function(){var p=(e.dataset.tip||'').split('|');
+  t.innerHTML='<b>'+p[0]+'</b><span>'+(p[1]||'')+'</span>';t.style.opacity=1;});
+ e.addEventListener('mousemove',function(v){var x=v.clientX+14,y=v.clientY+14,r=t.getBoundingClientRect();
+  if(x+r.width>innerWidth-8)x=v.clientX-r.width-14;if(y+r.height>innerHeight-8)y=v.clientY-r.height-14;
+  t.style.left=x+'px';t.style.top=y+'px';});
+ e.addEventListener('mouseleave',function(){t.style.opacity=0;});});})();</script></body></html>
