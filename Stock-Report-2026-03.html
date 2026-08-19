@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>รายงาน Spot Stock · มีนาคม 2026</title>
+<style>
+:root{color-scheme:light;
+ --plane:#f9f9f7;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--muted:#898781;
+ --grid:#e1e0d9;--axis:#c3c2b7;--ring:rgba(11,11,11,.10);
+ --pos:#008300;--neg:#e34948;--line:#2a78d6;--posText:#006300;--negText:#c2302f;
+ --chipbg:rgba(11,11,11,.05)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;
+ --plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;
+ --grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,.10);
+ --pos:#008300;--neg:#e66767;--line:#3987e5;--posText:#0ca30c;--negText:#e66767;
+ --chipbg:rgba(255,255,255,.06)}}
+:root[data-theme="dark"]{color-scheme:dark;
+ --plane:#0d0d0d;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--muted:#898781;
+ --grid:#2c2c2a;--axis:#383835;--ring:rgba(255,255,255,.10);
+ --pos:#008300;--neg:#e66767;--line:#3987e5;--posText:#0ca30c;--negText:#e66767;
+ --chipbg:rgba(255,255,255,.06)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--plane);color:var(--ink);
+ font-family:system-ui,-apple-system,"Segoe UI","Leelawadee UI","Noto Sans Thai",Tahoma,sans-serif;
+ line-height:1.65;-webkit-font-smoothing:antialiased}
+.wrap{max-width:960px;margin:0 auto;padding:40px 20px 72px}
+.eyebrow{font-size:12px;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600}
+h1{font-size:30px;line-height:1.25;margin:.35rem 0 .3rem;font-weight:650;letter-spacing:-.01em}
+.sub{color:var(--ink2);font-size:15px;margin:0}
+h2{font-size:19px;font-weight:650;margin:0 0 4px;letter-spacing:-.005em}
+.sec-note{color:var(--ink2);font-size:14px;margin:0 0 16px}
+section{background:var(--surface);border:1px solid var(--ring);border-radius:14px;padding:24px 22px;margin:18px 0}
+.hero{display:flex;flex-wrap:wrap;align-items:flex-end;gap:26px;padding:26px 24px;
+ background:var(--surface);border:1px solid var(--ring);border-radius:14px}
+.hero-fig{font-size:56px;font-weight:680;letter-spacing:-.025em;line-height:1}
+.hero-side{font-size:14px;color:var(--ink2);max-width:440px}
+.pos{color:var(--posText)}.neg{color:var(--negText)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;
+ background:var(--ring);border:1px solid var(--ring);border-radius:12px;overflow:hidden;margin-top:6px}
+.kpi{background:var(--surface);padding:14px 16px}
+.kpi-l{font-size:12.5px;color:var(--muted);font-weight:500}
+.kpi-v{font-size:23px;font-weight:660;letter-spacing:-.015em;margin-top:1px}
+.kpi-n{font-size:12px;color:var(--ink2);margin-top:2px}
+.chart-wrap{position:relative;overflow-x:auto}
+svg.chart{width:100%;height:auto;min-width:600px;display:block}
+.grid{stroke:var(--grid);stroke-width:1}
+.zero{stroke:var(--axis);stroke-width:1}
+.tick{fill:var(--muted);font-size:11.5px;font-variant-numeric:tabular-nums}
+.ty{text-anchor:end}.tx{text-anchor:middle}.tx.sm{font-size:10.5px;opacity:.85}
+.rowlab{fill:var(--ink2);font-size:13px;text-anchor:end;font-weight:560}
+.eqline{fill:none;stroke:var(--line);stroke-width:2;stroke-linejoin:round;stroke-linecap:round}
+.area{fill:var(--line);opacity:.10}
+.dot{fill:var(--line);stroke:var(--surface);stroke-width:2}
+.bar.pos{fill:var(--pos)}.bar.neg{fill:var(--neg)}.bar.faded{opacity:.32}
+.val{font-size:11.5px;font-weight:640;text-anchor:middle;fill:var(--ink2);font-variant-numeric:tabular-nums}
+.anno{font-size:12px;font-weight:620;fill:var(--ink2);text-anchor:middle}
+.hit{fill:transparent;cursor:pointer}
+.legend{display:flex;gap:18px;flex-wrap:wrap;margin:2px 0 12px;font-size:12.5px;color:var(--ink2)}
+.lg{display:inline-flex;align-items:center;gap:7px}
+.sw{width:11px;height:11px;border-radius:3px;display:inline-block}
+.sw.pos{background:var(--pos)}.sw.neg{background:var(--neg)}
+#tip{position:fixed;z-index:9;pointer-events:none;opacity:0;transition:opacity .1s;
+ background:var(--surface);border:1px solid var(--ring);border-radius:9px;padding:9px 12px;
+ font-size:12.5px;box-shadow:0 6px 22px rgba(0,0,0,.18);max-width:310px}
+#tip b{display:block;margin-bottom:2px}#tip span{color:var(--ink2)}
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:6px}
+th{text-align:left;font-weight:620;color:var(--ink2);font-size:12px;letter-spacing:.02em;
+ padding:8px 9px;border-bottom:1px solid var(--axis);white-space:nowrap}
+td{padding:8px 9px;border-bottom:1px solid var(--grid);white-space:nowrap}
+td.num,th.num{text-align:right;font-variant-numeric:tabular-nums}
+td.strong{font-weight:650}
+tbody tr:hover{background:var(--chipbg)}
+tfoot td{border-top:1px solid var(--axis);border-bottom:none;font-weight:650;padding-top:10px}
+.mono{font-family:ui-monospace,"Cascadia Mono",Consolas,monospace;font-size:12px}
+.mute{color:var(--muted)}
+.badge{display:inline-block;padding:1px 7px;border-radius:5px;font-size:11px;font-weight:640;
+ background:var(--chipbg);color:var(--ink2)}
+.tbl-scroll{overflow-x:auto}
+ul.find{list-style:none;padding:0;margin:0}
+ul.find li{padding:13px 0 13px 30px;border-bottom:1px solid var(--grid);position:relative;font-size:14.5px}
+ul.find li:last-child{border-bottom:none}
+ul.find li::before{content:attr(data-n);position:absolute;left:0;top:14px;width:20px;height:20px;
+ border-radius:50%;background:var(--chipbg);color:var(--ink2);font-size:11px;font-weight:680;
+ display:flex;align-items:center;justify-content:center}
+ul.find b{font-weight:650}
+.note{font-size:13px;color:var(--ink2);background:var(--chipbg);border-radius:10px;padding:14px 16px;margin-top:14px}
+.note p{margin:0 0 7px}.note p:last-child{margin:0}
+.warn{border-left:3px solid var(--neg)}
+footer{color:var(--muted);font-size:12.5px;margin-top:26px;text-align:center}
+@media (max-width:640px){.hero-fig{font-size:42px}h1{font-size:24px}.wrap{padding:26px 14px 56px}
+ section{padding:20px 15px}}
+</style></head><body><div class="wrap">
+<header>
+ <div class="eyebrow">รายงานผลการเทรด · Stocks</div>
+ <h1>Spot Stock — มีนาคม 2026</h1>
+ <p class="sub">การซื้อขายหุ้นและ ETF ทั้งหมด รวมหุ้นที่ได้มาจากการถูกใช้สิทธิออปชัน จากไฟล์ <span class="mono">2026-03.csv</span> ·
+ 8 ไม้ (23 ขา, 307 หุ้น) · เทรดจริง 7 วัน</p>
+</header>
+
+<div class="hero">
+ <div><div class="eyebrow">กำไร/ขาดทุนสุทธิ</div>
+  <div class="hero-fig pos">+$565.25</div></div>
+ <div class="hero-side">ชนะ 4 จาก 8 ไม้ (50.0%) ·
+ ไม้ที่ดีที่สุด <b>+$537.90</b> (RKLB) ·
+ แย่ที่สุด <b>-$10.57</b> (GOOG) — เดือนนี้จบเป็นบวก</div>
+</div>
+<div class="kpis">
+<div class="kpi"><div class="kpi-l">จำนวนไม้</div><div class="kpi-v ">8</div><div class="kpi-n">23 ขา · 307 หุ้น</div></div><div class="kpi"><div class="kpi-l">อัตราชนะ</div><div class="kpi-v ">50.0%</div><div class="kpi-n">ชนะ 4 · แพ้ 4</div></div><div class="kpi"><div class="kpi-l">Profit Factor</div><div class="kpi-v ">22.88</div><div class="kpi-n">ต่ำกว่า 1.00 = ขาดทุน</div></div><div class="kpi"><div class="kpi-l">Payoff Ratio</div><div class="kpi-v ">22.88</div><div class="kpi-n">ชนะเฉลี่ย ÷ แพ้เฉลี่ย</div></div><div class="kpi"><div class="kpi-l">คาดหวังต่อไม้</div><div class="kpi-v ">+$70.66</div><div class="kpi-n">Expectancy</div></div><div class="kpi"><div class="kpi-l">ชนะเฉลี่ย</div><div class="kpi-v pos">+$147.77</div><div class="kpi-n">4 ไม้</div></div><div class="kpi"><div class="kpi-l">แพ้เฉลี่ย</div><div class="kpi-v neg">-$6.46</div><div class="kpi-n">4 ไม้</div></div><div class="kpi"><div class="kpi-l">ค่าคอม + ค่าธรรมเนียม</div><div class="kpi-v ">$19.07</div><div class="kpi-n">$0.06 ต่อหุ้นต่อรอบ</div></div><div class="kpi"><div class="kpi-l">ทุนที่ลงรวม</div><div class="kpi-v ">$14,611</div><div class="kpi-n">เฉลี่ย $1,826 ต่อไม้</div></div><div class="kpi"><div class="kpi-l">ผลตอบแทนต่อทุน</div><div class="kpi-v ">+3.87%</div><div class="kpi-n">จากทุนที่ลงรวม</div></div><div class="kpi"><div class="kpi-l">Max Drawdown</div><div class="kpi-v ">$20.87</div><div class="kpi-n">จากจุดสูงสุด +$586.12</div></div><div class="kpi"><div class="kpi-l">วันที่บวก</div><div class="kpi-v ">4/7</div><div class="kpi-n">จำนวนวันที่จบเป็นบวก</div></div><div class="kpi"><div class="kpi-l">ไม้ที่ดีที่สุด</div><div class="kpi-v pos">+$537.90</div><div class="kpi-n">RKLB</div></div><div class="kpi"><div class="kpi-l">ไม้ที่แย่ที่สุด</div><div class="kpi-v neg">-$10.57</div><div class="kpi-n">GOOG</div></div>
+</div>
+
+<section>
+ <h2>เส้นทุนสะสม</h2>
+ <p class="sec-note">ไล่ตามลำดับการปิดจริง ไม้ที่ 1 ถึงไม้ที่ 8 —
+ สูงสุด +$586.12 · ต่ำสุด +$23.73</p>
+ <div class="chart-wrap"><svg viewBox="0 0 880 340" class="chart" role="img" aria-label="เส้นทุนสะสม 8 ไม้ จบเดือนที่ +$565.25"><line class="grid" x1="66" x2="856" y1="286.0" y2="286.0"/><text class="tick ty" x="56" y="290.0">-$200</text><line class="grid" x1="66" x2="856" y1="234.0" y2="234.0"/><text class="tick ty" x="56" y="238.0">$0</text><line class="grid" x1="66" x2="856" y1="182.0" y2="182.0"/><text class="tick ty" x="56" y="186.0">+$200</text><line class="grid" x1="66" x2="856" y1="130.0" y2="130.0"/><text class="tick ty" x="56" y="134.0">+$400</text><line class="grid" x1="66" x2="856" y1="78.0" y2="78.0"/><text class="tick ty" x="56" y="82.0">+$600</text><line class="grid" x1="66" x2="856" y1="26.0" y2="26.0"/><text class="tick ty" x="56" y="30.0">+$800</text><line class="zero" x1="66" x2="856" y1="234.0" y2="234.0"/><path class="area" d="M66.0,234.0 L164.8,226.5 L263.5,227.4 L362.2,227.8 L461.0,88.0 L559.8,87.8 L658.5,81.6 L757.2,84.3 L856.0,87.0 L856.0,234.0 L66,234.0 Z"/><path class="eqline" d="M66.0,234.0 L164.8,226.5 L263.5,227.4 L362.2,227.8 L461.0,88.0 L559.8,87.8 L658.5,81.6 L757.2,84.3 L856.0,87.0"/><circle class="dot" cx="164.8" cy="226.5" r="4.5"/><circle class="hit" cx="164.8" cy="226.5" r="30" data-tip="ไม้ #1 · 03/03/2026 · EOSE ×100|ไม้นี้ +$28.69 → ทุนสะสม +$28.69"/><text class="tick tx" x="164.8" y="308">#1</text><text class="tick tx sm" x="164.8" y="324">03/03</text><circle class="dot" cx="263.5" cy="227.4" r="4.5"/><circle class="hit" cx="263.5" cy="227.4" r="30" data-tip="ไม้ #2 · 06/03/2026 · RBRK ×100|ไม้นี้ -$3.39 → ทุนสะสม +$25.30"/><text class="tick tx" x="263.5" y="308">#2</text><text class="tick tx sm" x="263.5" y="324">06/03</text><circle class="dot" cx="362.2" cy="227.8" r="4.5"/><circle class="hit" cx="362.2" cy="227.8" r="30" data-tip="ไม้ #3 · 11/03/2026 · ORCL ×1|ไม้นี้ -$1.57 → ทุนสะสม +$23.73"/><text class="tick tx" x="362.2" y="308">#3</text><text class="tick tx sm" x="362.2" y="324">11/03</text><circle class="dot" cx="461.0" cy="88.0" r="4.5"/><circle class="hit" cx="461.0" cy="88.0" r="30" data-tip="ไม้ #4 · 18/03/2026 · RKLB ×100|ไม้นี้ +$537.90 → ทุนสะสม +$561.63"/><text class="tick tx" x="461.0" y="308">#4</text><text class="tick tx sm" x="461.0" y="324">18/03</text><circle class="dot" cx="559.8" cy="87.8" r="4.5"/><circle class="hit" cx="559.8" cy="87.8" r="30" data-tip="ไม้ #5 · 19/03/2026 · NFLX ×1|ไม้นี้ +$0.81 → ทุนสะสม +$562.44"/><text class="tick tx" x="559.8" y="308">#5</text><text class="tick tx sm" x="559.8" y="324">19/03</text><circle class="dot" cx="658.5" cy="81.6" r="4.5"/><circle class="hit" cx="658.5" cy="81.6" r="30" data-tip="ไม้ #6 · 24/03/2026 · AAPL ×3|ไม้นี้ +$23.68 → ทุนสะสม +$586.12"/><text class="tick tx" x="658.5" y="308">#6</text><text class="tick tx sm" x="658.5" y="324">24/03</text><circle class="dot" cx="757.2" cy="84.3" r="4.5"/><circle class="hit" cx="757.2" cy="84.3" r="30" data-tip="ไม้ #7 · 26/03/2026 · MSFT ×1|ไม้นี้ -$10.30 → ทุนสะสม +$575.82"/><text class="tick tx" x="757.2" y="308">#7</text><text class="tick tx sm" x="757.2" y="324">26/03</text><circle class="dot" cx="856.0" cy="87.0" r="4.5"/><circle class="hit" cx="856.0" cy="87.0" r="30" data-tip="ไม้ #8 · 26/03/2026 · GOOG ×1|ไม้นี้ -$10.57 → ทุนสะสม +$565.25"/><text class="tick tx" x="856.0" y="308">#8</text><text class="tick tx sm" x="856.0" y="324">26/03</text><text class="anno" x="658.5" y="69.6">สูงสุด +$586.12</text><text class="anno" style="text-anchor:end" x="856.0" y="109.0">ปิดที่ +$565.25</text></svg></div>
+ <div class="note"><p><b>Max Drawdown $20.87</b> —
+ ช่วงถอยที่ลึกที่สุดจากยอดสูงสุด +$586.12 เทียบกับทุนที่ลงเฉลี่ยต่อไม้
+ $1,826</p></div>
+</section>
+
+<section>
+ <h2>กำไร/ขาดทุน รายไม้</h2>
+ <p class="sec-note">แท่งขึ้น = กำไร · แท่งลง = ขาดทุน — เรียงตามลำดับการปิด</p>
+ <div class="legend"><span class="lg"><i class="sw pos"></i>กำไร</span>
+  <span class="lg"><i class="sw neg"></i>ขาดทุน</span></div>
+ <div class="chart-wrap"><svg viewBox="0 0 880 270" class="chart" role="img" aria-label="กำไรขาดทุนรายไม้ 8 ไม้" style="min-width:600px"><line class="grid" x1="66" x2="856" y1="218.0" y2="218.0"/><text class="tick ty" x="56" y="222.0">-$200</text><line class="grid" x1="66" x2="856" y1="196.7" y2="196.7"/><text class="tick ty" x="56" y="200.7">-$100</text><line class="grid" x1="66" x2="856" y1="175.3" y2="175.3"/><text class="tick ty" x="56" y="179.3">$0</text><line class="grid" x1="66" x2="856" y1="154.0" y2="154.0"/><text class="tick ty" x="56" y="158.0">+$100</text><line class="grid" x1="66" x2="856" y1="132.7" y2="132.7"/><text class="tick ty" x="56" y="136.7">+$200</text><line class="grid" x1="66" x2="856" y1="111.3" y2="111.3"/><text class="tick ty" x="56" y="115.3">+$300</text><line class="grid" x1="66" x2="856" y1="90.0" y2="90.0"/><text class="tick ty" x="56" y="94.0">+$400</text><line class="grid" x1="66" x2="856" y1="68.7" y2="68.7"/><text class="tick ty" x="56" y="72.7">+$500</text><line class="grid" x1="66" x2="856" y1="47.3" y2="47.3"/><text class="tick ty" x="56" y="51.3">+$600</text><line class="grid" x1="66" x2="856" y1="26.0" y2="26.0"/><text class="tick ty" x="56" y="30.0">+$700</text><line class="zero" x1="66" x2="856" y1="175.3" y2="175.3"/><path class="bar pos" d="M98.375,175.33333333333334 L98.375,173.2128 Q98.375,169.2128 102.375,169.2128 L128.375,169.2128 Q132.375,169.2128 132.375,173.2128 L132.375,175.33333333333334 Z"/><text class="val" x="115.4" y="162.2">+$29</text><text class="tick tx" x="115.4" y="240">#1</text><text class="tick tx sm" x="115.4" y="256">03/03</text><rect class="hit" x="66.0" y="26" width="98.8" height="192" data-tip="ไม้ #1 · 03/03/2026 · EOSE ×100|+$28.69 · ถือ 4 วัน · ค่าธรรมเนียม $1.31"/><path class="bar neg" d="M197.125,175.33333333333334 L197.125,175.33333333333334 Q197.125,176.05653333333342 197.84820000000008,176.05653333333342 L230.40179999999992,176.05653333333342 Q231.125,176.05653333333342 231.125,175.33333333333334 L231.125,175.33333333333334 Z"/><text class="val" x="214.1" y="192.1">-$3</text><text class="tick tx" x="214.1" y="240">#2</text><text class="tick tx sm" x="214.1" y="256">06/03</text><rect class="hit" x="164.8" y="26" width="98.8" height="192" data-tip="ไม้ #2 · 06/03/2026 · RBRK ×100|-$3.39 · ถือ 58 วัน · ค่าธรรมเนียม $6.02"/><path class="bar neg" d="M295.875,175.33333333333334 L295.875,175.33333333333334 Q295.875,175.93333333333334 296.475,175.93333333333334 L329.275,175.93333333333334 Q329.875,175.93333333333334 329.875,175.33333333333334 L329.875,175.33333333333334 Z"/><text class="val" x="312.9" y="191.7">-$2</text><text class="tick tx" x="312.9" y="240">#3</text><text class="tick tx sm" x="312.9" y="256">11/03</text><rect class="hit" x="263.5" y="26" width="98.8" height="192" data-tip="ไม้ #3 · 11/03/2026 · ORCL ×1|-$1.57 · ถือ 0 วัน · ค่าธรรมเนียม $0.37"/><path class="bar pos" d="M394.625,175.33333333333334 L394.625,64.58133333333353 Q394.625,60.58133333333353 398.625,60.58133333333353 L424.625,60.58133333333353 Q428.625,60.58133333333353 428.625,64.58133333333353 L428.625,175.33333333333334 Z"/><text class="val" x="411.6" y="53.6">+$538</text><text class="tick tx" x="411.6" y="240">#4</text><text class="tick tx sm" x="411.6" y="256">18/03</text><rect class="hit" x="362.2" y="26" width="98.8" height="192" data-tip="ไม้ #4 · 18/03/2026 · RKLB ×100|+$537.90 · ถือ 5 วัน · ค่าธรรมเนียม $8.10"/><path class="bar pos" d="M493.375,175.33333333333334 L493.375,175.33333333333334 Q493.375,174.73333333333335 493.975,174.73333333333335 L526.775,174.73333333333335 Q527.375,174.73333333333335 527.375,175.33333333333334 L527.375,175.33333333333334 Z"/><text class="val" x="510.4" y="168.2">+$1</text><text class="tick tx" x="510.4" y="240">#5</text><text class="tick tx sm" x="510.4" y="256">19/03</text><rect class="hit" x="461.0" y="26" width="98.8" height="192" data-tip="ไม้ #5 · 19/03/2026 · NFLX ×1|+$0.81 · ถือ 20 วัน · ค่าธรรมเนียม $0.21"/><path class="bar pos" d="M592.125,175.33333333333334 L592.125,174.2816 Q592.125,170.2816 596.125,170.2816 L622.125,170.2816 Q626.125,170.2816 626.125,174.2816 L626.125,175.33333333333334 Z"/><text class="val" x="609.1" y="163.3">+$24</text><text class="tick tx" x="609.1" y="240">#6</text><text class="tick tx sm" x="609.1" y="256">24/03</text><rect class="hit" x="559.8" y="26" width="98.8" height="192" data-tip="ไม้ #6 · 24/03/2026 · AAPL ×3|+$23.68 · ถือ 62 วัน · ค่าธรรมเนียม $1.62"/><path class="bar neg" d="M690.875,175.33333333333334 L690.875,175.33333333333334 Q690.875,177.53066666666666 693.0723333333333,177.53066666666666 L722.6776666666667,177.53066666666666 Q724.875,177.53066666666666 724.875,175.33333333333334 L724.875,175.33333333333334 Z"/><text class="val" x="707.9" y="193.5">-$10</text><text class="tick tx" x="707.9" y="240">#7</text><text class="tick tx sm" x="707.9" y="256">26/03</text><rect class="hit" x="658.5" y="26" width="98.8" height="192" data-tip="ไม้ #7 · 26/03/2026 · MSFT ×1|-$10.30 · ถือ 1 วัน · ค่าธรรมเนียม $0.82"/><path class="bar neg" d="M789.625,175.33333333333334 L789.625,175.33333333333334 Q789.625,177.58826666666664 791.8799333333333,177.58826666666664 L821.3700666666667,177.58826666666664 Q823.625,177.58826666666664 823.625,175.33333333333334 L823.625,175.33333333333334 Z"/><text class="val" x="806.6" y="193.6">-$11</text><text class="tick tx" x="806.6" y="240">#8</text><text class="tick tx sm" x="806.6" y="256">26/03</text><rect class="hit" x="757.2" y="26" width="98.8" height="192" data-tip="ไม้ #8 · 26/03/2026 · GOOG ×1|-$10.57 · ถือ 1 วัน · ค่าธรรมเนียม $0.62"/></svg></div>
+</section>
+
+<section>
+ <h2>กำไร/ขาดทุน รายวัน</h2>
+ <p class="sec-note">รวมทุกไม้ที่ปิดในวันเดียวกัน — 4 จาก 7 วันจบเป็นบวก</p>
+ <div class="chart-wrap"><svg viewBox="0 0 880 250" class="chart" role="img" aria-label="กำไรขาดทุนรายวัน" style="min-width:600px"><line class="grid" x1="66" x2="856" y1="198.0" y2="198.0"/><text class="tick ty" x="56" y="202.0">-$200</text><line class="grid" x1="66" x2="856" y1="163.6" y2="163.6"/><text class="tick ty" x="56" y="167.6">$0</text><line class="grid" x1="66" x2="856" y1="129.2" y2="129.2"/><text class="tick ty" x="56" y="133.2">+$200</text><line class="grid" x1="66" x2="856" y1="94.8" y2="94.8"/><text class="tick ty" x="56" y="98.8">+$400</text><line class="grid" x1="66" x2="856" y1="60.4" y2="60.4"/><text class="tick ty" x="56" y="64.4">+$600</text><line class="grid" x1="66" x2="856" y1="26.0" y2="26.0"/><text class="tick ty" x="56" y="30.0">+$800</text><line class="zero" x1="66" x2="856" y1="163.6" y2="163.6"/><path class="bar pos" d="M105.42857142857143,163.6 L105.42857142857143,162.66531999999998 Q105.42857142857143,158.66531999999998 109.42857142857143,158.66531999999998 L135.42857142857144,158.66531999999998 Q139.42857142857144,158.66531999999998 139.42857142857144,162.66531999999998 L139.42857142857144,163.6 Z"/><text class="val" x="122.4" y="151.7">+$29</text><text class="tick tx" x="122.4" y="220">03/03</text><rect class="hit" x="66.0" y="26" width="112.9" height="172" data-tip="03/03/2026|สุทธิ +$28.69 · 1 ไม้"/><path class="bar neg" d="M218.28571428571428,163.6 L218.28571428571428,163.6 Q218.28571428571428,164.2 218.88571428571427,164.2 L251.68571428571428,164.2 Q252.28571428571428,164.2 252.28571428571428,163.6 L252.28571428571428,163.6 Z"/><text class="val" x="235.3" y="180.2">-$3</text><text class="tick tx" x="235.3" y="220">06/03</text><rect class="hit" x="178.9" y="26" width="112.9" height="172" data-tip="06/03/2026|สุทธิ -$3.39 · 1 ไม้"/><path class="bar neg" d="M331.14285714285717,163.6 L331.14285714285717,163.6 Q331.14285714285717,164.2 331.74285714285713,164.2 L364.5428571428572,164.2 Q365.14285714285717,164.2 365.14285714285717,163.6 L365.14285714285717,163.6 Z"/><text class="val" x="348.1" y="179.9">-$2</text><text class="tick tx" x="348.1" y="220">11/03</text><rect class="hit" x="291.7" y="26" width="112.9" height="172" data-tip="11/03/2026|สุทธิ -$1.57 · 1 ไม้"/><path class="bar pos" d="M444.0,163.6 L444.0,75.08120000000017 Q444.0,71.08120000000017 448.0,71.08120000000017 L474.0,71.08120000000017 Q478.0,71.08120000000017 478.0,75.08120000000017 L478.0,163.6 Z"/><text class="val" x="461.0" y="64.1">+$538</text><text class="tick tx" x="461.0" y="220">18/03</text><rect class="hit" x="404.6" y="26" width="112.9" height="172" data-tip="18/03/2026|สุทธิ +$537.90 · 1 ไม้"/><path class="bar pos" d="M556.8571428571429,163.6 L556.8571428571429,163.6 Q556.8571428571429,163.0 557.4571428571429,163.0 L590.2571428571429,163.0 Q590.8571428571429,163.0 590.8571428571429,163.6 L590.8571428571429,163.6 Z"/><text class="val" x="573.9" y="156.5">+$1</text><text class="tick tx" x="573.9" y="220">19/03</text><rect class="hit" x="517.4" y="26" width="112.9" height="172" data-tip="19/03/2026|สุทธิ +$0.81 · 1 ไม้"/><path class="bar pos" d="M669.7142857142858,163.6 L669.7142857142858,163.52703999999997 Q669.7142857142858,159.52703999999997 673.7142857142858,159.52703999999997 L699.7142857142858,159.52703999999997 Q703.7142857142858,159.52703999999997 703.7142857142858,163.52703999999997 L703.7142857142858,163.6 Z"/><text class="val" x="686.7" y="152.5">+$24</text><text class="tick tx" x="686.7" y="220">24/03</text><rect class="hit" x="630.3" y="26" width="112.9" height="172" data-tip="24/03/2026|สุทธิ +$23.68 · 1 ไม้"/><path class="bar neg" d="M782.5714285714286,163.6 L782.5714285714286,163.6 Q782.5714285714286,167.18964 786.1610685714286,167.18964 L812.9817885714285,167.18964 Q816.5714285714286,167.18964 816.5714285714286,163.6 L816.5714285714286,163.6 Z"/><text class="val" x="799.6" y="183.2">-$21</text><text class="tick tx" x="799.6" y="220">26/03</text><rect class="hit" x="743.1" y="26" width="112.9" height="172" data-tip="26/03/2026|สุทธิ -$20.87 · 2 ไม้"/></svg></div>
+</section>
+
+<section>
+ <h2>แยกตามหลักทรัพย์</h2>
+ <p class="sec-note">เรียงจากกำไรมากที่สุดไปขาดทุนมากที่สุด — 8 รายการ</p>
+ <div class="chart-wrap"><svg viewBox="0 0 880 266" class="chart" role="img" aria-label="แยกตามหลักทรัพย์"><line class="zero" x1="461.0" x2="461.0" y1="12" y2="252"/><rect class="bar pos" x="461.0" y="18.0" width="263.2" height="18" rx="4"/><text class="rowlab" x="120" y="32.0">RKLB</text><text class="val" style="text-anchor:start" x="732.2" y="32.0">+$538</text><rect class="hit" x="0" y="12" width="880" height="30" data-tip="RKLB|+$537.90 · 1 ไม้ · ชนะ 1/1 · 100 หุ้น · ค่าธรรมเนียม $8.10"/><rect class="bar pos" x="461.0" y="48.0" width="14.0" height="18" rx="4"/><text class="rowlab" x="120" y="62.0">EOSE</text><text class="val" style="text-anchor:start" x="483.0" y="62.0">+$29</text><rect class="hit" x="0" y="42" width="880" height="30" data-tip="EOSE|+$28.69 · 1 ไม้ · ชนะ 1/1 · 100 หุ้น · ค่าธรรมเนียม $1.31"/><rect class="bar pos" x="461.0" y="78.0" width="11.6" height="18" rx="4"/><text class="rowlab" x="120" y="92.0">AAPL</text><text class="val" style="text-anchor:start" x="480.6" y="92.0">+$24</text><rect class="hit" x="0" y="72" width="880" height="30" data-tip="AAPL|+$23.68 · 1 ไม้ · ชนะ 1/1 · 3 หุ้น · ค่าธรรมเนียม $1.62"/><rect class="bar pos" x="461.0" y="108.0" width="1.2" height="18" rx="4"/><text class="rowlab" x="120" y="122.0">NFLX</text><text class="val" style="text-anchor:start" x="469.4" y="122.0">+$1</text><rect class="hit" x="0" y="102" width="880" height="30" data-tip="NFLX|+$0.81 · 1 ไม้ · ชนะ 1/1 · 1 หุ้น · ค่าธรรมเนียม $0.21"/><rect class="bar neg" x="460.2" y="138.0" width="1.2" height="18" rx="4"/><text class="rowlab" x="120" y="152.0">ORCL</text><text class="val" style="text-anchor:end" x="452.2" y="152.0">-$2</text><rect class="hit" x="0" y="132" width="880" height="30" data-tip="ORCL|-$1.57 · 1 ไม้ · ชนะ 0/1 · 1 หุ้น · ค่าธรรมเนียม $0.37"/><rect class="bar neg" x="459.3" y="168.0" width="1.7" height="18" rx="4"/><text class="rowlab" x="120" y="182.0">RBRK</text><text class="val" style="text-anchor:end" x="451.3" y="182.0">-$3</text><rect class="hit" x="0" y="162" width="880" height="30" data-tip="RBRK|-$3.39 · 1 ไม้ · ชนะ 0/1 · 100 หุ้น · ค่าธรรมเนียม $6.02"/><rect class="bar neg" x="456.0" y="198.0" width="5.0" height="18" rx="4"/><text class="rowlab" x="120" y="212.0">MSFT</text><text class="val" style="text-anchor:end" x="448.0" y="212.0">-$10</text><rect class="hit" x="0" y="192" width="880" height="30" data-tip="MSFT|-$10.30 · 1 ไม้ · ชนะ 0/1 · 1 หุ้น · ค่าธรรมเนียม $0.82"/><rect class="bar neg" x="455.8" y="228.0" width="5.2" height="18" rx="4"/><text class="rowlab" x="120" y="242.0">GOOG</text><text class="val" style="text-anchor:end" x="447.8" y="242.0">-$11</text><rect class="hit" x="0" y="222" width="880" height="30" data-tip="GOOG|-$10.57 · 1 ไม้ · ชนะ 0/1 · 1 หุ้น · ค่าธรรมเนียม $0.62"/></svg></div>
+ 
+</section>
+
+<section>
+ <h2>ตารางการเทรดแบบเต็ม</h2>
+ <p class="sec-note">ทุกไม้ที่ปิดในเดือนนี้ เรียงตามลำดับการปิด</p>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th class="num">#</th><th>วันเปิด</th><th>วันปิด</th><th class="num">ถือ(วัน)</th><th>หลักทรัพย์</th><th>ทิศทาง</th><th class="num">หุ้น</th><th class="num">ขา</th><th class="num">ค่าธรรมเนียม</th><th class="num">สุทธิ</th></tr></thead>
+  <tbody><tr><td>1</td><td>27/02/2026</td><td>03/03/2026</td><td class="num">4</td><td class="num">EOSE</td><td><span class="badge">LONG</span></td><td class="num">100</td><td class="num">2</td><td class="num">$1.31</td><td class="num strong pos">+$28.69</td></tr><tr><td>2</td><td>07/01/2026</td><td>06/03/2026</td><td class="num">58</td><td class="num">RBRK</td><td><span class="badge">LONG</span></td><td class="num">100</td><td class="num">8</td><td class="num">$6.02</td><td class="num strong neg">-$3.39</td></tr><tr><td>3</td><td>11/03/2026</td><td>11/03/2026</td><td class="num">0</td><td class="num">ORCL</td><td><span class="badge">LONG</span></td><td class="num">1</td><td class="num">2</td><td class="num">$0.37</td><td class="num strong neg">-$1.57</td></tr><tr><td>4</td><td>13/03/2026</td><td>18/03/2026</td><td class="num">5</td><td class="num">RKLB</td><td><span class="badge">LONG</span></td><td class="num">100</td><td class="num">2</td><td class="num">$8.10</td><td class="num strong pos">+$537.90</td></tr><tr><td>5</td><td>27/02/2026</td><td>19/03/2026</td><td class="num">20</td><td class="num">NFLX</td><td><span class="badge">LONG</span></td><td class="num">1</td><td class="num">2</td><td class="num">$0.21</td><td class="num strong pos">+$0.81</td></tr><tr><td>6</td><td>21/01/2026</td><td>24/03/2026</td><td class="num">62</td><td class="num">AAPL</td><td><span class="badge">LONG</span></td><td class="num">3</td><td class="num">3</td><td class="num">$1.62</td><td class="num strong pos">+$23.68</td></tr><tr><td>7</td><td>25/03/2026</td><td>26/03/2026</td><td class="num">1</td><td class="num">MSFT</td><td><span class="badge">LONG</span></td><td class="num">1</td><td class="num">2</td><td class="num">$0.82</td><td class="num strong neg">-$10.30</td></tr><tr><td>8</td><td>25/03/2026</td><td>26/03/2026</td><td class="num">1</td><td class="num">GOOG</td><td><span class="badge">LONG</span></td><td class="num">1</td><td class="num">2</td><td class="num">$0.62</td><td class="num strong neg">-$10.57</td></tr></tbody>
+  <tfoot><tr><td colspan="6">รวม 8 ไม้</td>
+   <td class="num">307</td><td class="num">23</td>
+   <td class="num">$19.07</td>
+   <td class="num pos">+$565.25</td></tr></tfoot>
+ </table></div>
+</section>
+<section>
+ <h2>สิ่งที่ตัวเลขบอก</h2>
+ <ul class="find"><li data-n="1">เดือนนี้ปิด <b>8 ไม้</b> (23 ขา) ใน 7 วันทำการ สุทธิ <b class="pos">+$565.25</b> จากทุนที่ลงรวม $14,611 คิดเป็น +3.87%</li><li data-n="2">อัตราชนะ 50.0% กับ Payoff 22.88 → Profit Factor <b>22.88</b> ซึ่งเกิน 1.00 แปลว่ากลยุทธ์เดือนนี้ได้เปรียบ</li><li data-n="3">ตัวที่ทำกำไรมากที่สุดคือ <b>RKLB</b> <b class="pos">+$537.90</b> จาก 1 ไม้ (ชนะ 1)</li><li data-n="4">ตัวที่ขาดทุนมากที่สุดคือ <b>GOOG</b> <b class="neg">-$10.57</b> จาก 1 ไม้</li><li data-n="5">ไม้ที่แย่ที่สุด <b class="neg">-$10.57</b> (GOOG วันที่ 26/03/2026) คิดเป็น 2% ของมูลค่าความเคลื่อนไหวทั้งเดือน</li><li data-n="6">ค่าธรรมเนียมรวม <b>$19.07</b> เทียบกับกำไรสุทธิ $565.25 คือ 3%</li></ul>
+</section>
+
+<section>
+ <h2>เทียบกับเดือนอื่น</h2>
+ <p class="sec-note">คลิกชื่อเดือนเพื่อเปิดรายงานของเดือนนั้น</p>
+ <div class="tbl-scroll"><table>
+  <thead><tr><th>เดือน</th><th class="num">ไม้</th><th class="num">หุ้น</th>
+   <th class="num">วัน</th><th class="num">%ชนะ</th><th class="num">PF</th>
+   <th class="num">ค่าธรรมเนียม</th><th class="num">สุทธิ</th></tr></thead>
+  <tbody><tr><td><a href="Stock-Report-2026-01.html">มกราคม</a></td><td class="num">10</td><td class="num">10</td><td class="num">7</td><td class="num">30.0%</td><td class="num">0.14</td><td class="num">$6.21</td><td class="num strong neg">-$56.69</td></tr><tr><td><a href="Stock-Report-2026-02.html">กุมภาพันธ์</a></td><td class="num">14</td><td class="num">32</td><td class="num">9</td><td class="num">28.6%</td><td class="num">1.33</td><td class="num">$11.85</td><td class="num strong pos">+$31.14</td></tr><tr style="font-weight:650"><td>มีนาคม</td><td class="num">8</td><td class="num">307</td><td class="num">7</td><td class="num">50.0%</td><td class="num">22.88</td><td class="num">$19.07</td><td class="num strong pos">+$565.25</td></tr><tr><td><a href="Stock-Report-2026-04.html">เมษายน</a></td><td class="num">29</td><td class="num">152</td><td class="num">11</td><td class="num">51.7%</td><td class="num">7.70</td><td class="num">$50.41</td><td class="num strong pos">+$1,114.72</td></tr><tr><td><a href="Stock-Report-2026-05.html">พฤษภาคม</a></td><td class="num">23</td><td class="num">83</td><td class="num">12</td><td class="num">65.2%</td><td class="num">3.08</td><td class="num">$81.62</td><td class="num strong pos">+$861.89</td></tr><tr><td><a href="Stock-Report-2026-06.html">มิถุนายน</a></td><td class="num">29</td><td class="num">156</td><td class="num">13</td><td class="num">37.9%</td><td class="num">0.61</td><td class="num">$51.84</td><td class="num strong neg">-$213.29</td></tr><tr><td><a href="Stock-Report-2026-07.html">กรกฎาคม</a></td><td class="num">9</td><td class="num">18</td><td class="num">5</td><td class="num">77.8%</td><td class="num">15.89</td><td class="num">$14.17</td><td class="num strong pos">+$141.05</td></tr></tbody></table></div>
+ <p class="sec-note" style="margin-top:14px"><a href="Stock-Index.html">
+ ← กลับสารบัญ Spot Stock</a> · <a href="index.html">หน้ารวมทุกกลุ่ม</a></p>
+</section>
+
+<section>
+ <h2>วิธีคิดและข้อจำกัดของรายงาน</h2>
+ <div class="note">
+  <p><b>หนึ่ง "ไม้" = หนึ่งรอบสถานะ</b> — นับตั้งแต่เปิดสถานะจากศูนย์
+  ผ่านการเพิ่ม/ลดขนาดกี่ครั้งก็ตาม จนกลับมาปิดหมดเป็นศูนย์ นับเป็น 1 ไม้
+  ("ขา" คือจำนวนรายการซื้อขายจริงในไม้นั้น) วิธีนับนี้ตรงกับรายงาน QQQ 0DTE</p>
+  <p><b>การจับคู่</b> — FIFO แยกรายสัญญา/รายหลักทรัพย์ รองรับทั้ง LONG และ SHORT
+  ราคาที่ใช้เป็น Net Amount ซึ่งรวมค่าคอมมิชชันและ VAT แล้ว
+  กำไรถูกบันทึกในเดือนที่<b>ปิด</b>ไม้</p>
+  <p class="warn" style="padding-left:12px"><b>ข้อจำกัดสำคัญ</b> — สเตทเมนต์เริ่ม 2 ม.ค. 2026 หุ้นที่ถืออยู่ก่อนหน้านั้นไม่มีต้นทุนในระบบ เมื่อขายออกจึงคำนวณกำไรไม่ได้ ไม้เหล่านี้ถูกตัดออกทั้งหมด ดูรายละเอียดในสารบัญกลุ่ม</p><p><b>หุ้นจากการถูกใช้สิทธิ</b> — บันทึกเป็นรายการซื้อที่ราคา strike และค่าคอมมิชชัน 0 นับรวมอยู่ในกลุ่มนี้ ส่วนพรีเมียมของออปชันนับในกลุ่ม Trade Option</p>
+  <p><b>ไม่รวม</b> — เงินปันผล ดอกเบี้ย และสถานะที่ยังเปิดค้าง ณ 31 ก.ค. 2026
+  (กำไร/ขาดทุนที่ยังไม่รับรู้ไม่ถูกนำมาคิด)</p>
+ </div>
+</section>
+<footer>Spot Stock · มีนาคม 2026 · สร้างจาก 2026-03.csv</footer>
+</div><div id="tip"></div>
+<script>(function(){var t=document.getElementById('tip');
+document.querySelectorAll('.hit').forEach(function(e){
+ e.addEventListener('mouseenter',function(){var p=(e.dataset.tip||'').split('|');
+  t.innerHTML='<b>'+p[0]+'</b><span>'+(p[1]||'')+'</span>';t.style.opacity=1;});
+ e.addEventListener('mousemove',function(v){var x=v.clientX+14,y=v.clientY+14,r=t.getBoundingClientRect();
+  if(x+r.width>innerWidth-8)x=v.clientX-r.width-14;if(y+r.height>innerHeight-8)y=v.clientY-r.height-14;
+  t.style.left=x+'px';t.style.top=y+'px';});
+ e.addEventListener('mouseleave',function(){t.style.opacity=0;});});})();</script>
+</body></html>
